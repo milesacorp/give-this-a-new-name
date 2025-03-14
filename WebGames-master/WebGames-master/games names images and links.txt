@@ -65,21 +65,6 @@ const mainContentData = [
     link: "/",
   },
     {
-    name: "Cut The Rope",
-    image: "assets/cut-the-rope.jpeg",
-    link: "games/CutTheRope-master/CutTheRope-master/index.html",
-  },
-    {
-    name: "Worlds Hardest Game",
-    image: "/WebGames-master/WebGames-master/games2/assets/worlds-hardest-game.jpg",
-    link: "/WebGames-master/WebGames-master/games2/game/worlds-hardest-game/index.html",
-  },
-    {
-    name: "Car Game",
-    image: "/WebGames-master/WebGames-master/games2/game/cars-simulator/splash.png",
-    link: "/WebGames-master/WebGames-master/games2/game/cars-simulator/index.html",
-  },
-    {
     name: "10 Minutes Till Dawn",
     image: "/WebGames-master/WebGames-master/games/10-minutes-till-dawn/icon.png",
     link: "/WebGames-master/WebGames-master/games/10-minutes-till-dawn/index.html",
