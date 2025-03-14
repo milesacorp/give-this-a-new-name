@@ -65,21 +65,6 @@ const mainContentData = [
     link: "/",
   },
     {
-    name: "Mario Kart Flash",
-    image: "/WebGames-master/WebGames-master/assets/mareokartflach.jpeg",
-    link: "/WebGames-master/WebGames-master/games/flasharchive-main/flasharchive-main/html/mariokart.html",
-  },
-    {
-    name: "Factory Balls",
-    image: "/WebGames-master/WebGames-master/games2/assets/factory-balls.jpg",
-    link: "/WebGames-master/WebGames-master/games2/game/factoryballsforever/index.html",
-  },
-    {
-    name: "Duck Life 4",
-    image: "assets/duck-lifde-4.jpeg",
-    link: "games/DuckLife4-main/DuckLife4-main/index.html",
-  },
-    {
     name: "Cut The Rope",
     image: "assets/cut-the-rope.jpeg",
     link: "games/CutTheRope-master/CutTheRope-master/index.html",
