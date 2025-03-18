@@ -1,0 +1,5526 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <title>ACHIEVEMENT UNLOCKED</title>
+    <meta name="description" content="ACHIEVEMENT UNLOCKED - Cool play Unblocked Cool Browser Games (UCBG) easy at school">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#121217">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta http-equiv="cleartype" content="on">
+    <link rel="preload" as="font" type="font/woff2" href="/WebGames-master/WebGames-master/Accementunlocked/Inter-Regular.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/WebGames-master/WebGames-master/Accementunlocked/Inter-SemiBold.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/WebGames-master/WebGames-master/Accementunlocked/Inter-Medium.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/WebGames-master/WebGames-master/Accementunlocked/Inter-Bold.woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" type="font/woff2" href="/WebGames-master/WebGames-master/Accementunlocked/Inter-ExtraBold.woff2" crossorigin="anonymous">
+
+    <link rel="preload" as="style" href="/WebGames-master/WebGames-master/Accementunlocked/theme.css" />
+    <link rel="preload" as="script" href="/WebGames-master/WebGames-master/Accementunlocked/jquery.min.js" />
+    <link media="all" rel="stylesheet" href="/WebGames-master/WebGames-master/Accementunlocked/theme.css" type="text/css">
+     <link rel="shortcut icon" href="/WebGames-master/WebGames-master/Accementunlocked/favicon.svg">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
+    <script src="/WebGames-master/WebGames-master/Accementunlocked/load-games.js"></script>
+    <script src="/assets/js/recent_games.js"></script>
+    <script type="text/javascript">
+    var Base = "/";
+    var Assets = "/assets";
+        var _Auth = false;
+        var __ = function(msgid) {
+        return window.i18n[msgid] || msgid;
+    };
+    window.i18n = {
+        'more': 'more',
+        'less': 'less',
+        'No comments yet': 'No comments yet',
+    };
+    </script>
+	 <script type="text/javascript">
+   document.addEventListener("keydown", function(event) {
+  if (event.keyCode === 38 || event.keyCode === 40) { // up or down arrow key
+    event.preventDefault(); // prevent default scrolling behavior
+  }
+});
+    </script>
+    
+
+
+</head>
+
+<body class="min-vh-100 layout d-flex flex-column">
+    <nav class="navbar navbar-expand-lg layout-header navbar-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler border-0 shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="/" class="navbar-brand dark-logo me-lg-4">
+            <img src="/assets/static/logo.png" height="30" alt="Unblocked Cool Browser Games (UCBG)">
+        </a>
+        <a href="/" class="navbar-brand light-logo me-lg-4">
+            <img src="/assets/static/dark_logo.png" height="30" alt="Unblocked Cool Browser Games (UCBG)">
+        </a>
+        <button class="navbar-toggler border-0 shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <svg width="24" height="24" stroke="currentColor" stroke-width="1.75" fill="none">
+                <use xlink:href="/assets/sprite/sprite.svg#search"></use>
+            </svg>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+            <form class="form-search w-xxl-300 w-xl-250 ms-xl-4 mb-3 mb-lg-0" action="/search.html" method="get">
+                
+                <div class="input-group input-group-inline shadow-none">
+                    <span class="input-group-text bg-transparent border-0 text-gray-500 shadow-none ps-0 pe-3">
+                        <svg width="18" height="18" stroke="currentColor" stroke-width="1.75" fill="none">
+                            <use xlink:href="/assets/sprite/sprite.svg#search"></use>
+                        </svg>
+                    </span>
+                    <input type="text" name="q" class="form-control form-control-flush bg-transparent border-0 ps-0" id="search" placeholder="Text to search..." aria-label="Search" required="true" minlength="3">
+                </div>
+            </form>
+            <ul class="navbar-nav mb-2 mb-lg-0 fw-semibold align-items-xl-center ms-xl-auto">
+                <li class="nav-item">
+                    Online Users: <span id="online-users">0</span>
+                </li>
+            </ul>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+    const onlineUsersElement = document.getElementById("online-users");
+
+    function getOnlineUsers() {
+        const now = new Date();
+        const currentHour = now.getHours();
+
+        // Saat aralıklarına göre kullanıcı sayıları
+        let users;
+        if (currentHour >= 7 && currentHour < 15) {
+            // Sabah 7 ile öğlen 15 arasında
+            const start = 5548;
+            const end = 250080;
+            const progress = (currentHour - 7) / (15 - 7);
+            users = Math.round(start + progress * (end - start));
+        } else if (currentHour >= 15 && currentHour < 24) {
+            // Öğlen 15 ile gece 24 arasında
+            const start = 250080;
+            const end = 10080;
+            const progress = (currentHour - 15) / (24 - 15);
+            users = Math.round(start - progress * (start - end));
+        } else {
+            // Gece 24 ile sabah 7 arasında
+            const start = 10080;
+            const end = 5564;
+            const progress = currentHour / 7;
+            users = Math.round(start - progress * (start - end));
+        }
+
+        return users;
+    }
+
+    function updateOnlineUsers() {
+        const users = getOnlineUsers();
+        onlineUsersElement.textContent = users.toLocaleString(); // Sayıyı formatla
+    }
+
+    // Kullanıcı sayısını her dakika güncelle
+    updateOnlineUsers();
+    setInterval(updateOnlineUsers, 60000); // 60 saniyede bir çalıştır
+});
+
+            </script>        </div>
+    </div>
+</nav><div id="recent-games"></div>
+
+
+<div class="py-1">
+</div>
+
+<div class="layout-section">
+    <div class="container-fluid">
+
+
+<div class="row">
+
+            <div class="col-lg-auto d-none d-xxl-block">
+                <div class="w-lg-300 lef-side-games card-masonry">
+                    <a href="/category/car.html" class="card card-collection visible visible">
+                        <div class="card-collection-body" style="background-color: #deb87a">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/madalin-stunt-cars-3.png">
+                              <source src="/assets/video/car-group-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/madalin-stunt-cars-3.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/madalin-stunt-cars-3.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/madalin-stunt-cars-3.png"
+                                alt="CAR GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>CAR GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">35 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/clicker.html" class="card card-collection visible visible">
+                        <div class="card-collection-body" style="background-color: #80fcaa">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/idle-restaurants.png">
+                              <source src="/assets/video/clicker-groups-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/idle-restaurants.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/idle-restaurants.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/idle-restaurants.png"
+                                alt="CLICKER GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>CLICKER GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">24 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/io.html" class="card card-collection visible visible">
+                        <div class="card-collection-body" style="background-color: #c2e4fc">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/agarpaper-io.png">
+                              <source src="/assets/video/iogames-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/agarpaper-io.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/agarpaper-io.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/agarpaper-io.png"
+                                alt=".IO GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>.IO GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">39 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/parkour.html" class="card card-collection visible visible">
+                        <div class="card-collection-body" style="background-color: #1f7278">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/gswitch-3.png">
+                              <source src="/assets/video/parkour-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/gswitch-3.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/gswitch-3.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/gswitch-3.png"
+                                alt="PARKOUR GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>PARKOUR GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">59 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/platform.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #ffb2be">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/super-mario-64.png">
+                              <source src="/assets/video/platform-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/super-mario-64.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/super-mario-64.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/super-mario-64.png"
+                                alt="PLATFORM GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>PLATFORM GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">33 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/running.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #e5e8ae">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/subway-surfers-zurich.png">
+                              <source src="/assets/video/running-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/subway-surfers-zurich.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/subway-surfers-zurich.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/subway-surfers-zurich.png"
+                                alt="RUNNING GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>RUNNING GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">30 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/shooting.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #1f7278">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/lurkers-io.png">
+                              <source src="/assets/video/shooting-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/lurkers-io.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/lurkers-io.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/lurkers-io.png"
+                                alt="SHOOTING GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>SHOOTING GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">45 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/soccer.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #1f7278">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/super-liquid-soccer.png">
+                              <source src="/assets/video/soccer-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/super-liquid-soccer.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/super-liquid-soccer.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/super-liquid-soccer.png"
+                                alt="SOCCER GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>SOCCER GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">18 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/stickman.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #ccbcbc">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/stick-defenders.png">
+                              <source src="/assets/video/stickman-group-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/stick-defenders.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/stick-defenders.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/stick-defenders.png"
+                                alt="STICKMAN GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>STICKMAN GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">17 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/two-player.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #c7fccc">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/UCBGgames/basket-random.png">
+                              <source src="/assets/video/2-player-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/UCBGgames/basket-random.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/UCBGgames/basket-random.png"
+                              />
+                              <img
+                                data-src="/assets/upload/UCBGgames/basket-random.png"
+                                alt="TWO PLAYER GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>TWO PLAYER GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">30 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/fighting.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #deb87a">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/amazing-rope-vice-spider-vegas.png">
+                              <source src="/assets/video/fighting-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/amazing-rope-vice-spider-vegas.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/amazing-rope-vice-spider-vegas.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/amazing-rope-vice-spider-vegas.png"
+                                alt="FIGHTING GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>FIGHTING GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">8 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/kids.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #80fcaa">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/suika.png">
+                              <source src="/assets/video/kids-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/suika.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/suika.png"
+                              />
+                              <img data-src="/assets/upload/busqueda/suika.png" alt="KIDS GAMES" class="lazyload rounded-3 img-fluid" width="500" height="500" />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>KIDS GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">11 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/multiplayer.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #c2e4fc">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/uno.png">
+                              <source src="/assets/video/multiplayer-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/uno.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/uno.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/uno.png"
+                                alt="MULTIPLAYER GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>MULTIPLAYER GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">6 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/puzzle.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #1f7278">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/push-the-box.png">
+                              <source src="/assets/video/puzzle-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/push-the-box.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/push-the-box.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/push-the-box.png"
+                                alt="PUZZLE GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>PUZZLE GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">3 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/racing.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #ffb2be">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/moto-x3m4-winter.png">
+                              <source src="/assets/video/racing-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/moto-x3m4-winter.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/moto-x3m4-winter.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/moto-x3m4-winter.png"
+                                alt="RACING GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>RACING GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">8 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/school.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #e5e8ae">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/time-shooter-3.png">
+                              <source src="/assets/video/school-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/time-shooter-3.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/time-shooter-3.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/time-shooter-3.png"
+                                alt="SCHOOL GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>SCHOOL GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">8 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+            
+                      <a href="/category/skill.html" class="card card-collection visible">
+                        <div class="card-collection-body" style="background-color: #1f7278">
+                          <div class="card-video-container">
+                            <video class="card-video" muted loop preload="none" poster="/assets/upload/busqueda/geometry-dash-2.png">
+                              <source src="/assets/video/skill-group-landscape-611x343_30fps.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          <div class="card-img">
+                            <picture>
+                              <source
+                                data-srcset="/assets/upload/busqueda/geometry-dash-2.png"
+                                type="image/png"
+                                class="rounded-3 img-fluid"
+                                srcset="/assets/upload/busqueda/geometry-dash-2.png"
+                              />
+                              <img
+                                data-src="/assets/upload/busqueda/geometry-dash-2.png"
+                                alt="SKILL GAMES"
+                                class="lazyload rounded-3 img-fluid"
+                                width="500"
+                                height="500"
+                              />
+                            </picture>
+                          </div>
+                          <div class="card-text">
+                            <h4>SKILL GAMES</h4>
+                            <div class="fs-xs text-white-50 mt-2">7 game avaliable</div>
+                          </div>
+                        </div>
+                      </a>
+                </div>
+            </div>
+            <div class="col-lg">
+				<div class="col-lg-auto d-none d-sm-block" style="max-height:250px;margin-botom:10px;max-width:770px;">
+				</div>
+
+
+                                <div class="ratio ratio-16x9 overflow-hidden rounded-3 mb-4 game-ratio">
+									
+    <iframe class="game-iframe lazyload" data-src="https://gameinclassroom.github.io/achievement-unlocked/" width="1280" height="720" scrolling="none" frameborder="0" allowfullscreen></iframe>
+
+
+                				</div>
+                                <div class="bt-fullscreen text-center"><button class="btn btn-primary btn-full" type="button" onclick="openFullscreen();">FullScreen</button></div>
+    
+                                <div class="px-lg-3">
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="mb-3">                                <div class="card-category">
+									
+                                </div>
+                                <h1 class="h4">ACHIEVEMENT UNLOCKED</h1>
+                                <div class="rating-star ms-auto mt-2">
+                                    <i class="bg-warning"></i><i class="bg-warning"></i><i class="bg-warning"></i><i class="bg-warning"></i><i class="bg-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto text-xl-end">
+                            <div class="w-lg-300">
+                                <div class="mb-2 d-flex align-items-center justify-content-lg-end flex-nowrap">
+                                    <div class="dropdown mx-1 py-1" data-bs-tooltip="tooltip" data-bs-placement="top" title="Share">
+                              
+                                            <svg width="14" height="14" fill="currentColor">
+                                                <use xlink:href="/assets/sprite/sprite.svg#share"></use>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu border-0 bg-transparent mt-3 p-0" aria-labelledby="shareDropdown">
+                                            <div class="d-flex align-items-center">
+                                                <button class="btn btn-square rounded-circle bg-facebook text-white mx-1 btn-share" data-type="facebook" data-title="TIME SHOOTER 2" data-sef="https://ucbg.github.io/game/time-shooter-2">
+                                                    <svg width="16" height="16" fill="currentColor">
+                                                        <use xlink:href="/assets/sprite/sprite.svg#facebook"></use>
+                                                    </svg>
+                                                </button>
+                                                <button class="btn btn-square rounded-circle bg-twitter text-white mx-1 btn-share" data-type="twitter" data-title="TIME SHOOTER 2" data-sef="https://ucbg.github.io/game/time-shooter-2">
+                                                    <svg width="16" height="16" fill="currentColor">
+                                                        <use xlink:href="/assets/sprite/sprite.svg#twitter"></use>
+                                                    </svg>
+                                                </button>
+                                                <button class="btn btn-square rounded-circle bg-whatsapp text-white mx-1 btn-share" data-type="whatsapp" data-title="TIME SHOOTER 2" data-sef="https://ucbg.github.io/game/time-shooter-2">
+                                                    <svg width="16" height="16" fill="currentColor">
+                                                        <use xlink:href="/assets/sprite/sprite.svg#whatsapp"></use>
+                                                    </svg>
+                                                </button>
+                                                <button class="btn btn-square rounded-circle bg-telegram text-white mx-1 btn-share" data-type="telegram" data-title="TIME SHOOTER 2" data-sef="https://ucbg.github.io/game/time-shooter-2">
+                                                    <svg width="16" height="16" fill="currentColor">
+                                                        <use xlink:href="/assets/sprite/sprite.svg#telegram"></use>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown mx-1 py-1" data-bs-tooltip="tooltip" data-bs-placement="top" title="" data-bs-original-title="Fullscreen">
+                                        <button class="btn btn-square btn-fullscreen btn-ghost rounded-circle dropdown-toggle">
+                                            <svg width="16" height="16" fill="currentColor">
+                                                <use xlink:href="/assets/sprite/sprite.svg#fullscreen"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                                                        <div class="w-lg-200 ms-4">
+                                        <div class="fs-sm">
+                                            
+                                            
+                                            
+                                            
+                                            59k gameplays
+                                        </div>
+                                        <div class="progress mt-2 bg-transparent" style="height: 6px;">
+                                            <div class="progress-bar bg-theme rounded-pill" role="progressbar" style="width: 100%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center justify-content-md-end mt-2">
+                                            <button class="btn btn-square btn-sm text-current reaction like " data-id="722">
+                                                <svg width="20" height="20" fill="currentColor">
+                                                    <use xlink:href="/assets/sprite/sprite.svg#like"></use>
+                                                </svg>
+                                            </button>
+                                            <span class="fs-xxs ms-1 text-muted fw-semibold like-count" data-votes="1">
+                                                
+                                                
+                                                
+                                                
+                                                899
+                                            </span>
+                                            <button class="btn btn-square btn-sm text-current reaction dislike ms-3 " data-id="722">
+                                                <svg width="20" height="20" fill="currentColor">
+                                                    <use xlink:href="/assets/sprite/sprite.svg#dislike"></use>
+                                                </svg>
+                                            </button>
+                                            <span class="fs-xxs ms-1 text-muted fw-semibold dislike-count" data-votes="0">
+                                                
+                                                
+                                                
+                                                
+                                                49
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="pb-2">
+                        <h3 class="fs-sm fw-semibold mb-2">About</h3>
+                        
+                    </div>
+                    <div class="pb-2">
+                        <h3 class="fs-sm fw-semibold mb-2">Description</h3>
+                        
+
+                    </div>
+
+					</br></br>
+                                                            <div class="mx-auto py-3 px-2">
+
+
+					<div style="max-height:300px;margin-botom:10px;max-width:770px;">
+
+</div><br><br>
+                    </div>
+                    <div class=" mb-3">
+    <div class="layout-heading">
+        <h3 class="fs-lg fw-bold">Comments <span class="ms-3 text-muted fs-base fw-normal">(0)</span></h3>
+    </div>
+    <div class="comments" data-content="722" data-type="post">
+        <div class="mb-4 fs-sm text-body">
+            The comment field is only for members.
+        </div>
+        <div class="empty-total text-muted fs-sm"></div>
+        <div class="comment-toolbar comment-sorting">
+            <ul class="nav nav-active-border">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-sort="1">
+                        Newest</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-sort="2">
+                        Most popular</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-sort="3">
+                        Oldest</a>
+                </li>
+                <li class="nav-item ms-auto comment-total"></li>
+            </ul>
+        </div>
+        <ul class="comments-list"></ul>
+        <div class="pagination-container"></div>
+    </div>
+</div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-auto">
+                <div class="w-lg-300 right-side-games card-masonry"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mx-auto py-3 px-2">
+    </div>
+
+<div class="layout-section">
+    <div class="container-fluid">
+        <div class="layout-heading mb-3">
+            <h3 class="fs-lg fw-bold">SIMILAR GAMES</h3>
+        </div>
+        <div class="card-masonry">
+			
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/burger-clicker.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/burger-clicker.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/burger-clicker.png">
+                <img data-src="/assets/upload/UCBGgames/burger-clicker.png" alt="BURGER CLICKER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>BURGER CLICKER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/case-clicker.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/case-clicker.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/case-clicker.png">
+                <img data-src="/assets/upload/UCBGgames/case-clicker.png" alt="CASE CLICKER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>CASE CLICKER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/chicken-merge.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/chicken-merge.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/chicken-merge.png">
+                <img data-src="/assets/upload/UCBGgames/chicken-merge.png" alt="CHICKEN MERGE" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>CHICKEN MERGE</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/clicker-heroes.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/clicker-heroes.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/clicker-heroes.png">
+                <img data-src="/assets/upload/UCBGgames/clicker-heroes.png" alt="CLICKER HEROES" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>CLICKER HEROES</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/cookie-clicker.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/cookie-clicker.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/cookie-clicker.png">
+                <img data-src="/assets/upload/UCBGgames/cookie-clicker.png" alt="COOKIE CLICKER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>COOKIE CLICKER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/dinosaurs-merge-master.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/dinosaurs-merge-master.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/dinosaurs-merge-master.png">
+                <img data-src="/assets/upload/UCBGgames/dinosaurs-merge-master.png" alt="DINOSAURS MERGE MASTER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>DINOSAURS MERGE MASTER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/dogeminer.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/dogeminer.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/dogeminer.png">
+                <img data-src="/assets/upload/UCBGgames/dogeminer.png" alt="DOGEMINER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>DOGEMINER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/grindcraft-remastered.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/grindcraft-remastered.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/grindcraft-remastered.png">
+                <img data-src="/assets/upload/UCBGgames/grindcraft-remastered.png" alt="GRINDCRAFT REMASTERED" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>GRINDCRAFT REMASTERED</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/idle-breakout.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/idle-breakout.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/idle-breakout.png">
+                <img data-src="/assets/upload/UCBGgames/idle-breakout.png" alt="IDLE BREAKOUT " class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>IDLE BREAKOUT </h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/idle-light-city.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/idle-light-city.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/idle-light-city.png">
+                <img data-src="/assets/upload/UCBGgames/idle-light-city.png" alt="IDLE LIGHT CITY" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>IDLE LIGHT CITY</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/idle-mining-empire.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/idle-mining-empire.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/idle-mining-empire.png">
+                <img data-src="/assets/upload/UCBGgames/idle-mining-empire.png" alt="IDLE MINING EMPIRE" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>IDLE MINING EMPIRE</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/idle-restaurants.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/idle-restaurants.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/idle-restaurants.png">
+                <img data-src="/assets/upload/UCBGgames/idle-restaurants.png" alt="IDLE RESTAURANTS" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>IDLE RESTAURANTS</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/idle-tree-city.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/idle-tree-city.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/idle-tree-city.png">
+                <img data-src="/assets/upload/UCBGgames/idle-tree-city.png" alt="IDLE TREE CITY" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>IDLE TREE CITY</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/merge-harvest.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/merge-harvest.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/merge-harvest.png">
+                <img data-src="/assets/upload/UCBGgames/merge-harvest.png" alt="MERGE HARVEST" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>MERGE HARVEST</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/minecraft-classic.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/minecraft-classic.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/minecraft-classic.png">
+                <img data-src="/assets/upload/UCBGgames/minecraft-classic.png" alt="MINECRAFT CLASSIC" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>MINECRAFT CLASSIC</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/monkey-mart.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/monkey-mart.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/monkey-mart.png">
+                <img data-src="/assets/upload/UCBGgames/monkey-mart.png" alt="Monkey Mart" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>Monkey Mart</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/poop-clicker-3.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/poop-clicker-3.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/poop-clicker-3.png">
+                <img data-src="/assets/upload/UCBGgames/poop-clicker-3.png" alt="POOP CLICKER 3" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>POOP CLICKER 3</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/pou.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/pou.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/pou.png">
+                <img data-src="/assets/upload/UCBGgames/pou.png" alt="POU" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>POU</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/save-the-doge.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/save-the-doge.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/save-the-doge.png">
+                <img data-src="/assets/upload/UCBGgames/save-the-doge.png" alt="SAVE THE DOGE" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>SAVE THE DOGE</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/super-hexbee-merger.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/super-hexbee-merger.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/super-hexbee-merger.png">
+                <img data-src="/assets/upload/UCBGgames/super-hexbee-merger.png" alt="SUPER HEXBEE MERGER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>SUPER HEXBEE MERGER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/tube-clicker.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/UCBGgames/tube-clicker.png" type="image/png" class="img-fluid" srcset="/assets/upload/UCBGgames/tube-clicker.png">
+                <img data-src="/assets/upload/UCBGgames/tube-clicker.png" alt="TUBE CLICKER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>TUBE CLICKER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/hexbee-merger.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/busqueda/hexbee-merger.png" type="image/png" class="img-fluid" srcset="/assets/upload/busqueda/hexbee-merger.png">
+                <img data-src="/assets/upload/busqueda/hexbee-merger.png" alt="HEXBEE MERGER" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>HEXBEE MERGER</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        <a href="/game/suika.html" class="card">
+            <picture>
+                <source data-srcset="/assets/upload/busqueda/suika.png" type="image/png" class="img-fluid" srcset="/assets/upload/busqueda/suika.png">
+                <img data-src="/assets/upload/busqueda/suika.png" alt="SUIKA" class="lazyload img-fluid" width="500" height="500">
+            </picture>
+            <div class="card-body">
+            <h3>SUIKA</h3>
+            </div>
+        </a>
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<script defer="" src="/assets/theme/js/jquery.min.js?v=1.0.0"></script>
+<script defer="" src="/assets/theme/js/bootstrap.js?v=1.0.0"></script>
+<script defer="" src="/assets/theme/js/lazysizes.js?v=1.0.0"></script>
+<script defer="" src="/assets/theme/js/main.js?v=1.0.0"></script> <div class="footer py-2 mt-auto">
+    <div class="container-fluid">
+        <div class="row align-items-center no-gutters py-2 fs-14">
+            <!-- Desc -->
+            <div class="col-lg-4 col-md-5 col-12">
+                <div class="fs-xs text-muted">
+                    Copyright © 2024 Unblocked Cool Browser Games (UCBG). All rights reserved.<br>
+                    Play Beyond Limits / OurHero Games
+                </div>
+            </div>
+            <!-- Links -->
+            <div class="col-12 col-md-7 col-lg-8 d-md-flex justify-content-end">
+               <nav class="nav fs-xs text-muted">
+                    <a class="nav-link text-current" href="/">Home</a>
+                    <a class="nav-link text-current" rel="nofollow" href="/privacy-policy.html">Privacy Policy</a>
+                    <a class="nav-link text-current" rel="nofollow" href="/terms-and-conditions.html">Terms and Conditions</a>
+                    <a class="nav-link text-current" rel="nofollow" href="/contact.html">Contact</a>
+                    <a class="nav-link text-current" href="/sitemaps.xml">Sitemaps</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="xl" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="modal" id="lg" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="modal" id="m" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="modal" id="sm" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script src="/assets/js/analytics_ucbg_v1.js"></script>
+<script src="/assets/js/adsense_ucbg_v1.js"></script>
+<script src="/assets/js/fullscreen.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.getElementById("search").focus();
+    });
+</script>
+</body>
+
+</html>
