@@ -14,6 +14,7 @@ html {
   background-size: cover;
   z-index: 2;
   text-align: center;
+  rotate: 15;
 }
 
 div.one {
