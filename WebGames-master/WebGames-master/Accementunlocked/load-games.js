@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Oyunları yükle ve rastgele seç
-    const response = await fetch("/data-json/games.json");
+    const response = await fetch("/WebGames-master/WebGames-master/Accementunlocked/games.json");
     const games = await response.json();
 
     // Oyunları rastgele seçmek için yardımcı fonksiyon
