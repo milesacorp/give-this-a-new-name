@@ -31,3 +31,41 @@ function yes(){
     <script src="fanf.js"></script>
 </body>
 </html>
+<div id="fps-counter"></div>
+<style>
+    #fps-counter {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it stays on top */
+}
+</style>
+<script>
+const fpsCounter = document.getElementById("fps-counter"); // Moved this to the correct place
+
+function calculateFPS() {
+    let lastFrameTime = performance.now();
+    let frames = 0;
+
+    function frameLoop() {
+        const now = performance.now();
+        frames++;
+
+        if (now - lastFrameTime >= 1000) {
+            const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
+            fpsCounter.textContent = `FPS: ${fps}`;
+            frames = 0;
+            lastFrameTime = now;
+        }
+        requestAnimationFrame(frameLoop);
+    }
+    frameLoop();
+}
+
+calculateFPS(); // Ensure the FPS calculation starts
+</script>
