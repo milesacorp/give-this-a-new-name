@@ -6761,3 +6761,41 @@ class LoadTimeData {
   window.loadTimeData = loadTimeData;
 
   console.warn('crbug/1173575, non-JS module files deprecated.');</script><script jstcache="0">const pageData = {"dinoGameA11yAriaLabel":"Dino game, play","dinoGameA11yDescription":"Dino game. A pixelated dinosaur dodges cacti and pterodactyls as it runs across a desolate landscape. When you hear an audio cue, press space to jump over obstacles.","dinoGameA11yGameOver":"Game over, your score is $1.","dinoGameA11yHighScore":"Your highest score is $1.","dinoGameA11yJump":"Jump!","dinoGameA11ySpeedToggle":"Start slower","dinoGameA11yStartGame":"Game started.","errorCode":"","fontfamily":"'Segoe UI', Tahoma, sans-serif","fontsize":"75%","heading":{"hostName":"dino","msg":"Press space to play"},"iconClass":"icon-offline","language":"en","textdirection":"ltr","title":"chrome://dino/"};loadTimeData.data = pageData;var tp = document.getElementById('t');jstProcess(new JsEvalContext(pageData), tp);</script></body></html>
+  <div id="fps-counter"></div>
+  <style>
+      #fps-counter {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it stays on top */
+  }
+  </style>
+  <script>
+  const fpsCounter = document.getElementById("fps-counter"); // Moved this to the correct place
+  
+  function calculateFPS() {
+      let lastFrameTime = performance.now();
+      let frames = 0;
+  
+      function frameLoop() {
+          const now = performance.now();
+          frames++;
+  
+          if (now - lastFrameTime >= 1000) {
+              const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
+              fpsCounter.textContent = `FPS: ${fps}`;
+              frames = 0;
+              lastFrameTime = now;
+          }
+          requestAnimationFrame(frameLoop);
+      }
+      frameLoop();
+  }
+  
+  calculateFPS(); // Ensure the FPS calculation starts
+  </script>
