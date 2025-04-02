@@ -123,9 +123,21 @@ body {
 
 .non-sidebar-content {
     display: block; /* Ensure it is visible */
-    position: relative; /* Position it outside of the sidebar */
-    margin-left: 0; /* Reset any sidebar-related offsets */
+    position: relative; /* Ensure it is not positioned relative to the sidebar */
+    margin: 0; /* Remove any margins */
     padding: 20px; /* Add padding for spacing */
+    z-index: 1; /* Ensure it is above the sidebar if overlapping occurs */
+    clear: both; /* Prevent floating elements from affecting it */
+}
+
+.non-sidebar-content {
+    background-image: url('/image-robert-added/BackG.webp'); /* Set the image as the background */
+    background-size: cover; /* Ensure the image covers the entire area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    color: #fff; /* Adjust text color for better contrast */
+    height: calc(100vh - 50px); /* Adjust height to stop below the nav bar (assuming nav bar height is 50px) */
+    margin-top: 50px; /* Push content below the nav bar */
 }
 
 .main-content {
@@ -143,10 +155,10 @@ body {
     background-color: #f1f1f1;
     padding: 5px 10px;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    b;o;x;-;s;h;a;d;o;w: 0p;x 0p;x 5p;x rgba(0, 0, 0, 0.2);
     font-family: Arial, sans-serif;
     font-size: 14px;
-    z-index: 10001; /* Ensure it is above other elements */
+    z-index: 10001;
 }
 
 .dark-mode .version {
