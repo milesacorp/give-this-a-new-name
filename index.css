@@ -121,6 +121,13 @@ body {
     right: 10px;
 }
 
+.non-sidebar-content {
+    display: block; /* Ensure it is visible */
+    position: relative; /* Position it outside of the sidebar */
+    margin-left: 0; /* Reset any sidebar-related offsets */
+    padding: 20px; /* Add padding for spacing */
+}
+
 .main-content {
     padding: 20px;
     background-attachment: fixed;
