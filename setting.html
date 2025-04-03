@@ -66,6 +66,14 @@
             <span>Clear Cookies</span>
             <button id="clearCookies">Clear</button>
         </div>
+        <div class="setting-item">
+            <span>Enable CloakJS not working yet</span>
+            <button id="toggleCloakJS">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Show FPS Counter</span>
+            <button id="toggleFPSCounter">Enable</button>
+        </div>
     </div>
 
     <script>
@@ -123,6 +131,48 @@
             });
             alert('Cookies cleared!');
         });
+
+        // CloakJS Toggle
+        const toggleCloakJSButton = document.getElementById('toggleCloakJS');
+        const cloakJSEnabled = getCookie('cloakJS') === 'true';
+
+        function applyCloakJSSetting(enabled) {
+            if (enabled) {
+                toggleCloakJSButton.textContent = 'Disable';
+            } else {
+                toggleCloakJSButton.textContent = 'Enable';
+            }
+        }
+
+        toggleCloakJSButton.addEventListener('click', () => {
+            const isCloakJSEnabled = getCookie('cloakJS') === 'true';
+            setCookie('cloakJS', !isCloakJSEnabled, 30); // Save preference for 30 days
+            applyCloakJSSetting(!isCloakJSEnabled);
+        });
+
+        // Apply saved CloakJS preference on load
+        applyCloakJSSetting(cloakJSEnabled);
+
+        // FPS Counter Toggle
+        const toggleFPSCounterButton = document.getElementById('toggleFPSCounter');
+        const fpsCounterEnabled = getCookie('fpsCounter') === 'true';
+
+        function applyFPSCounterSetting(enabled) {
+            if (enabled) {
+                toggleFPSCounterButton.textContent = 'Disable';
+            } else {
+                toggleFPSCounterButton.textContent = 'Enable';
+            }
+        }
+
+        toggleFPSCounterButton.addEventListener('click', () => {
+            const isFPSCounterEnabled = getCookie('fpsCounter') === 'true';
+            setCookie('fpsCounter', !isFPSCounterEnabled, 30); // Save preference for 30 days
+            applyFPSCounterSetting(!isFPSCounterEnabled);
+        });
+
+        // Apply saved FPS Counter preference on load
+        applyFPSCounterSetting(fpsCounterEnabled);
     </script>
 </body>
 
