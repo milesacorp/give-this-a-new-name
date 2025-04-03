@@ -99,6 +99,10 @@
             <span>Clear Cookies</span>
             <button id="clearCookies">Clear</button>
         </div>
+        <div class="setting-item">
+            <span>Save Search Input</span>
+            <button id="toggleSaveSearch">Enable</button>
+        </div>
     </div>
 
     <!-- Modal for confirmation -->
@@ -273,27 +277,6 @@
         // Apply saved Text-to-Speech preference on load
         applyTextToSpeechSetting(textToSpeechEnabled);
 
-        // Date and Time Toggle
-        const toggleDateTimeButton = document.getElementById('toggleDateTime');
-        const dateTimeEnabled = getCookie('dateTime') === 'true';
-
-        function applyDateTimeSetting(enabled) {
-            if (enabled) {
-                toggleDateTimeButton.textContent = 'Disable';
-            } else {
-                toggleDateTimeButton.textContent = 'Enable';
-            }
-        }
-
-        toggleDateTimeButton.addEventListener('click', () => {
-            const isDateTimeEnabled = getCookie('dateTime') === 'true';
-            setCookie('dateTime', !isDateTimeEnabled, 30); // Save preference for 30 days
-            applyDateTimeSetting(!isDateTimeEnabled);
-        });
-
-        // Apply saved Date and Time preference on load
-        applyDateTimeSetting(dateTimeEnabled);
-
         // Regional Settings
         const regionSelect = document.getElementById('regionSelect');
         const savedRegion = getCookie('region') || 'us'; // Default to 'us'
@@ -336,7 +319,6 @@
             applyFPSCounterSetting(false); // Default: FPS Counter disabled
             applyMaturityFilterSetting(false); // Default: Maturity Filter disabled
             applyTextToSpeechSetting(false); // Default: Text-to-Speech disabled
-            applyDateTimeSetting(false); // Default: Date and Time disabled
 
             alert('Settings have been reset to default!');
         });

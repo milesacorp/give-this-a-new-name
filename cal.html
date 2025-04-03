@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .calendar {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .calendar-header {
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.5em;
+        }
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #f4f4f9;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .calendar-dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 10px;
+        }
+        .calendar-dates div {
+            padding: 10px;
+            text-align: center;
+            margin: 5px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .calendar-dates div:hover {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .calendar-dates .today {
+            background: #4CAF50;
+            color: white;
+        }
+        .calendar-dates .event {
+            background: #ff9800;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .calendar-dates .event span {
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        .calendar-dates .event:hover {
+            background: #e68900;
+        }
+        .calendar-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+        }
+        .calendar-navigation button {
+            background: white;
+            color: #4CAF50;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .calendar-navigation button:hover {
+            background: #e0e0e0;
+        }
+        .event-details {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .event-details.active {
+            display: block;
+        }
+        .event-details h2 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .event-details p {
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .event-details .save-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .event-details .save-button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <div class="calendar-navigation">
+            <button id="prev-month">←</button>
+            <div id="calendar-header">
+                <!-- Month and Year will be dynamically inserted -->
+            </div>
+            <button id="next-month">→</button>
+        </div>
+        <div class="calendar-days">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div class="calendar-dates" id="calendar-dates">
+            <!-- Dates will be dynamically inserted -->
+        </div>
+    </div>
+    <div class="event-details" id="event-details">
+        <h2>Event Details</h2>
+        <p id="event-date">Date: Not selected</p>
+        <p id="event-description">No event selected.</p>
+        <button id="close-details">Close</button>
+    </div>
+
+    <script>
+        const calendarHeader = document.getElementById('calendar-header');
+        const calendarDates = document.getElementById('calendar-dates');
+        const prevMonthButton = document.getElementById('prev-month');
+        const nextMonthButton = document.getElementById('next-month');
+        const eventDetails = document.getElementById('event-details');
+        const eventDescription = document.getElementById('event-description');
+        const closeDetailsButton = document.getElementById('close-details');
+        const eventDate = document.getElementById('event-date');
+
+        const today = new Date();
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
+
+        const events = {
+            '2023-10-15': 'Meeting with team',
+            '2023-10-20': 'Project deadline',
+            '2025-04-03': 'Birthday party',
+            '2025-05-04': 'Gay Day'
+        };
+
+        function renderCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            calendarHeader.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+            calendarDates.innerHTML = '<div></div>';
+
+            for (let i = 0; i < firstDay; i++) {
+                calendarDates.innerHTML += '<div></div>';
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                const hasEvent = events[dateKey];
+
+                calendarDates.innerHTML += `
+                    <div class="${isToday ? 'today' : ''} ${hasEvent ? 'event' : ''}" 
+                         onclick="${hasEvent ? `showEventDetails('${dateKey}')` : ''}">
+                        ${day}
+                        ${hasEvent ? `<span>${hasEvent}</span>` : ''}
+                    </div>
+                `;
+            }
+        }
+
+        function showEventDetails(dateKey) {
+            const eventText = events[dateKey] || 'No event selected.';
+            eventDate.textContent = `Date: ${dateKey}`;
+            eventDescription.textContent = eventText;
+            eventDetails.classList.add('active'); // Show sidebar
+        }
+
+        closeDetailsButton.addEventListener('click', () => {
+            eventDetails.classList.remove('active'); // Hide sidebar
+        });
+
+        prevMonthButton.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        nextMonthButton.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        renderCalendar(currentMonth, currentYear);
+    </script>
+</body>
+</html>

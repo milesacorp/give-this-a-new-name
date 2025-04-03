@@ -55,7 +55,7 @@
                 text-shadow: 0 0 10px var(--text-color), 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color);
             }
             to {
-                text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color), 0 0 50px var(--text-color);
+                text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color), 0 0 50px var (--text-color);
             }
         }
 
@@ -90,12 +90,20 @@
             max-width: 1200px;
         }
 
+        .game-container.single-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .game {
             background-color: var(--card-bg);
             border-radius: 10px;
             overflow: hidden;
             text-align: center;
             transition: transform 0.3s, background-color 0.3s;
+            max-width: 500px; /* Limit the maximum width */
+            max-height: 600px; /* Limit the maximum height */
         }
 
         .game:hover {
@@ -106,6 +114,8 @@
         .game img {
             width: 100%;
             height: auto;
+            max-width: 500px; /* Limit the maximum width */
+            max-height: 500px; /* Limit the maximum height */
             transition: transform 0.3s;
         }
 
@@ -756,124 +766,27 @@
         function filterGames() {
             const searchInput = document.getElementById('searchBar').value.toLowerCase();
             const games = document.querySelectorAll('.game');
-            let hasResults = false;
+            let visibleGames = 0;
 
             games.forEach(game => {
                 const title = game.querySelector('.game-title').textContent.toLowerCase();
                 if (title.includes(searchInput)) {
                     game.style.display = '';
-                    hasResults = true;
+                    visibleGames++;
                 } else {
                     game.style.display = 'none';
                 }
             });
 
+            const gameContainer = document.querySelector('.game-container');
+            if (visibleGames === 1) {
+                gameContainer.classList.add('single-result');
+            } else {
+                gameContainer.classList.remove('single-result');
+            }
+
             const noResultsElement = document.getElementById('noResults');
             noResultsElement.style.display = hasResults ? 'none' : 'flex';
-        }
-
-        // Utility function to set a cookie
-        function setCookie(name, value, days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
-        }
-
-        // Utility function to get a cookie
-        function getCookie(name) {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    return cookie.substring(name.length + 1);
-                }
-            }
-            return null;
-        }
-
-        // Apply dark or light mode based on cookie
-        function applyMode(isDarkMode) {
-            const pageTitle = document.getElementById('pageTitle');
-            if (isDarkMode) {
-                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
-                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
-                document.body.style.setProperty('--card-bg', 'var(--card-bg-dark)');
-                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-dark)');
-                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-dark)');
-                pageTitle.style.textShadow = 'var(--title-shadow-dark)';
-                document.getElementById('toggleMode').textContent = 'Switch to Light Mode';
-            } else {
-                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
-                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
-                document.body.style.setProperty('--card-bg', 'var(--card-bg-light)');
-                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-light)');
-                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-light)');
-                pageTitle.style.textShadow = 'none'; // Remove glow in light mode
-                document.getElementById('toggleMode').textContent = 'Switch to Dark Mode';
-            }
-        }
-
-        // Toggle mode
-        const toggleModeButton = document.getElementById('toggleMode');
-        toggleModeButton.addEventListener('click', () => {
-            const isDarkMode = getCookie('darkMode') === 'true';
-            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
-            applyMode(!isDarkMode);
-        });
-
-        // Apply saved mode on load
-        const darkModeEnabled = getCookie('darkMode') === 'true';
-        applyMode(darkModeEnabled);
-
-        // Check if CloakJS is enabled
-        const cloakJSEnabled = getCookie('cloakJS') === 'true';
-
-        if (cloakJSEnabled) {
-            // Initialize CloakJS
-            Cloak.init({
-                obfuscate: true, // Enable obfuscation
-                hideElements: ['.game a'], // Obfuscate game links
-                debug: false, // Enable debug mode for testing
-            });
-
-            // Modify all game links to open in a new tab
-            const gameLinks = document.querySelectorAll('.game a');
-            gameLinks.forEach(link => {
-                link.setAttribute('target', '_blank'); // Open in a new tab
-            });
-        }
-
-        // Check if Maturity Filter is enabled
-        const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
-
-        if (maturityFilterEnabled) {
-            // Initialize CloakJS to hide mature games
-            Cloak.init({
-                hideElements: ['.game.mature'], // Hide elements with the "mature" class
-                debug: false, // Disable debug mode in production
-            });
-        }
-
-        // Check if Text-to-Speech is enabled
-        const textToSpeechEnabled = getCookie('textToSpeech') === 'true';
-
-        if (textToSpeechEnabled) {
-            // Function to read text aloud
-            function speakText(text) {
-                const speech = new SpeechSynthesisUtterance(text);
-                speech.lang = 'en-US'; // Set language
-                speech.rate = 1; // Set speed (1 is normal)
-                speech.pitch = 1; // Set pitch (1 is normal)
-                window.speechSynthesis.speak(speech);
-            }
-
-            // Example: Add TTS to game titles
-            const gameTitles = document.querySelectorAll('.game-title');
-            gameTitles.forEach(title => {
-                title.addEventListener('click', () => {
-                    speakText(title.textContent);
-                });
-            });
         }
     </script>
 </body>
