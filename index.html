@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
     <meta charset="UTF-8">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6951907799659255" cross-origin='anonymous'></script>
@@ -12,15 +13,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="index.css">
     <title>Moon Gaming</title>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun-miles for now</title>
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --card-background-color: #f9f9f9;
+        }
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
 </head>
 <body>
-    <div id="loader" class="loader">
-        <img src="./loding.webp" alt="Loading..." loop="99" /> <!-- Replace with your GIF path -->
-    </div>
     <nav class="nav-bar">
         <h1>fun-miles</h1>
         <div class="nav-elem">
@@ -55,9 +61,54 @@
         <a href="/WebGames-master/WebGames-master/index.html">Games</a>>
         <img src="/images1.png" alt="deez nuts" width="150" height="150"></a>
     </div>
-      <!-- empty mian page -->
+      <!-- empty main page -->
       <div class="version" id="versionDisplay"></div>
-    <script src="index.js"></script>
+    <script>
+        // Utility function to set a cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+        }
+
+        // Utility function to get a cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Apply dark mode based on cookie
+        function applyDarkMode(enabled) {
+            if (enabled) {
+                document.body.style.setProperty('--background-color', '#121212');
+                document.body.style.setProperty('--text-color', '#ffffff');
+                document.body.style.setProperty('--card-background-color', '#1e1e1e');
+                document.getElementById('sidebar-dark-mode-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.body.style.setProperty('--background-color', '#ffffff');
+                document.body.style.setProperty('--text-color', '#000000');
+                document.body.style.setProperty('--card-background-color', '#f9f9f9');
+                document.getElementById('sidebar-dark-mode-icon').classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // Toggle dark mode
+        function onToggleDarkMode() {
+            const isDarkMode = getCookie('darkMode') === 'true';
+            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
+            applyDarkMode(!isDarkMode);
+        }
+
+        // Apply saved dark mode preference on load
+        const darkModeEnabled = getCookie('darkMode') === 'true';
+        applyDarkMode(darkModeEnabled);
+    </script>
 </body>
 </html>
 <noscript>

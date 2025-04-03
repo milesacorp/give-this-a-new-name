@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="settings.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color, #ffffff);
+            color: var(--text-color, #000000);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .settings-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: var(--card-background-color, #f9f9f9);
+        }
+        h1 {
+            text-align: center;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .setting-item button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+        .setting-item button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <h1>Settings</h1>
+        <div class="setting-item">
+            <span>Dark Mode</span>
+            <button id="toggleDarkMode">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Clear Cookies</span>
+            <button id="clearCookies">Clear</button>
+        </div>
+    </div>
+
+    <script>
+        // Utility function to set a cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+        }
+
+        // Utility function to get a cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Dark Mode Toggle
+        const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+        const darkModeEnabled = getCookie('darkMode') === 'true';
+
+        function applyDarkMode(enabled) {
+            if (enabled) {
+                document.body.style.setProperty('--background-color', '#121212');
+                document.body.style.setProperty('--text-color', '#ffffff');
+                document.body.style.setProperty('--card-background-color', '#1e1e1e');
+                toggleDarkModeButton.textContent = 'Disable';
+            } else {
+                document.body.style.setProperty('--background-color', '#ffffff');
+                document.body.style.setProperty('--text-color', '#000000');
+                document.body.style.setProperty('--card-background-color', '#f9f9f9');
+                toggleDarkModeButton.textContent = 'Enable';
+            }
+        }
+
+        toggleDarkModeButton.addEventListener('click', () => {
+            const isDarkMode = getCookie('darkMode') === 'true';
+            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
+            applyDarkMode(!isDarkMode);
+        });
+
+        // Apply saved dark mode preference on load
+        applyDarkMode(darkModeEnabled);
+
+        // Clear Cookies
+        const clearCookiesButton = document.getElementById('clearCookies');
+        clearCookiesButton.addEventListener('click', () => {
+            document.cookie.split(";").forEach(cookie => {
+                document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
+            });
+            alert('Cookies cleared!');
+        });
+    </script>
+</body>
+</html>
