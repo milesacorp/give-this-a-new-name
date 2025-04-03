@@ -800,10 +800,32 @@
         const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
 
         if (maturityFilterEnabled) {
-            // Hide games marked as mature
-            const matureGames = document.querySelectorAll('.game.mature');
-            matureGames.forEach(game => {
-                game.style.display = 'none';
+            // Initialize CloakJS to hide mature games
+            Cloak.init({
+                hideElements: ['.game.mature'], // Hide elements with the "mature" class
+                debug: false, // Disable debug mode in production
+            });
+        }
+
+        // Check if Text-to-Speech is enabled
+        const textToSpeechEnabled = getCookie('textToSpeech') === 'true';
+
+        if (textToSpeechEnabled) {
+            // Function to read text aloud
+            function speakText(text) {
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'en-US'; // Set language
+                speech.rate = 1; // Set speed (1 is normal)
+                speech.pitch = 1; // Set pitch (1 is normal)
+                window.speechSynthesis.speak(speech);
+            }
+
+            // Example: Add TTS to game titles
+            const gameTitles = document.querySelectorAll('.game-title');
+            gameTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    speakText(title.textContent);
+                });
             });
         }
     </script>

@@ -80,8 +80,12 @@
             <button id="toggleFPSCounter">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Enable Maturity Filter(comming soon)</span>
+            <span>Enable Maturity Filter(comming-soon)</span>
             <button id="toggleMaturityFilter">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Enable Text-to-Speech</span>
+            <button id="toggleTextToSpeech">Enable</button>
         </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
@@ -207,6 +211,73 @@
 
         // Apply saved Maturity Filter preference on load
         applyMaturityFilterSetting(maturityFilterEnabled);
+
+        // Text-to-Speech Toggle
+        const toggleTextToSpeechButton = document.getElementById('toggleTextToSpeech');
+        const textToSpeechEnabled = getCookie('textToSpeech') === 'true';
+
+        function applyTextToSpeechSetting(enabled) {
+            if (enabled) {
+                toggleTextToSpeechButton.textContent = 'Disable';
+            } else {
+                toggleTextToSpeechButton.textContent = 'Enable';
+            }
+        }
+
+        toggleTextToSpeechButton.addEventListener('click', () => {
+            const isTextToSpeechEnabled = getCookie('textToSpeech') === 'true';
+            setCookie('textToSpeech', !isTextToSpeechEnabled, 30); // Save preference for 30 days
+            applyTextToSpeechSetting(!isTextToSpeechEnabled);
+        });
+
+        // Apply saved Text-to-Speech preference on load
+        applyTextToSpeechSetting(textToSpeechEnabled);
+
+        // Regional Settings
+        const regionSelect = document.getElementById('regionSelect');
+        const savedRegion = getCookie('region') || 'us'; // Default to 'us'
+
+        // Set the dropdown to the saved region
+        regionSelect.value = savedRegion;
+
+        // Save the selected region when changed
+        regionSelect.addEventListener('change', () => {
+            const selectedRegion = regionSelect.value;
+            setCookie('region', selectedRegion, 30); // Save preference for 30 days
+            alert(`Region set to: ${selectedRegion.toUpperCase()}`);
+        });
+
+        const region = getCookie('region') || 'us'; // Default to 'us'
+
+        // Example: Load regional content
+        if (region === 'fr') {
+            document.body.innerHTML += '<p>Bienvenue! (Welcome in French)</p>';
+        } else if (region === 'de') {
+            document.body.innerHTML += '<p>Willkommen! (Welcome in German)</p>';
+        } else if (region === 'jp') {
+            document.body.innerHTML += '<p>ようこそ! (Welcome in Japanese)</p>';
+        } else {
+            document.body.innerHTML += '<p>Welcome!</p>';
+        }
+
+        // Reset to Default Settings
+        const resetSettingsButton = document.getElementById('resetSettings');
+
+        resetSettingsButton.addEventListener('click', () => {
+            // Clear all cookies
+            document.cookie.split(";").forEach(cookie => {
+                document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
+            });
+
+            // Reset UI elements to default states
+            applyDarkMode(false); // Default: Light mode
+            applyCloakJSSetting(false); // Default: CloakJS disabled
+            applyFPSCounterSetting(false); // Default: FPS Counter disabled
+            applyMaturityFilterSetting(false); // Default: Maturity Filter disabled
+            applyTextToSpeechSetting(false); // Default: Text-to-Speech disabled
+
+            alert('Settings have been reset to default!');
+        });
     </script>
 </body>
 
