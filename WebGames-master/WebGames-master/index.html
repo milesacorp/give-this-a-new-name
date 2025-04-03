@@ -795,6 +795,17 @@
                 link.setAttribute('target', '_blank'); // Open in a new tab
             });
         }
+
+        // Check if Maturity Filter is enabled
+        const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
+
+        if (maturityFilterEnabled) {
+            // Hide games marked as mature
+            const matureGames = document.querySelectorAll('.game.mature');
+            matureGames.forEach(game => {
+                game.style.display = 'none';
+            });
+        }
     </script>
 </body>
 </html>

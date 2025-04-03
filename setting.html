@@ -52,6 +52,15 @@
         .setting-item button:hover {
             background-color: #0056b3;
         }
+
+        /* Red button for Clear Cookies */
+        .setting-item.clear-cookies button {
+            background-color: #ff4d4d;
+        }
+
+        .setting-item.clear-cookies button:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 
@@ -63,16 +72,20 @@
             <button id="toggleDarkMode">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Clear Cookies</span>
-            <button id="clearCookies">Clear</button>
-        </div>
-        <div class="setting-item">
-            <span>Enable CloakJS not working yet</span>
+            <span>Enable CloakJS (comming soon)</span>
             <button id="toggleCloakJS">Enable</button>
         </div>
         <div class="setting-item">
             <span>Show FPS Counter</span>
             <button id="toggleFPSCounter">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Enable Maturity Filter(comming soon)</span>
+            <button id="toggleMaturityFilter">Enable</button>
+        </div>
+        <div class="setting-item clear-cookies">
+            <span>Clear Cookies</span>
+            <button id="clearCookies">Clear</button>
         </div>
     </div>
 
@@ -173,6 +186,27 @@
 
         // Apply saved FPS Counter preference on load
         applyFPSCounterSetting(fpsCounterEnabled);
+
+        // Maturity Filter Toggle
+        const toggleMaturityFilterButton = document.getElementById('toggleMaturityFilter');
+        const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
+
+        function applyMaturityFilterSetting(enabled) {
+            if (enabled) {
+                toggleMaturityFilterButton.textContent = 'Disable';
+            } else {
+                toggleMaturityFilterButton.textContent = 'Enable';
+            }
+        }
+
+        toggleMaturityFilterButton.addEventListener('click', () => {
+            const isMaturityFilterEnabled = getCookie('maturityFilter') === 'true';
+            setCookie('maturityFilter', !isMaturityFilterEnabled, 30); // Save preference for 30 days
+            applyMaturityFilterSetting(!isMaturityFilterEnabled);
+        });
+
+        // Apply saved Maturity Filter preference on load
+        applyMaturityFilterSetting(maturityFilterEnabled);
     </script>
 </body>
 
