@@ -1,389 +1,695 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
-    <p></p>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/WebGames-master/WebGames-master/main.css">
-    <script>
-        function setCookie(name, value, days) {
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    <title>Web Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #0d0d0d;
+            --text-color: #00ffcc;
+            --card-bg: #1a1a1a;
+            --card-hover-bg: #00ffcc;
+            --card-hover-text: #0d0d0d;
         }
 
-        function getCookie(name) {
-            const cname = name + "=";
-            const decodedCookie = decodeURIComponent(document.cookie);
-            const ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(cname) == 0) {
-                    return c.substring(cname.length, c.length);
-                }
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin: 20px 0;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--text-color), 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color);
             }
-            return "";
+            to {
+                text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color), 0 0 50px var(--text-color);
+            }
         }
 
+        .search-bar {
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid var(--text-color);
+            border-radius: 5px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #searchBar:focus {
+            border-color: var(--card-hover-bg);
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .game {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .game:hover {
+            transform: scale(1.1);
+            background-color: var(--card-hover-bg);
+        }
+
+        .game img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .game:hover img {
+            transform: scale(1.1);
+        }
+
+        .game-title {
+            padding: 10px;
+            font-size: 1rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+        }
+
+        .no-results {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .no-results img {
+            width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Games</h1>
+    <div class="search-bar">
+        <input type="text" id="searchBar" onkeyup="filterGames()" placeholder="Search for games...">
+    </div>
+    <div id="noResults" class="no-results">
+        <img src="/image-robert-added/res.webp" alt="No Results Found">
+        <p>No games found</p>
+    </div>
+    <div class="game-container">
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/tic-tac-toe/index.html">
+                <img src="./assets/tic-tac-toe.png" alt="tic-tac-toe">
+                <div class="game-title">Tic Tac Toe</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/BubbleGame/index.html">
+                <img src="/WebGames-master/WebGames-master/assets/the_bubble_game.png" alt="The Bubble Game">
+                <div class="game-title">The Bubble Game</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="./DevQuiz/index.html">
+                <img src="./assets/dev_quiz.png" alt="Dev Quiz">
+                <div class="game-title">Dev Quiz</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="https://hangmangame02.netlify.app/">
+                <img src="assets/hangman.png" alt="hangman">
+                <div class="game-title">Hangman</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/Snow-Rider3D-main/Snow-Rider3D-main/index.html">
+                <img src="assets/snnowriders3d.jpeg" alt="snow rider">
+                <div class="game-title">Snow Rider</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/HexGL-master/HexGL-master/index.html">
+                <img src="assets/HexGL256.png" alt="hex gl">
+                <div class="game-title">Hex GL</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/zTunnel-Rush.html">
+                <img src="assets/tunelrush.jpeg" alt="tunnel rush">
+                <div class="game-title">Tunnel Rush</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/Learn-To-Fly-2-main/Learn-To-Fly-2-main/index.html">
+                <img src="assets/learn-to-fly-2.jpeg" alt="learn to fly 2">
+                <div class="game-title">Learn To Fly 2</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/Slope-Game-main/Slope-Game-main/index.html">
+                <img src="assets/slope.jpeg" alt="slope">
+                <div class="game-title">Slope</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/henry_stick_man.html">
+                <img src="assets/stealing-the-dimend.jpeg" alt="henry stick man">
+                <div class="game-title">Henry Stick Man</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/Basketball-Legends-2020-gh-pages/Basketball-Legends-2020-gh-pages/index.html">
+                <img src="assets/2020.avif" alt="Basketball Legends">
+                <div class="game-title">Basketball Legends</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/tanuki-sunset-master/index.html">
+                <img src="assets/taunki.jpeg" alt="tanuki sunset">
+                <div class="game-title">Tanuki Sunset</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/Fanf.html">
+                <img src="assets/anan.jpeg" alt="Fnaf Collection">
+                <div class="game-title">Fnaf Collection</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/The-Shadow-Reform.html">
+                <img src="assets/kaertt.png" alt="The Shadow Reform">
+                <div class="game-title">The Shadow Reform</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Mario-Kart-64.html">
+                <img src="assets/mareoc64.jpeg" alt="Mario Kart 64">
+                <div class="game-title">Mario Kart 64</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="stuftochanch/isaac.html">
+                <img src="assets/isik.jpeg" alt="isaac rath or the lam">
+                <div class="game-title">Isaac Rath Or The Lam</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/EarthBound.html">
+                <img src="assets/earthbound.png" alt="earth bound">
+                <div class="game-title">Earth Bound</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/cookie-clicker/index.html">
+                <img src="games2/assets/cookie-clicker.png" alt="cookie clicker">
+                <div class="game-title">Cookie Clicker</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/retro-bowl/index.html">
+                <img src="games2/assets/retro-bowl.jpg" alt="retro bowl">
+                <div class="game-title">Retro Bowl</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/tiny-fishing/index.html">
+                <img src="games2/game/tiny-fishing/thumb.png" alt="tiny fishing">
+                <div class="game-title">Tiny Fishing</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/idle-breakout/index.html">
+                <img src="games2/assets/idle-breakout.jpg" alt="idle breakout">
+                <div class="game-title">Idle Breakout</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/just-fall/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/just-fall.jpg" alt="just fall">
+                <div class="game-title">Just Fall</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/monkey mart/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/monkey-mart.png" alt="monkey mart">
+                <div class="game-title">Monkey Mart</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/FZeroX.html">
+                <img src="assets/F_ZOERX.jpeg" alt="F-ZeroX">
+                <div class="game-title">F-ZeroX</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/geometry-dash-remastered/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/geometry.jpg" alt="Geometry Dash">
+                <div class="game-title">Geometry Dash</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/backrooms/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/game/backrooms/Backrooms-Games.webp" alt="backrooms">
+                <div class="game-title">Backrooms</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/cars-simulator/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/game/cars-simulator/splash.png" alt="car game">
+                <div class="game-title">Car Game</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/worlds-hardest-game/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/worlds-hardest-game.jpg" alt="worlds hardest game">
+                <div class="game-title">Worlds Hardest Game</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/thumb-fighter-main/index.html">
+                <img src="/WebGames-master/WebGames-master/assets/thum.jpeg" alt="thumb fighter">
+                <div class="game-title">Thumb Fighter</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/bob-the-robber-2/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/bob-the-robber-2.png" alt="bob the robber 2">
+                <div class="game-title">Bob The Robber 2</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/vex3/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/vex3.jpg" alt="vex 3">
+                <div class="game-title">Vex 3</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/vex4/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/vex4.jpg" alt="vex 4">
+                <div class="game-title">Vex 4</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/vex5/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/vex5.jpg" alt="vex 5">
+                <div class="game-title">Vex 5</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/vex6/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/vex6.jpeg" alt="vex 6">
+                <div class="game-title">Vex 6</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/vex7/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/vex7.jpeg" alt="vex 7">
+                <div class="game-title">Vex 7</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/n-gon-master/n-gon-master/index.html">
+                <img src="/WebGames-master/WebGames-master/assets/n-gon.png" alt="N-Gon">
+                <div class="game-title">N-Gon</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/chess/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/chess.jpg" alt="Chess">
+                <div class="game-title">Chess</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/cluster-rush/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/cluster-rush.png" alt="Cluster rush">
+                <div class="game-title">Cluster Rush</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/awesome-tanks-2/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/at2.jpg" alt="Awesome Tanks 2">
+                <div class="game-title">Awesome Tanks 2</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/stickman-hook/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/stickman-hook.jpg" alt="Stickman Hook">
+                <div class="game-title">Stickman Hook</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/subway-surfers/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/subway-surfer.jpg" alt="Subway Surfers">
+                <div class="game-title">Subway Surfers</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/stick-merge/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/stick-merge.png" alt="Stick Merge">
+                <div class="game-title">Stick Merge</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/cubefield/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/cubefield.jpg" alt="Cube Field">
+                <div class="game-title">Cube Field</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/HouseOfHazards-main/index.html">
+                <img src="/WebGames-master/WebGames-master/games/HouseOfHazards-main/screenshots/0609b0ba2889859b21cf47ca205818fe.avif" alt="House Of Hazards">
+                <div class="game-title">House Of Hazards</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/dao-2048-main/dao-2048-main/index.html">
+                <img src="/image-robert-added/2048.webp" alt="2048">
+                <div class="game-title">2048</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/drive-mad-main/index.html">
+                <img src="/image-robert-added/unnamed.png" alt="Drive Mad">
+                <div class="game-title">Drive Mad</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/stacktris-main/stacktris-main/index.html">
+                <img src="/image-robert-added/Stack.png" alt="Stacktris">
+                <div class="game-title">Stacktris</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/dino.html">
+                <img src="/image-robert-added/Dino.webp" alt="Dino Game">
+                <div class="game-title">Dino Game</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/skyrush.html">
+                <img src="/image-robert-added/Skyrush.png" alt="Sky Rush">
+                <div class="game-title">Sky Rush</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/P.html">
+                <img src="/image-robert-added/PowerTower.png" alt="Power Tower">
+                <div class="game-title">Power Tower</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/townmain.html">
+                <img src="/image-robert-added/town.webp" alt="Scratch Town">
+                <div class="game-title">Scratch Town</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/tube-jumpers-main/tube-jumpers-main/index.html">
+                <img src="/image-robert-added/Tube.png" alt="Tube Jumpers">
+                <div class="game-title">Tube Jumpers</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/wit.html">
+                <img src="/WebGames-master/WebGames-master/assets/phoenix-wright-ace-attorney.avif" alt="Phoenix Wright Ace Attorney">
+                <div class="game-title">Phoenix Wright Ace Attorney</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/pokemonindex.html">
+                <img src="/image-robert-added/poke.webp" alt="Pokemon Games">
+                <div class="game-title">Pokemon Games</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/tetris/index.html">
+                <img src="assets/tetres.png" alt="Tetris">
+                <div class="game-title">Tetris</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/FNF-Week7-Html5-Test-main/index.html">
+                <img src="assets/fnf.png" alt="FNF Unstable">
+                <div class="game-title">FNF Unstable</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/Kirby's-Dreamland-3-Maker.html">
+                <img src="assets/images3.jpeg" alt="Kirby's Dreamland 3 Maker">
+                <div class="game-title">Kirby's Dreamland 3 Maker</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/flasharchive-main/flasharchive-main/html/supersmashflash.html">
+                <img src="assets/supersmashflash.jpeg" alt="Super Smash Flash">
+                <div class="game-title">Super Smash Flash</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/ditlifytest/index.html">
+                <img src="assets/unnamed_480.webp" alt="Bit Life">
+                <div class="game-title">Bit Life</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Chrono-Trigger.html">
+                <img src="assets/Chrono-Trigger.jpeg" alt="Chrono Trigger">
+                <div class="game-title">Chrono Trigger</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Legend-of-Zelda-The--A-Link-to-the-Past.html">
+                <img src="assets/thelegindofzelda.jpg" alt="Legend Of Zelda The. A Link To the Past">
+                <div class="game-title">Legend Of Zelda The. A Link To the Past</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/DrillDozer(USA).html">
+                <img src="assets/Drill-Dozer.jpeg" alt="Drill Dozer">
+                <div class="game-title">Drill Dozer</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/SuperMarioLand2DX.html">
+                <img src="assets/Super-Mario-Land-2.png" alt="Super Mario Land 2">
+                <div class="game-title">Super Mario Land 2</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/Doom-In-Docker-master/Doom-In-Docker-master/doom/public/index.html">
+                <img src="assets/doom.jpeg" alt="Doom">
+                <div class="game-title">Doom</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/index.html">
+                <img src="assets/LegendofZeldaTimeLost.jpeg" alt="Legend Of Zelda The Time Lost">
+                <div class="game-title">Legend Of Zelda The Time Lost</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/youshey.html">
+                <img src="assets/yoshey64.jpeg" alt="Yoshi 64">
+                <div class="game-title">Yoshi 64</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/papermaro.html">
+                <img src="assets/papermoaro.jpeg" alt="Paper Mario">
+                <div class="game-title">Paper Mario</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/pacman/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/pacman.jpg" alt="Pac Man">
+                <div class="game-title">Pac Man</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/a-dance-of-fire-and-ice/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/game/a-dance-of-fire-and-ice/splash.png" alt="Timing CLicker">
+                <div class="game-title">Timing Clicker</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/Gladihoppers-gh-pages/index.html">
+                <img src="/WebGames-master/WebGames-master/assets/glad.jpeg" alt="Gladi Hoppers">
+                <div class="game-title">Gladi Hoppers</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/block-blast-main/index.html">
+                <img src="/WebGames-master/WebGames-master/assets/blockblast.jpeg" alt="Block Blast">
+                <div class="game-title">Block Blast</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/superhot/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/super-hot.jpg" alt="Super Hot">
+                <div class="game-title">Super Hot</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/flasharchive-main/flasharchive-main/html/mariokart.html">
+                <img src="/WebGames-master/WebGames-master/assets/mareokartflach.jpeg" alt="Mario Kart Flash">
+                <div class="game-title">Mario Kart Flash</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/factoryballsforever/index.html">
+                <img src="/WebGames-master/WebGames-master/games2/assets/factory-balls.jpg" alt="Factory Balls">
+                <div class="game-title">Factory Balls</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/DuckLife4-main/DuckLife4-main/index.html">
+                <img src="assets/duck-lifde-4.jpeg" alt="Duck Life 4">
+                <div class="game-title">Duck Life 4</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/CutTheRope-master/CutTheRope-master/index.html">
+                <img src="assets/cut-the-rope.jpeg" alt="Cut The Rope">
+                <div class="game-title">Cut The Rope</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/10-minutes-till-dawn/index.html">
+                <img src="/WebGames-master/WebGames-master/games/10-minutes-till-dawn/icon.png" alt="10 Minutes Till Dawn">
+                <div class="game-title">10 Minutes Till Dawn</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/flasharchive-main/flasharchive-main/html/doodlejump.html">
+                <img src="games2/assets/doodle.jpg" alt="Doodle Jump">
+                <div class="game-title">Doodle Jump</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/moto-x3m-spooky-land/index.html">
+                <img src="games2/assets/moto-spooky.jpg" alt="Moto XM3 Spooky Land">
+                <div class="game-title">Moto XM3 Spooky Land</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/motox3m2/index.html">
+                <img src="games2/assets/motox3m2.jpg" alt="Moto XM2">
+                <div class="game-title">Moto XM2</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/moto-x3m/index.html">
+                <img src="games2/assets/moto-x3m.jpg" alt="Moto XM">
+                <div class="game-title">Moto XM</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/jetpack-joyride/index.html">
+                <img src="games2/assets/jetpack-joyride.jpg" alt="Jetpack Joyride">
+                <div class="game-title">Jetpack Joyride</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/getaway-shootout/index.html">
+                <img src="games2/assets/getaway-shootout.jpg" alt="Getaway Shootout">
+                <div class="game-title">Getaway Shootout</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/temple-run/index.html">
+                <img src="games2/assets/temple-run.png" alt="Temple Run">
+                <div class="game-title">Temple Run</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/gd.html">
+                <img src="assets/gd-nes.jpeg" alt="Geometry Dash Nes">
+                <div class="game-title">Geometry Dash Nes</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/3d-gam.zip_unzipped/1-main/index.html">
+                <img src="assets/Dethrun3d.jpeg" alt="Death Run 3">
+                <div class="game-title">Death Run 3</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games2/game/drift-hunters/index.html">
+                <img src="games2/assets/drifthunters.jpg" alt="Drift Hunters">
+                <div class="game-title">Drift Hunters</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="games/gun-mayhem-main/gun-mayhem-main/index.html">
+                <img src="assets/gamemntze-gun-mayhem-original-29173-img.png" alt="Gun Mayhem">
+                <div class="game-title">Gun Mayhem</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games/SuperScratchBros41.html">
+                <img src="assets/Super-Scratch-Bros-Beta.jpeg" alt="Super Scratch Bros">
+                <div class="game-title">Super Scratch Bros</div>
+            </a>
+        </div>
+        <div class="game">
+            <a href="/WebGames-master/WebGames-master/games2/game/rooftop-snipers/index.html">
+                <img src="assets/Super-Scratch-Bros-Beta.jpeg" alt="Roof Top Snipers">
+                <div class="game-title">Roof Top Snipers</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
         function filterGames() {
             const searchInput = document.getElementById('searchBar').value.toLowerCase();
-            setCookie('searchInput', searchInput, 7);
             const games = document.querySelectorAll('.game');
             let hasResults = false;
 
             games.forEach(game => {
-                const img = game.querySelector('img');
-                if (img) {
-                    const altText = img.alt.toLowerCase();
-                    if (altText.includes(searchInput)) {
-                        game.style.display = '';
-                        hasResults = true;
-                    } else {
-                        game.style.display = 'none';
-                    }
+                const title = game.querySelector('.game-title').textContent.toLowerCase();
+                if (title.includes(searchInput)) {
+                    game.style.display = '';
+                    hasResults = true;
+                } else {
+                    game.style.display = 'none';
                 }
             });
 
             const noResultsElement = document.getElementById('noResults');
-            const oneContainer = document.querySelector('.one');
             noResultsElement.style.display = hasResults ? 'none' : 'flex';
-            oneContainer.style.display = hasResults ? 'flex' : 'none';
         }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const savedSearchInput = getCookie('searchInput');
-            if (savedSearchInput) {
-                document.getElementById('searchBar').value = savedSearchInput;
-                filterGames();
-            }
-        });
     </script>
-</head>
-<center>
-<body>
-    <button onclick="window.location.href = '/index.html';">Back</button>
-    <input type="text" id="searchBar" onkeyup="filterGames()" placeholder="Search For Games...">
-    <p></p>
-    <p> </p>
-    <div id="noResults" class="no-results">
-        <img src="/image-robert-added/res.webp" alt="No Results Found" width="564" height="157">
-    </div>
-    <div class="one">
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/tic-tac-toe/index.html"><img src="./assets/tic-tac-toe.png" alt="tic-tac-toe" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/BubbleGame/index.html"><img src="/WebGames-master/WebGames-master/assets/the_bubble_game.png" alt="The Bubble Game" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="./DevQuiz/index.html"><img src="./assets/dev_quiz.png" alt="dev quiz" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="https://hangmangame02.netlify.app/"><img src="assets/hangman.png" alt="hangman" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/Snow-Rider3D-main/Snow-Rider3D-main/index.html"><img src="assets/snnowriders3d.jpeg" alt="snow rider" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/HexGL-master/HexGL-master/index.html"><img src="assets/HexGL256.png" alt="hex gl" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/zTunnel-Rush.html"><img src="assets/tunelrush.jpeg" alt="tunnel rush" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/Learn-To-Fly-2-main/Learn-To-Fly-2-main/index.html"><img src="assets/learn-to-fly-2.jpeg" alt="learn to fly 2" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/Slope-Game-main/Slope-Game-main/index.html"><img src="assets/slope.jpeg" alt="slope" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/henry_stick_man.html"><img src="assets/stealing-the-dimend.jpeg" alt="henry stick man" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/Basketball-Legends-2020-gh-pages/Basketball-Legends-2020-gh-pages/index.html"><img src="assets/2020.avif" alt="Basketball Legends" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/tanuki-sunset-master/index.html"><img src="assets/taunki.jpeg" alt="tanuki sunset" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/Fanf.html"><img src="assets/anan.jpeg" alt="Fnaf Collection" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/The-Shadow-Reform.html"><img src="assets/kaertt.png" alt="The Shadow Reform" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Mario-Kart-64.html"><img src="assets/mareoc64.jpeg" alt="Mario Kart 64" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="stuftochanch/isaac.html"><img src="assets/isik.jpeg" alt="isaac rath or the lam" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/EarthBound.html"><img src="assets/earthbound.png" alt="earth bound" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/cookie-clicker/index.html"><img src="games2/assets/cookie-clicker.png" alt="cookie clicker" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/retro-bowl/index.html"><img src="games2/assets/retro-bowl.jpg" alt="retro bowl" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/tiny-fishing/index.html"><img src="games2/game/tiny-fishing/thumb.png" alt="tiny fishing" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/idle-breakout/index.html"><img src="games2/assets/idle-breakout.jpg" alt="idle breakout" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/just-fall/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/just-fall.jpg" alt="just fall" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/monkey mart/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/monkey-mart.png" alt="monkey mart" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/FZeroX.html"><img src="assets/F_ZOERX.jpeg" alt="F-ZeroX" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/geometry-dash-remastered/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/geometry.jpg" alt="Geometry Dash" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/backrooms/index.html"><img src="/WebGames-master/WebGames-master/games2/game/backrooms/Backrooms-Games.webp" alt="backrooms" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/cars-simulator/index.html"><img src="/WebGames-master/WebGames-master/games2/game/cars-simulator/splash.png" alt="car game" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/worlds-hardest-game/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/worlds-hardest-game.jpg" alt="worlds hardest game" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/thumb-fighter-main/index.html"><img src="/WebGames-master/WebGames-master/assets/thum.jpeg" alt="thumb fighter" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/bob-the-robber-2/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/bob-the-robber-2.png" alt="bob the robber 2" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/vex3/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/vex3.jpg" alt="vex 3" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/vex4/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/vex4.jpg" alt="vex 4" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/vex5/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/vex5.jpg" alt="vex 5" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/vex6/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/vex6.jpeg" alt="vex 6" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/vex7/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/vex7.jpeg" alt="vex 7" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/n-gon-master/n-gon-master/index.html"><img src="/WebGames-master/WebGames-master/assets/n-gon.png" alt="N-Gon" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/chess/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/chess.jpg" alt="Chess" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/cluster-rush/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/cluster-rush.png" alt="Cluster rush" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/awesome-tanks-2/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/at2.jpg" alt="Awesome Tanks 2" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/stickman-hook/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/stickman-hook.jpg" alt="Stickman Hook" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/subway-surfers/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/subway-surfer.jpg" alt="Subway Surfers" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/stick-merge/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/stick-merge.png" alt="Stick Merge" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/cubefield/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/cubefield.jpg" alt="Cube Field" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/HouseOfHazards-main/index.html"><img src="/WebGames-master/WebGames-master/games/HouseOfHazards-main/screenshots/0609b0ba2889859b21cf47ca205818fe.avif" alt="House Of Hazards" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/dao-2048-main/dao-2048-main/index.html"><img src="/image-robert-added/2048.webp" alt="2048" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/drive-mad-main/index.html"><img src="/image-robert-added/unnamed.png" alt="Drive Mad" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/stacktris-main/stacktris-main/index.html"><img src="/image-robert-added/Stack.png" alt="Stacktris" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/dino.html"><img src="/image-robert-added/Dino.webp" alt="Dino Game" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/skyrush.html"><img src="/image-robert-added/Skyrush.png" alt="Sky Rush" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/P.html"><img src="/image-robert-added/PowerTower.png" alt="Power Tower" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/townmain.html"><img src="/image-robert-added/town.webp" alt="Scratch Town" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/tube-jumpers-main/tube-jumpers-main/index.html"><img src="/image-robert-added/Tube.png" alt="Tube Jumpers" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/wit.html"><img src="/WebGames-master/WebGames-master/assets/phoenix-wright-ace-attorney.avif" alt="Phoenix Wright Ace Attorney" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/pokemonindex.html"><img src="/image-robert-added/poke.webp" alt="Pokemon Games" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/tetris/index.html"><img src="assets/tetres.png" alt="Tetris" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/FNF-Week7-Html5-Test-main/index.html"><img src="assets/fnf.png" alt="FNF Unstable" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/Kirby's-Dreamland-3-Maker.html"><img src="assets/images3.jpeg" alt="Kirby's Dreamland 3 Maker" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/flasharchive-main/flasharchive-main/html/supersmashflash.html"><img src="assets/supersmashflash.jpeg" alt="Super Smash Flash" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/ditlifytest/index.html"><img src="assets/unnamed_480.webp" alt="Bit Life" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Chrono-Trigger.html"><img src="assets/Chrono-Trigger.jpeg" alt="Chrono Trigger" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/Legend-of-Zelda-The--A-Link-to-the-Past.html"><img src="assets/thelegindofzelda.jpg" alt="Legend Of Zelda The. A Link To the Past" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/DrillDozer(USA).html"><img src="assets/Drill-Dozer.jpeg" alt="Drill Dozer" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/SuperMarioLand2DX.html"><img src="assets/Super-Mario-Land-2.png" alt="Super Mario Land 2" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/Doom-In-Docker-master/Doom-In-Docker-master/doom/public/index.html"><img src="assets/doom.jpeg" alt="Doom" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/index.html"><img src="assets/LegendofZeldaTimeLost.jpeg" alt="Legend Of Zelda The Time Lost" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/youshey.html"><img src="assets/yoshey64.jpeg" alt="Yoshi 64" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/n64test/papermaro.html"><img src="assets/papermoaro.jpeg" alt="Paper Mario" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/pacman/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/pacman.jpg" alt="Pac Man" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/a-dance-of-fire-and-ice/index.html"><img src="/WebGames-master/WebGames-master/games2/game/a-dance-of-fire-and-ice/splash.png" alt="Timing CLicker" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/Gladihoppers-gh-pages/index.html"><img src="/WebGames-master/WebGames-master/assets/glad.jpeg" alt="Gladi Hoppers" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/block-blast-main/index.html"><img src="/WebGames-master/WebGames-master/assets/blockblast.jpeg" alt="Block Blast" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/superhot/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/super-hot.jpg" alt="Super Hot" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/flasharchive-main/flasharchive-main/html/mariokart.html"><img src="/WebGames-master/WebGames-master/assets/mareokartflach.jpeg" alt="Mario Kart Flash" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/factoryballsforever/index.html"><img src="/WebGames-master/WebGames-master/games2/assets/factory-balls.jpg" alt="Factory Balls" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/DuckLife4-main/DuckLife4-main/index.html"><img src="assets/duck-lifde-4.jpeg" alt="Duck Life 4" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/CutTheRope-master/CutTheRope-master/index.html"><img src="assets/cut-the-rope.jpeg" alt="Cut The Rope" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/10-minutes-till-dawn/index.html"><img src="/WebGames-master/WebGames-master/games/10-minutes-till-dawn/icon.png" alt="10 Minutes Till Dawn" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/flasharchive-main/flasharchive-main/html/doodlejump.html"><img src="games2/assets/doodle.jpg" alt="Doodle Jump" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/moto-x3m-spooky-land/index.html"><img src="games2/assets/moto-spooky.jpg" alt="Moto XM3 Spooky Land" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/motox3m2/index.html"><img src="games2/assets/motox3m2.jpg" alt="Moto XM2" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/moto-x3m/index.html"><img src="games2/assets/moto-x3m.jpg" alt="Moto XM" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/jetpack-joyride/index.html"><img src="games2/assets/jetpack-joyride.jpg" alt="Jetpack Joyride" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/getaway-shootout/index.html"><img src="games2/assets/getaway-shootout.jpg" alt="Getaway Shootout" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/temple-run/index.html"><img src="games2/assets/temple-run.png" alt="Temple Run" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/wedrowemdlemtest/webretro-master/webretro-master/embed/gd.html"><img src="assets/gd-nes.jpeg" alt="Geometry Dash Nes" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/3d-gam.zip_unzipped/1-main/index.html"><img src="assets/Dethrun3d.jpeg" alt="Death Run 3" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games2/game/drift-hunters/index.html"><img src="games2/assets/drifthunters.jpg" alt="Drift Hunters" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="games/gun-mayhem-main/gun-mayhem-main/index.html"><img src="assets/gamemntze-gun-mayhem-original-29173-img.png" alt="Gun Mayhem" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games/SuperScratchBros41.html"><img src="assets/Super-Scratch-Bros-Beta.jpeg" alt="Super Scratch Bros" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href="/WebGames-master/WebGames-master/games2/game/rooftop-snipers/index.html"><img src="assets/Super-Scratch-Bros-Beta.jpeg" alt="Roof Top Snipers" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-        <div class="game">
-            <a href=""><img src="" alt="" width="150" height="150"></a>
-        </div>
-    </div>
-    </body>
-</center>
-</head>
-<body>
-<div class="version" id="versionDisplay"></div>
-
-<script>
-    document.getElementById('versionDisplay').textContent = 'Version 2.44.0';
-</script>
 </body>
 </html>
-<script src="/game.js"></script>

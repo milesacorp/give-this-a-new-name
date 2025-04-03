@@ -1,88 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
     <meta charset="UTF-8">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6951907799659255" cross-origin='anonymous'></script>
-    <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/page_icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Play:wght@700&amp;family=Press+Start+2P&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="index.css">
     <title>Moon Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         :root {
-            --background-color: #ffffff;
-            --text-color: #000000;
-            --card-background-color: #f9f9f9;
+            --background-color-dark: #0d0d0d;
+            --text-color-dark: #00ffcc;
+            --button-bg-dark: #1a1a1a;
+            --button-hover-bg-dark: #00ffcc;
+            --button-hover-text-dark: #0d0d0d;
+
+            --background-color-light: #ffffff;
+            --text-color-light: #333333;
+            --button-bg-light: #f0f0f0;
+            --button-hover-bg-light: #333333;
+            --button-hover-text-light: #ffffff;
         }
+
         body {
             background-color: var(--background-color);
             color: var(--text-color);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
             transition: background-color 0.3s, color 0.3s;
         }
-        .side-bar-menu {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: var(--card-background-color);
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            overflow-y: auto;
-            transition: left 0.3s ease;
-            z-index: 1000;
+
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            animation: glow 1.5s infinite alternate;
         }
-        .side-bar-menu.open {
-            left: 0;
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--text-color), 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color);
+            }
+            to {
+                text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color), 0 0 50px var(--text-color);
+            }
         }
-        .side-bar-close-button {
-            background: none;
-            border: none;
-            font-size: 20px;
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: 'Press Start 2P', cursive;
+            color: var(--text-color);
+            background-color: var(--button-bg);
+            border: 2px solid var(--text-color);
+            border-radius: 5px;
             cursor: pointer;
-            margin: 10px;
+            text-transform: uppercase;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+        }
+
+        .button:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+            transform: scale(1.1);
+        }
+
+        .button:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
-    <nav class="nav-bar">
-        <h1>fun-miles</h1>
-        <div class="nav-elem">
-          <button><a class="a-text nav-item" href="https://github.com/mileswolfallen2/fun-miles">contribute&nbsp;</a></button>
-          <button><a class="a-text nav-item" href="https://github.com/mileswolfallen2/fun-miles/blob/main/README.md">About&nbsp;</a></button>
-          <p class="nav-item"><button id="dark-mode-sidebar" onclick="onToggleDarkMode()">Dark Mode<i id="sidebar-dark-mode-icon" class="fa-solid fa-moon"></i></button></p>
-        </div>
-        <button class="side-bar-button" id="toggleSideBar" onclick="toggleSideBar()">☰</button>
-      </nav>
-      <div class="background-image"></div>
-      <div class="side-bar-menu" id="side-bar-menu">
-        <button class="side-bar-close-button" onclick="toggleSideBar()">✖</button>
-        <div class="side-bar-link">
-          <a class="nav-item" href="https://github.com/sarmadhamdani02/webGames" target="_blank">Contribute</a>
-          <a class="nav-item" href="https://github.com/sarmadhamdani02/webGames#readme">About</a>
-          <a class="nav-item" href="/pass.html">Credits</a>
-          <a class="nav-item" href="/WebGames-master/WebGames-master/index.html">Games</a>
-          <a class="nav-item" href="/Contact.html">Bug Report</a>
-          <a class="nav-item" href="/Contact.html">Suggesting</a>
-          <a class="nav-item" href="/setting.html">⚙️Settings</a>
-        </div>
-      </div>
-
-    <div class="main-content" style="overflow-y:scroll;">
+    <h1>Moon Gaming</h1>
+    <div class="button-container">
+        <button class="button" onclick="location.href='setting.html'">Settings</button>
+        <button class="button" onclick="location.href='./WebGames-master/WebGames-master/index.html'">Games</button>
     </div>
 
-    <div class="non-sidebar-content">
-        <h2>Additional Content</h2>
-        <p>This area is for content that won't be in the sidebar.</p>
-        <a href="/WebGames-master/WebGames-master/index.html">Games</a>
-        <img src="/images1.png" alt="deez nuts" width="150" height="150"></a>
-    </div>
-      <!-- empty main page -->
-      <div class="version" id="versionDisplay"></div>
     <script>
         // Utility function to set a cookie
         function setCookie(name, value, days) {
@@ -103,40 +108,26 @@
             return null;
         }
 
-        // Apply dark mode based on cookie
+        // Apply dark or light mode based on cookie
         function applyDarkMode(enabled) {
             if (enabled) {
-                document.body.style.setProperty('--background-color', '#121212');
-                document.body.style.setProperty('--text-color', '#ffffff');
-                document.body.style.setProperty('--card-background-color', '#1e1e1e');
-                document.getElementById('sidebar-dark-mode-icon').classList.replace('fa-moon', 'fa-sun');
+                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
+                document.body.style.setProperty('--button-bg', 'var(--button-bg-dark)');
+                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-dark)');
+                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-dark)');
             } else {
-                document.body.style.setProperty('--background-color', '#ffffff');
-                document.body.style.setProperty('--text-color', '#000000');
-                document.body.style.setProperty('--card-background-color', '#f9f9f9');
-                document.getElementById('sidebar-dark-mode-icon').classList.replace('fa-sun', 'fa-moon');
+                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
+                document.body.style.setProperty('--button-bg', 'var(--button-bg-light)');
+                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-light)');
+                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-light)');
             }
         }
 
         // Toggle dark mode
-        function onToggleDarkMode() {
-            const isDarkMode = getCookie('darkMode') === 'true';
-            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
-            applyDarkMode(!isDarkMode);
-        }
-
-        // Apply saved dark mode preference on load
-        const darkModeEnabled = getCookie('darkMode') === 'true';
-        applyDarkMode(darkModeEnabled);
-
-        // Toggle sidebar
-        function toggleSideBar() {
-            const sideBarMenu = document.getElementById('side-bar-menu');
-            sideBarMenu.classList.toggle('open');
-        }
+        const isDarkMode = getCookie('darkMode') === 'true';
+        applyDarkMode(isDarkMode);
     </script>
 </body>
 </html>
-<noscript>
-  <p>JavaScript is off; turn it on or go here <a href="/games.html">hi</a></p>
-</noscript>
