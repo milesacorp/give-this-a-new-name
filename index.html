@@ -125,9 +125,14 @@
             }
         }
 
-        // Toggle dark mode
-        const isDarkMode = getCookie('darkMode') === 'true';
-        applyDarkMode(isDarkMode);
+        // Ensure dark mode is the default
+        if (getCookie('darkMode') === null) {
+            setCookie('darkMode', 'true', 30); // Default to dark mode
+        }
+
+        // Apply saved mode on load
+        const darkModeEnabled = getCookie('darkMode') === 'true';
+        applyDarkMode(darkModeEnabled);
     </script>
 </body>
 </html>

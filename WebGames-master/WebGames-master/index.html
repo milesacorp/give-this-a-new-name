@@ -7,11 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #0d0d0d;
-            --text-color: #00ffcc;
-            --card-bg: #1a1a1a;
-            --card-hover-bg: #00ffcc;
-            --card-hover-text: #0d0d0d;
+            /* Dark Mode Variables */
+            --background-color-dark: #0d0d0d;
+            --text-color-dark: #00ffcc;
+            --card-bg-dark: #1a1a1a;
+            --card-hover-bg-dark: #00ffcc;
+            --card-hover-text-dark: #0d0d0d;
+
+            /* Light Mode Variables */
+            --background-color-light: #f9f9f9;
+            --text-color-light: #222222;
+            --card-bg-light: #ffffff;
+            --card-hover-bg-light: #e0e0e0;
+            --card-hover-text-light: #000000;
+
+            /* Shared Variables */
+            --title-shadow-dark: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+            --title-shadow-light: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         body {
@@ -26,6 +38,7 @@
             justify-content: flex-start;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
@@ -33,6 +46,8 @@
             text-transform: uppercase;
             margin: 20px 0;
             animation: glow 1.5s infinite alternate;
+            text-shadow: var(--title-shadow-dark);
+            transition: text-shadow 0.3s, color 0.3s;
         }
 
         @keyframes glow {
@@ -84,7 +99,7 @@
         }
 
         .game:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             background-color: var(--card-hover-bg);
         }
 
@@ -117,10 +132,28 @@
             width: 300px;
             height: auto;
         }
+
+        .toggle-mode {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--card-hover-bg);
+            color: var(--card-hover-text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .toggle-mode:hover {
+            background-color: var(--card-hover-text);
+            color: var(--card-hover-bg);
+        }
     </style>
 </head>
 <body>
-    <h1>Web Games</h1>
+    <h1 id="pageTitle">Web Games</h1>
+    <button class="toggle-mode" id="toggleMode">Switch to Light Mode</button>
     <div class="search-bar">
         <input type="text" id="searchBar" onkeyup="filterGames()" placeholder="Search for games...">
     </div>
@@ -690,6 +723,59 @@
             const noResultsElement = document.getElementById('noResults');
             noResultsElement.style.display = hasResults ? 'none' : 'flex';
         }
+
+        // Utility function to set a cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+        }
+
+        // Utility function to get a cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Apply dark or light mode based on cookie
+        function applyMode(isDarkMode) {
+            const pageTitle = document.getElementById('pageTitle');
+            if (isDarkMode) {
+                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
+                document.body.style.setProperty('--card-bg', 'var(--card-bg-dark)');
+                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-dark)');
+                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-dark)');
+                pageTitle.style.textShadow = 'var(--title-shadow-dark)';
+                document.getElementById('toggleMode').textContent = 'Switch to Light Mode';
+            } else {
+                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
+                document.body.style.setProperty('--card-bg', 'var(--card-bg-light)');
+                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-light)');
+                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-light)');
+                pageTitle.style.textShadow = 'none'; // Remove glow in light mode
+                document.getElementById('toggleMode').textContent = 'Switch to Dark Mode';
+            }
+        }
+
+        // Toggle mode
+        const toggleModeButton = document.getElementById('toggleMode');
+        toggleModeButton.addEventListener('click', () => {
+            const isDarkMode = getCookie('darkMode') === 'true';
+            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
+            applyMode(!isDarkMode);
+        });
+
+        // Apply saved mode on load
+        const darkModeEnabled = getCookie('darkMode') === 'true';
+        applyMode(darkModeEnabled);
     </script>
 </body>
 </html>
