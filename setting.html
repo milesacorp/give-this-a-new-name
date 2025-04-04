@@ -104,6 +104,10 @@
             <span>Clear Cookies</span>
             <button id="clearCookies">Clear</button>
         </div>
+        <div class="setting-item">
+            <span>Save Search Input</span>
+            <button id="toggleSaveSearch">Enable</button>
+        </div>
     </div>
 
     <!-- Modal for confirmation -->
@@ -320,6 +324,7 @@
         // Apply saved Games Coming Soon preference on load
         applyGamesComingSoonSetting(gamesComingSoonEnabled);
 
+
         // Regional Settings
         const regionSelect = document.getElementById('regionSelect');
         const savedRegion = getCookie('region') || 'us'; // Default to 'us'
@@ -362,7 +367,7 @@
             applyFPSCounterSetting(false); // Default: FPS Counter disabled
             applyMaturityFilterSetting(false); // Default: Maturity Filter disabled
             applyTextToSpeechSetting(false); // Default: Text-to-Speech disabled
-            applyDateTimeSetting(false); // Default: Date and Time disabled
+          applyDateTimeSetting(false); // Default: Date and Time disabled
             applyGamesComingSoonSetting(false); // Default: Games Coming Soon disabled
 
             alert('Settings have been reset to default!');
