@@ -1,4 +1,4 @@
-    <html>
+</html>
     <script src="/games/flach games/ruffle.js"></script>
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <body>
@@ -6,6 +6,7 @@
             <embed src="/games/flach games/games for flach/the-binding.swf" width="1300" height="640" />
         </object>
     
+        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     </body>
 </html>
 <div id="fps-counter"></div>
@@ -46,27 +47,6 @@
         function calculateFPS() {
             let lastFrameTime = performance.now();
             let frames = 0;
-
-            function frameLoop() {
-                const now = performance.now();
-                frames++;
-
-                if (now - lastFrameTime >= 1000) {
-                    const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
-                    fpsCounter.textContent = `FPS: ${fps}`;
-                    frames = 0;
-                    lastFrameTime = now;
-                }
-                requestAnimationFrame(frameLoop);
-            }
-            frameLoop();
-        }
-
-        calculateFPS(); // Start FPS calculation
-    } else {
-        fpsCounter.style.display = 'none'; // Hide FPS counter
-    }
-</script>   let frames = 0;
 
             function frameLoop() {
                 const now = performance.now();
