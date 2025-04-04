@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moon Gaming</title>
@@ -87,6 +88,7 @@
     <div class="button-container">
         <button class="button" onclick="location.href='setting.html'">Settings</button>
         <button class="button" onclick="location.href='./WebGames-master/WebGames-master/index.html'">Games</button>
+        <button class="button" id="gamesComingSoonButton" style="display: none;" onclick="location.href='./gametoadd.html'">Games Coming Soon</button>
     </div>
 
     <script>
@@ -185,6 +187,13 @@
 
         if (dateTimeEnabled) {
             document.getElementById('clock').style.display = 'block'; // Show the clock
+        }
+
+        // Check if "Games Coming Soon" is enabled
+        const gamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
+
+        if (gamesComingSoonEnabled) {
+            document.getElementById('gamesComingSoonButton').style.display = 'inline-block'; // Show the button
         }
     </script>
 </body>
