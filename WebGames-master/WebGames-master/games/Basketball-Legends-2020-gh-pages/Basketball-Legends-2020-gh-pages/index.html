@@ -47,26 +47,47 @@
 }
 </style>
 <script>
-const fpsCounter = document.getElementById("fps-counter"); // Moved this to the correct place
+    const fpsCounter = document.getElementById("fps-counter");
 
-function calculateFPS() {
-    let lastFrameTime = performance.now();
-    let frames = 0;
-
-    function frameLoop() {
-        const now = performance.now();
-        frames++;
-
-        if (now - lastFrameTime >= 1000) {
-            const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
-            fpsCounter.textContent = `FPS: ${fps}`;
-            frames = 0;
-            lastFrameTime = now;
+    // Utility function to get a cookie
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
         }
-        requestAnimationFrame(frameLoop);
+        return null;
     }
-    frameLoop();
-}
 
-calculateFPS(); // Ensure the FPS calculation starts
+    // Check if FPS Counter is enabled
+    const fpsCounterEnabled = getCookie('fpsCounter') === 'true';
+
+    if (fpsCounterEnabled) {
+        fpsCounter.style.display = 'block'; // Show FPS counter
+
+        function calculateFPS() {
+            let lastFrameTime = performance.now();
+            let frames = 0;
+
+            function frameLoop() {
+                const now = performance.now();
+                frames++;
+
+                if (now - lastFrameTime >= 1000) {
+                    const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
+                    fpsCounter.textContent = `FPS: ${fps}`;
+                    frames = 0;
+                    lastFrameTime = now;
+                }
+                requestAnimationFrame(frameLoop);
+            }
+            frameLoop();
+        }
+
+        calculateFPS(); // Start FPS calculation
+    } else {
+        fpsCounter.style.display = 'none'; // Hide FPS counter
+    }
 </script>

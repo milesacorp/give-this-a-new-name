@@ -82,6 +82,7 @@
     </style>
 </head>
 <body>
+    <div id="clock" style="font-size: 1.5rem; margin-top: 10px; font-family: 'Orbitron', sans-serif; color: var(--text-color); display: none;"></div>
     <h1>Moon Gaming</h1>
     <div class="button-container">
         <button class="button" onclick="location.href='setting.html'">Settings</button>
@@ -133,6 +134,58 @@
         // Apply saved mode on load
         const darkModeEnabled = getCookie('darkMode') === 'true';
         applyDarkMode(darkModeEnabled);
+
+        // Clock Functionality
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            const dateString = now.toDateString(); // Get the current date as a string
+            document.getElementById('clock').innerHTML = `${dateString} <br> ${timeString}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initialize clock immediately
+
+        // Ensure FPS Counter is enabled by default
+        if (getCookie('fpsCounter') === null) {
+            setCookie('fpsCounter', 'true', 30); // Default to enabled
+        }
+
+        // Check if FPS Counter is enabled
+        const fpsCounterEnabled = getCookie('fpsCounter') === 'true';
+
+        if (fpsCounterEnabled) {
+            const fpsCounter = document.getElementById('fpsCounter');
+            let lastFrameTime = performance.now();
+            let frames = 0;
+
+            function calculateFPS() {
+                const now = performance.now();
+                frames++;
+
+                if (now - lastFrameTime >= 1000) {
+                    const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
+                    fpsCounter.textContent = `FPS: ${fps}`;
+                    frames = 0;
+                    lastFrameTime = now;
+                }
+
+                requestAnimationFrame(calculateFPS);
+            }
+
+            calculateFPS(); // Start FPS calculation
+        }
+
+        // Check if Date and Time is enabled
+        const dateTimeEnabled = getCookie('dateTime') === 'true';
+
+        if (dateTimeEnabled) {
+            document.getElementById('clock').style.display = 'block'; // Show the clock
+        }
     </script>
 </body>
 </html>
