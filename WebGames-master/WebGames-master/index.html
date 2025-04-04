@@ -149,11 +149,43 @@
             background-color: var(--card-hover-text);
             color: var(--card-hover-bg);
         }
+
+        .button-container {
+            margin: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--card-hover-bg);
+            color: var(--card-hover-text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: var(--card-hover-text);
+            color: var(--card-hover-bg);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
     <h1 id="pageTitle">Web Games</h1>
     <button class="toggle-mode" id="toggleMode">Switch to Light Mode</button>
+    <div class="button-container">
+        <a href="/index.html" class="button">Home</a>
+    </div>
     <div class="search-bar">
         <input type="text" id="searchBar" onkeyup="filterGames()" placeholder="Search for games...">
     </div>
