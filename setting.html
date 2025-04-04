@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
@@ -94,6 +95,10 @@
         <div class="setting-item">
             <span>Show Date and Time</span>
             <button id="toggleDateTime">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Show "Games Coming Soon" Button</span>
+            <button id="toggleGamesComingSoon">Enable</button>
         </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
@@ -277,6 +282,49 @@
         // Apply saved Text-to-Speech preference on load
         applyTextToSpeechSetting(textToSpeechEnabled);
 
+        // Date and Time Toggle
+        const toggleDateTimeButton = document.getElementById('toggleDateTime');
+        const dateTimeEnabled = getCookie('dateTime') === 'true';
+
+        function applyDateTimeSetting(enabled) {
+            if (enabled) {
+                toggleDateTimeButton.textContent = 'Disable';
+            } else {
+                toggleDateTimeButton.textContent = 'Enable';
+            }
+        }
+
+        toggleDateTimeButton.addEventListener('click', () => {
+            const isDateTimeEnabled = getCookie('dateTime') === 'true';
+            setCookie('dateTime', !isDateTimeEnabled, 30); // Save preference for 30 days
+            applyDateTimeSetting(!isDateTimeEnabled);
+        });
+
+        // Apply saved Date and Time preference on load
+        applyDateTimeSetting(dateTimeEnabled);
+
+        // Games Coming Soon Toggle
+        const toggleGamesComingSoonButton = document.getElementById('toggleGamesComingSoon');
+        const gamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
+
+        function applyGamesComingSoonSetting(enabled) {
+            if (enabled) {
+                toggleGamesComingSoonButton.textContent = 'Disable';
+            } else {
+                toggleGamesComingSoonButton.textContent = 'Enable';
+            }
+        }
+
+        toggleGamesComingSoonButton.addEventListener('click', () => {
+            const isGamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
+            setCookie('gamesComingSoon', !isGamesComingSoonEnabled, 30); // Save preference for 30 days
+            applyGamesComingSoonSetting(!isGamesComingSoonEnabled);
+        });
+
+        // Apply saved Games Coming Soon preference on load
+        applyGamesComingSoonSetting(gamesComingSoonEnabled);
+
+
         // Regional Settings
         const regionSelect = document.getElementById('regionSelect');
         const savedRegion = getCookie('region') || 'us'; // Default to 'us'
@@ -319,6 +367,8 @@
             applyFPSCounterSetting(false); // Default: FPS Counter disabled
             applyMaturityFilterSetting(false); // Default: Maturity Filter disabled
             applyTextToSpeechSetting(false); // Default: Text-to-Speech disabled
+          applyDateTimeSetting(false); // Default: Date and Time disabled
+            applyGamesComingSoonSetting(false); // Default: Games Coming Soon disabled
 
             alert('Settings have been reset to default!');
         });
