@@ -206,6 +206,7 @@ h1 {
     font-size: 3rem;
     text-transform: uppercase;
     animation: glow 1.5s infinite alternate;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
 }
 
 @keyframes glow {
