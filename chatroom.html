@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+            /* Apply dark theme to the entire page */
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #121212; /* Dark background */
+                color: #ffffff; /* Light text color */
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh; /* Full height */
+            }
+
+            /* Style for the chatroom widget */
+            .sil-widget-chatroom {
+                background-color: #1e1e1e; /* Darker background for the widget */
+                border: 1px solid #333; /* Subtle border */
+                border-radius: 8px; /* Rounded corners */
+                padding: 20px; /* Add some padding */
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add a soft shadow */
+                max-width: 90%; /* Responsive width */
+                max-height: 90%; /* Responsive height */
+                overflow: auto; /* Scroll if content overflows */
+                text-align: center; /* Center content */
+            }
+
+            .sil-widget-chatroom a {
+                color: #4caf50; /* Bright green for links */
+                text-decoration: none; /* Remove underline */
+                font-weight: bold;
+            }
+
+            .sil-widget-chatroom a:hover {
+                text-decoration: underline; /* Add underline on hover */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Start BawkBox Code -->
+        <script data-sil-id="67f523151533850013497ebb">
+            var loadWidget = function() {
+                var d = document, w = window, l = window.location, p = l.protocol == "file:" ? "http://" : "//";
+                if (!w.WS) w.WS = {};
+                c = w.WS;
+                var m = function(t, o) {
+                    var e = d.getElementsByTagName("script");
+                    e = e[e.length - 1];
+                    var n = d.createElement(t);
+                    if (t == "script") { n.async = true; }
+                    for (k in o) n[k] = o[k];
+                    e.parentNode.insertBefore(n, e);
+                };
+                m("script", { src: p + "bawkbox.com/widget/chatroom/67f523151533850013497ebb?page=" + encodeURIComponent(l + ''), type: 'text/javascript' });
+                c.load_net = m;
+            };
+            if (window.Squarespace) {
+                document.addEventListener('DOMContentLoaded', loadWidget);
+                setTimeout(function() {
+                    document.addEventListener('DOMContentLoaded', loadWidget);
+                }, 3000);
+            } else {
+                loadWidget();
+            }
+        </script>
+        <div class="sil-widget-chatroom sil-widget" id="sil-widget-67f523151533850013497ebb">
+            <a href="//bawkbox.com/install/chatroom">Public Chatroom</a>
+        </div>
+        <!-- End BawkBox Code -->
+    </body>
+</html>
