@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Games</title>
@@ -23,11 +22,8 @@
             --card-hover-text-light: #000000;
 
             /* Shared Variables */
-            --background-color: var(--background-color-light);
-            --text-color: var(--text-color-light);
-            --card-bg: var(--card-bg-light);
-            --card-hover-bg: var(--card-hover-bg-light);
-            --card-hover-text: var(--card-hover-text-light);
+            --title-shadow-dark: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+            --title-shadow-light: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         body {
@@ -49,7 +45,92 @@
             font-size: 3rem;
             text-transform: uppercase;
             margin: 20px 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            animation: glow 1.5s infinite alternate;
+            text-shadow: var(--title-shadow-dark);
+            transition: text-shadow 0.3s, color 0.3s;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--text-color), 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color);
+            }
+            to {
+                text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color), 0 0 40px var(--text-color), 0 0 50px var(--text-color);
+            }
+        }
+
+        .search-bar {
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid var(--text-color);
+            border-radius: 5px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #searchBar:focus {
+            border-color: var(--card-hover-bg);
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .game {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .game:hover {
+            transform: scale(1.05);
+            background-color: var(--card-hover-bg);
+        }
+
+        .game img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .game:hover img {
+            transform: scale(1.1);
+        }
+
+        .game-title {
+            padding: 10px;
+            font-size: 1rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+        }
+
+        .no-results {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .no-results img {
+            width: 300px;
+            height: auto;
         }
 
         .toggle-mode {
@@ -93,11 +174,15 @@
             background-color: var(--card-hover-text);
             color: var(--card-hover-bg);
         }
+
+        .button:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
     <h1 id="pageTitle">Web Games</h1>
-    <button class="toggle-mode" id="toggleMode">Switch to Dark Mode</button>
+    <button class="toggle-mode" id="toggleMode">Switch to Light Mode</button>
     <div class="button-container">
         <a href="/index.html" class="button">Home</a>
     </div>
@@ -187,6 +272,14 @@
                 <div class="game-title">Fnaf Collection</div>
             </a>
         </div>
+
+
+
+
+
+
+
+        
         <div class="game">
             <a href="games/The-Shadow-Reform.html">
                 <img src="assets/kaertt.png" alt="The Shadow Reform">
@@ -653,6 +746,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/cloakjs@latest/cloak.min.js"></script>
     <script>
+        function filterGames() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            const games = document.querySelectorAll('.game');
+            let hasResults = false;
+
+            games.forEach(game => {
+                const title = game.querySelector('.game-title').textContent.toLowerCase();
+                if (title.includes(searchInput)) {
+                    game.style.display = '';
+                    hasResults = true;
+                } else {
+                    game.style.display = 'none';
+                }
+            });
+
+            const noResultsElement = document.getElementById('noResults');
+            noResultsElement.style.display = hasResults ? 'none' : 'flex';
+        }
+
         // Utility function to set a cookie
         function setCookie(name, value, days) {
             const date = new Date();
@@ -673,59 +785,88 @@
         }
 
         // Apply dark or light mode based on cookie
-        function applyDarkMode(enabled) {
-            if (enabled) {
-                document.documentElement.style.setProperty('--background-color', 'var(--background-color-dark)');
-                document.documentElement.style.setProperty('--text-color', 'var(--text-color-dark)');
-                document.documentElement.style.setProperty('--card-bg', 'var(--card-bg-dark)');
-                document.documentElement.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-dark)');
-                document.documentElement.style.setProperty('--card-hover-text', 'var(--card-hover-text-dark)');
+        function applyMode(isDarkMode) {
+            const pageTitle = document.getElementById('pageTitle');
+            if (isDarkMode) {
+                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
+                document.body.style.setProperty('--card-bg', 'var(--card-bg-dark)');
+                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-dark)');
+                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-dark)');
+                pageTitle.style.textShadow = 'var(--title-shadow-dark)';
                 document.getElementById('toggleMode').textContent = 'Switch to Light Mode';
             } else {
-                document.documentElement.style.setProperty('--background-color', 'var(--background-color-light)');
-                document.documentElement.style.setProperty('--text-color', 'var(--text-color-light)');
-                document.documentElement.style.setProperty('--card-bg', 'var(--card-bg-light)');
-                document.documentElement.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-light)');
-                document.documentElement.style.setProperty('--card-hover-text', 'var(--card-hover-text-light)');
+                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
+                document.body.style.setProperty('--card-bg', 'var(--card-bg-light)');
+                document.body.style.setProperty('--card-hover-bg', 'var(--card-hover-bg-light)');
+                document.body.style.setProperty('--card-hover-text', 'var(--card-hover-text-light)');
+                pageTitle.style.textShadow = 'none'; // Remove glow in light mode
                 document.getElementById('toggleMode').textContent = 'Switch to Dark Mode';
             }
         }
 
-        // Check and apply saved mode on load
-        const darkModeEnabled = getCookie('darkMode') === 'true';
-        applyDarkMode(darkModeEnabled);
-
-        // Toggle dark mode on button click
-        document.getElementById('toggleMode').addEventListener('click', () => {
+        // Toggle mode
+        const toggleModeButton = document.getElementById('toggleMode');
+        toggleModeButton.addEventListener('click', () => {
             const isDarkMode = getCookie('darkMode') === 'true';
             setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
-            applyDarkMode(!isDarkMode);
+            applyMode(!isDarkMode);
         });
 
-        function filterGames() {
-            const searchInput = document.getElementById('searchBar').value.toLowerCase();
-            const games = document.querySelectorAll('.game');
-            let visibleGames = 0;
+        // Apply saved mode on load
+        const darkModeEnabled = getCookie('darkMode') === 'true';
+        applyMode(darkModeEnabled);
 
-            games.forEach(game => {
-                const title = game.querySelector('.game-title').textContent.toLowerCase();
-                if (title.includes(searchInput)) {
-                    game.style.display = '';
-                    visibleGames++;
-                } else {
-                    game.style.display = 'none';
-                }
+        // Check if CloakJS is enabled
+        const cloakJSEnabled = getCookie('cloakJS') === 'true';
+
+        if (cloakJSEnabled) {
+            // Initialize CloakJS
+            Cloak.init({
+                obfuscate: true, // Enable obfuscation
+                hideElements: ['.game a'], // Obfuscate game links
+                debug: false, // Enable debug mode for testing
             });
 
-            const gameContainer = document.querySelector('.game-container');
-            if (visibleGames === 1) {
-                gameContainer.classList.add('single-result');
-            } else {
-                gameContainer.classList.remove('single-result');
+            // Modify all game links to open in a new tab
+            const gameLinks = document.querySelectorAll('.game a');
+            gameLinks.forEach(link => {
+                link.setAttribute('target', '_blank'); // Open in a new tab
+            });
+        }
+
+        // Check if Maturity Filter is enabled
+        const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
+
+        if (maturityFilterEnabled) {
+            // Initialize CloakJS to hide mature games
+            Cloak.init({
+                hideElements: ['.game.mature'], // Hide elements with the "mature" class
+                debug: false, // Disable debug mode in production
+            });
+        }
+
+        // Check if Text-to-Speech is enabled
+        const textToSpeechEnabled = getCookie('textToSpeech') === 'true';
+
+        if (textToSpeechEnabled) {
+            // Function to read text aloud
+            function speakText(text) {
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'en-US'; // Set language
+                speech.rate = 1; // Set speed (1 is normal)
+                speech.pitch = 1; // Set pitch (1 is normal)
+                window.speechSynthesis.speak(speech);
             }
 
-            const noResultsElement = document.getElementById('noResults');
-            noResultsElement.style.display = visibleGames > 0 ? 'none' : 'flex';
+            // Example: Add TTS to game titles
+            const gameTitles = document.querySelectorAll('.game-title');
+            gameTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    speakText(title.textContent);
+                });
+            });
         }
     </script>
 </body>
