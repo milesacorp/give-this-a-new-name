@@ -181,7 +181,7 @@ body {
     --button-hover-text-dark: #0d0d0d;
 
     --background-color-light: #ffffff;
-    --text-color-light: #000000;
+    --text-color-light: #333333;
     --button-bg-light: #f0f0f0;
     --button-hover-bg-light: #333333;
     --button-hover-text-light: #ffffff;
@@ -206,7 +206,6 @@ h1 {
     font-size: 3rem;
     text-transform: uppercase;
     animation: glow 1.5s infinite alternate;
-    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
 }
 
 @keyframes glow {
@@ -245,21 +244,4 @@ h1 {
 
 .button:active {
     transform: scale(0.95);
-}
-
-.button img, .cal img {
-    border-radius: 8px;
-}
-
-.cal {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    display: block;
-}
-
-.light-mode .cal img {
-    filter: invert(1);
 }
