@@ -96,6 +96,8 @@
             overflow: hidden;
             text-align: center;
             transition: transform 0.3s, background-color 0.3s;
+            opacity: 1; /* Ensure visible by default */
+            transform: translateY(0); /* No animation applied */
         }
 
         .game:hover {
@@ -166,17 +168,24 @@
             border-radius: 5px;
             cursor: pointer;
             background-color: var(--card-hover-bg);
-            color: var(--card-hover-text);
+            color: var (--card-hover-text);
             transition: background-color 0.3s, color 0.3s;
         }
 
         .button:hover {
-            background-color: var(--card-hover-text);
+            background-color: var (--card-hover-text);
             color: var(--card-hover-bg);
         }
 
         .button:active {
             transform: scale(0.95);
+        }
+
+        #pageTitle {
+            display: inline-block; /* Required for letter animations */
+            opacity: 0; /* Start hidden */
+            transform: scale(0.8); /* Start slightly smaller */
+            transition: opacity 0.3s, transform 0.3s;
         }
     </style>
 </head>
@@ -272,14 +281,6 @@
                 <div class="game-title">Fnaf Collection</div>
             </a>
         </div>
-
-
-
-
-
-
-
-        
         <div class="game">
             <a href="games/The-Shadow-Reform.html">
                 <img src="assets/kaertt.png" alt="The Shadow Reform">
@@ -745,6 +746,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/cloakjs@latest/cloak.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
         function filterGames() {
             const searchInput = document.getElementById('searchBar').value.toLowerCase();
@@ -868,6 +870,178 @@
                 });
             });
         }
+
+        // Check if animation is enabled
+        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+        if (gameAnimationEnabled) {
+            // Function to animate a single game element
+            function animateGame(game) {
+                anime({
+                    targets: game,
+                    translateY: [-50, 0], // Fly in from above
+                    opacity: [0, 1], // Fade in
+                    duration: 800,
+                    easing: 'easeOutExpo',
+                });
+            }
+
+            // Create an Intersection Observer to detect when games come into view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Animate the game when it comes into view
+                        animateGame(entry.target);
+
+                        // Stop observing the element after animating it
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            // Select all game elements and hide them initially
+            const games = document.querySelectorAll('.game');
+            games.forEach(game => {
+                game.style.opacity = '0'; // Hide games
+                game.style.transform = 'translateY(-50px)'; // Move them above
+                observer.observe(game); // Start observing the game
+            });
+        }
     </script>
+    <script>
+        // Utility function to get a cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // Check if animation is enabled
+        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+        // Wait for the page to fully load
+        window.onload = () => {
+            if (gameAnimationEnabled) {
+                // Hide all game elements initially
+                const games = document.querySelectorAll('.game');
+                games.forEach(game => {
+                    game.style.opacity = '0'; // Hide games
+                    game.style.transform = 'translateY(-50px)'; // Move them above
+                });
+
+                // Add a 3-second delay before starting the animation
+                setTimeout(() => {
+                    anime({
+                        targets: '.game',
+                        translateY: [-50, 0], // Fly in from above
+                        opacity: [0, 1], // Fade in
+                        delay: anime.stagger(100), // Stagger animation for each card
+                        duration: 800,
+                        easing: 'easeOutExpo',
+                    });
+                }, 3000); // 3000 milliseconds = 3 seconds
+            }
+        };
+    </script>
+    <script>
+    // Wait for the page to fully load
+    window.onload = () => {
+        // Select all game elements
+        const games = document.querySelectorAll('.game');
+
+        // Hide all game elements initially
+        games.forEach(game => {
+            game.style.opacity = '0'; // Hide games
+            game.style.transform = 'scale(0.5) rotate(45deg)'; // Shrink and rotate
+        });
+
+        // Add a delay before starting the animation
+        setTimeout(() => {
+            anime({
+                targets: '.game',
+                opacity: [0, 1], // Fade in
+                scale: [0.5, 1], // Scale up
+                rotate: ['45deg', '0deg'], // Rotate back to normal
+                delay: anime.stagger(150), // Stagger animation for each card
+                duration: 1000, // Animation duration
+                easing: 'easeOutElastic(1, .8)', // Elastic easing for a bouncy effect
+            });
+        }, 2000); // 2-second delay before animation starts
+    };
+</script>
+    <script>
+    // Utility function to get a cookie
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null;
+    }
+
+    // Function to animate the "WEB GAMES" title
+    function animateTitle() {
+        anime({
+            targets: '#pageTitle',
+            opacity: [0, 1], // Fade in
+            scale: [0.8, 1], // Scale up
+            delay: 500, // Start after 500ms
+            duration: 1000, // Animation duration
+            easing: 'easeOutExpo', // Smooth easing
+        });
+    }
+
+    // Function to animate game elements
+    function animateGames() {
+        const games = document.querySelectorAll('.game');
+        games.forEach(game => {
+            game.style.opacity = '0'; // Hide games initially
+            game.style.transform = 'translateY(-50px)'; // Move them above
+        });
+
+        // Use Anime.js to animate the games
+        anime({
+            targets: '.game',
+            translateY: [-50, 0], // Fly in from above
+            opacity: [0, 1], // Fade in
+            delay: anime.stagger(100), // Stagger animation for each card
+            duration: 800, // Animation duration
+            easing: 'easeOutExpo',
+        });
+    }
+
+    // Check if animation is enabled
+    const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+    // Trigger animations on page load if enabled
+    window.onload = () => {
+        if (gameAnimationEnabled) {
+            animateTitle();
+            animateGames();
+        }
+    };
+
+    // Toggle Game Animation Button Logic
+    const toggleGameAnimationButton = document.getElementById('toggleGameAnimation');
+    toggleGameAnimationButton.addEventListener('click', () => {
+        const isEnabled = getCookie('gameAnimation') === 'true';
+        setCookie('gameAnimation', !isEnabled, 30); // Save preference for 30 days
+        toggleGameAnimationButton.textContent = isEnabled ? 'Enable' : 'Disable';
+
+        if (!isEnabled) {
+            // Trigger animations when enabled
+            animateTitle();
+            animateGames();
+        }
+    });
+</script>
 </body>
 </html>

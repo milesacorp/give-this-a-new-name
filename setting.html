@@ -100,6 +100,10 @@
             <span>Save Search Input</span>
             <button id="toggleSaveSearch">Enable</button>
         </div>
+        <div class="setting-item">
+            <span>Enable Game Animation</span>
+            <button id="toggleGameAnimation">Enable</button>
+        </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
             <button id="clearCookies">Clear</button>
@@ -136,6 +140,32 @@
             }
             return null;
         }
+
+        // Function to toggle a setting
+        function toggleSetting(buttonId, cookieName) {
+            const button = document.getElementById(buttonId);
+            const isEnabled = getCookie(cookieName) === 'true';
+
+            // Set initial button text
+            button.textContent = isEnabled ? 'Disable' : 'Enable';
+
+            // Add event listener to toggle the setting
+            button.addEventListener('click', () => {
+                const currentState = getCookie(cookieName) === 'true';
+                setCookie(cookieName, !currentState, 30); // Save preference for 30 days
+                button.textContent = currentState ? 'Enable' : 'Disable';
+            });
+        }
+
+        // Apply toggle functionality to all buttons
+        toggleSetting('toggleDarkMode', 'darkMode');
+        toggleSetting('toggleCloakJS', 'cloakJS');
+        toggleSetting('toggleFPSCounter', 'fpsCounter');
+        toggleSetting('toggleMaturityFilter', 'maturityFilter');
+        toggleSetting('toggleTextToSpeech', 'textToSpeech');
+        toggleSetting('toggleDateTime', 'dateTime');
+        toggleSetting('toggleSaveSearch', 'saveSearch');
+        toggleSetting('toggleGameAnimation', 'gameAnimation');
 
         // Remove the toggle button from other pages
         const toggleDarkModeButton = document.getElementById('toggleDarkMode');
@@ -368,6 +398,19 @@
             applyGamesComingSoonSetting(false); // Default: Games Coming Soon disabled
 
             alert('Settings have been reset to default!');
+        });
+
+        // Handle Game Animation Toggle
+        const toggleGameAnimationButton = document.getElementById('toggleGameAnimation');
+        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+        // Set initial button state
+        toggleGameAnimationButton.textContent = gameAnimationEnabled ? 'Disable' : 'Enable';
+
+        toggleGameAnimationButton.addEventListener('click', () => {
+            const isEnabled = getCookie('gameAnimation') === 'true';
+            setCookie('gameAnimation', !isEnabled, 30); // Save preference for 30 days
+            toggleGameAnimationButton.textContent = isEnabled ? 'Enable' : 'Disable';
         });
     </script>
 </body>
