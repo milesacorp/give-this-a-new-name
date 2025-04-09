@@ -137,10 +137,10 @@
             return null;
         }
 
-        // Dark Mode Toggle
+        // Remove the toggle button from other pages
         const toggleDarkModeButton = document.getElementById('toggleDarkMode');
-        const darkModeEnabled = getCookie('darkMode') === 'true';
 
+        // Ensure this button is the only one controlling dark mode
         function applyDarkMode(enabled) {
             if (enabled) {
                 document.body.style.setProperty('--background-color', '#121212');
@@ -162,6 +162,7 @@
         });
 
         // Apply saved dark mode preference on load
+        const darkModeEnabled = getCookie('darkMode') === 'true';
         applyDarkMode(darkModeEnabled);
 
         // Clear Cookies Button

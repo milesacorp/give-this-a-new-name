@@ -130,6 +130,20 @@
         .event-details .save-button:hover {
             background: #45a049;
         }
+        .event-details #close-details {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .event-details #close-details:hover {
+            background: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -182,6 +196,39 @@
             '2025-05-04': 'Gay Day'
         };
 
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = `expires=${date.toUTCString()}`;
+            document.cookie = `${name}=${value};${expires};path=/`;
+        }
+
+        function getCookie(name) {
+            const nameEQ = `${name}=`;
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return cookie.substring(nameEQ.length, cookie.length);
+                }
+            }
+            return null;
+        }
+
+        function saveCurrentMonthYear(month, year) {
+            setCookie('calendarMonth', month, 30);
+            setCookie('calendarYear', year, 30);
+        }
+
+        function loadSavedMonthYear() {
+            const savedMonth = getCookie('calendarMonth');
+            const savedYear = getCookie('calendarYear');
+            if (savedMonth !== null && savedYear !== null) {
+                currentMonth = parseInt(savedMonth, 10);
+                currentYear = parseInt(savedYear, 10);
+            }
+        }
+
         function renderCalendar(month, year) {
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -212,6 +259,11 @@
             const eventText = events[dateKey] || 'No event selected.';
             eventDate.textContent = `Date: ${dateKey}`;
             eventDescription.textContent = eventText;
+            eventDescription.className = ''; // Clear previous class
+            if (eventText !== 'No event selected.') {
+                const sanitizedClassName = eventText.replace(/[^a-zA-Z0-9-]/g, '').replace(/\s+/g, '-').toLowerCase();
+                eventDescription.classList.add(sanitizedClassName); // Set sanitized class name based on event name
+            }
             eventDetails.classList.add('active'); // Show sidebar
         }
 
@@ -225,6 +277,7 @@
                 currentMonth = 11;
                 currentYear--;
             }
+            saveCurrentMonthYear(currentMonth, currentYear);
             renderCalendar(currentMonth, currentYear);
         });
 
@@ -234,10 +287,14 @@
                 currentMonth = 0;
                 currentYear++;
             }
+            saveCurrentMonthYear(currentMonth, currentYear);
             renderCalendar(currentMonth, currentYear);
         });
 
+        loadSavedMonthYear();
         renderCalendar(currentMonth, currentYear);
     </script>
 </body>
 </html>
+<div class="Gay Day">hi mom</div>
+<p class="Gay Day">hi mom</p>
