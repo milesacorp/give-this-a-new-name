@@ -875,11 +875,11 @@
         function animateGame(game) {
             anime({
                 targets: game,
-                translateY: [-50, 0], // Fly in from above
-                rotate: [-10, 0], // Rotate back to normal
                 opacity: [0, 1], // Fade in
-                duration: 1000, // Animation duration
-                easing: 'easeOutElastic(1, 0.5)', // Elastic easing for a bouncy effect
+                translateY: [-50, 0], // Slide down
+                rotate: [-45, 0], // Small spin counterclockwise (start at -45 degrees and rotate to 0)
+                duration: 3000, // Animation duration (3 seconds)
+                easing: 'easeOutExpo', // Smooth easing
             });
         }
 
@@ -900,41 +900,9 @@
         const games = document.querySelectorAll('.game');
         games.forEach(game => {
             game.style.opacity = '0'; // Hide games initially
-            game.style.transform = 'translateY(-50px) rotate(-10deg)'; // Move them above and rotate slightly
+            game.style.transform = 'translateY(-50px) rotate(-45deg)'; // Move them above and rotate counterclockwise
             observer.observe(game); // Start observing the game
         });
-
-        // Utility function to get a cookie
-        function getCookie(name) {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    return cookie.substring(name.length + 1);
-                }
-            }
-            return null;
-        }
-
-        // Function to animate game elements
-        function animateGames() {
-            const games = document.querySelectorAll('.game');
-            games.forEach(game => {
-                game.style.opacity = '0'; // Hide games initially
-                game.style.transform = 'translateY(-50px) rotate(-10deg)'; // Move them above and rotate slightly
-            });
-
-            // Use Anime.js to animate the games
-            anime({
-                targets: '.game',
-                translateY: [-50, 0], // Fly in from above
-                rotate: [-10, 0], // Rotate back to normal
-                opacity: [0, 1], // Fade in
-                delay: anime.stagger(150), // Stagger animation for each card
-                duration: 1000, // Animation duration
-                easing: 'easeOutElastic(1, 0.5)', // Elastic easing for a bouncy effect
-            });
-        }
 
         // Check if animation is enabled
         const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
@@ -942,7 +910,13 @@
         // Trigger animations on page load if enabled
         window.onload = () => {
             if (gameAnimationEnabled) {
-                animateGames();
+                games.forEach(game => observer.observe(game));
+            } else {
+                // Make all games visible without animation
+                games.forEach(game => {
+                    game.style.opacity = '1';
+                    game.style.transform = 'none';
+                });
             }
         };
     </script>

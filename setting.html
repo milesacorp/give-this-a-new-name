@@ -74,6 +74,10 @@
         .setting-item.clear-cookies button:hover {
             background-color: #cc0000;
         }
+
+        h1, .setting-item {
+            opacity: 0; /* Hide elements initially */
+        }
     </style>
 </head>
 
@@ -137,6 +141,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
         // Utility function to set a cookie
         function setCookie(name, value, days) {
@@ -170,6 +175,48 @@
             }
         }
 
+        // Function to animate the title
+        function animateTitle() {
+            anime({
+                targets: 'h1',
+                opacity: [0, 1], // Fade in
+                translateY: [-50, 0], // Slide down
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to animate the settings items
+        function animateSettingsItems() {
+            anime({
+                targets: '.setting-item',
+                opacity: [0, 1], // Fade in
+                translateY: [20, 0], // Slide up
+                delay: anime.stagger(150), // Stagger animation for each item
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to toggle animations
+        function toggleAnimations() {
+            const animationsEnabled = getCookie('gameAnimation') === 'true';
+            if (animationsEnabled) {
+                animateTitle();
+                animateSettingsItems();
+            } else {
+                // Make everything visible without animations
+                document.querySelector('h1').style.opacity = '1';
+                document.querySelector('h1').style.transform = 'none';
+
+                const settingsItems = document.querySelectorAll('.setting-item');
+                settingsItems.forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'none';
+                });
+            }
+        }
+
         // Function to toggle a setting
         function toggleSetting(buttonId, cookieName) {
             const button = document.getElementById(buttonId);
@@ -193,8 +240,23 @@
                 if (cookieName === 'darkMode') {
                     applyDarkMode(!currentState);
                 }
+
+                // Trigger animations dynamically
+                if (cookieName === 'gameAnimation') {
+                    toggleAnimations();
+                }
             });
         }
+
+        // Ensure animations are enabled by default
+        if (getCookie('gameAnimation') === null) {
+            setCookie('gameAnimation', 'true', 30); // Default to animations enabled
+        }
+
+        // Trigger animations on page load
+        window.onload = () => {
+            toggleAnimations();
+        };
 
         // Apply toggle functionality to all buttons
         toggleSetting('toggleDarkMode', 'darkMode');

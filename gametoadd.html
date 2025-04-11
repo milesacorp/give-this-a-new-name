@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games to Add</title>
@@ -104,11 +105,14 @@
             background-color: var(--button-hover-bg);
             color: var(--button-hover-text);
         }
+
+        h1, .button-container .button, ul li {
+            opacity: 0; /* Hide elements initially */
+        }
     </style>
 </head>
 <body>
     <h1>Games to Add</h1>
-    <button class="button" id="toggleMode">Switch to Light Mode</button>
     <div class="button-container">
         <a href="/index.html" class="button">Home</a>
     </div>
@@ -148,33 +152,115 @@
                 document.body.style.setProperty('--button-bg', 'var(--button-bg-dark)');
                 document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-dark)');
                 document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-dark)');
-                document.getElementById('toggleMode').textContent = 'Switch to Light Mode';
             } else {
                 document.body.style.setProperty('--background-color', 'var(--background-color-light)');
                 document.body.style.setProperty('--text-color', 'var(--text-color-light)');
                 document.body.style.setProperty('--button-bg', 'var(--button-bg-light)');
                 document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-light)');
                 document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-light)');
-                document.getElementById('toggleMode').textContent = 'Switch to Dark Mode';
             }
         }
-
-        // Toggle mode
-        const toggleModeButton = document.getElementById('toggleMode');
-        toggleModeButton.addEventListener('click', () => {
-            const isDarkMode = getCookie('darkMode') === 'true';
-            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
-            applyMode(!isDarkMode);
-        });
 
         // Apply saved mode on load
         const darkModeEnabled = getCookie('darkMode') === 'true';
         applyMode(darkModeEnabled);
+
+        // Function to animate the title
+        function animateTitle() {
+            anime({
+                targets: 'h1',
+                opacity: [0, 1], // Fade in
+                translateY: [-50, 0], // Slide down
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to animate the buttons
+        function animateButtons() {
+            anime({
+                targets: '.button-container .button',
+                opacity: [0, 1], // Fade in
+                translateX: [-50, 0], // Slide in from the left
+                delay: anime.stagger(200), // Stagger animation for each button
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to animate the list items
+        function animateListItems() {
+            anime({
+                targets: 'ul li',
+                opacity: [0, 1], // Fade in
+                translateY: [20, 0], // Slide up
+                delay: anime.stagger(150), // Stagger animation for each list item
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to toggle animations
+        function toggleAnimations() {
+            const animationsEnabled = getCookie('gameAnimation') === 'true';
+            if (animationsEnabled) {
+                animateTitle();
+                animateButtons();
+                animateListItems();
+            } else {
+                // Make everything visible without animations
+                document.querySelector('h1').style.opacity = '1';
+                document.querySelector('h1').style.transform = 'none';
+
+                const buttons = document.querySelectorAll('.button-container .button');
+                buttons.forEach(button => {
+                    button.style.opacity = '1';
+                    button.style.transform = 'none';
+                });
+
+                const listItems = document.querySelectorAll('ul li');
+                listItems.forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'none';
+                });
+            }
+        }
+
+        // Ensure animations are enabled by default
+        if (getCookie('gameAnimation') === null) {
+            setCookie('gameAnimation', 'true', 30); // Default to animations enabled
+        }
+
+        // Trigger animations on page load
+        window.onload = () => {
+            toggleAnimations();
+        };
     </script>
     <!-- begin wwww.htmlcommentbox.com -->
- <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Comment Form</a> is loading comments...</div>
- <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
- <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24piEQg.u8ZJ10jZd4Ns2cl%2F"+"&opts=16798&num=10&ts=1744117748100");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-<!-- end www.htmlcommentbox.com -->
+    <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Comment Form</a> is loading comments...</div>
+    <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+    <script type="text/javascript" id="hcb">
+        /*<!--*/
+        if (!window.hcb_user) {
+            hcb_user = {};
+        }
+        (function () {
+            var s = document.createElement("script"),
+                l = hcb_user.PAGE || ("" + window.location).replace(/'/g, "%27"),
+                h = "https://www.htmlcommentbox.com";
+            s.setAttribute("type", "text/javascript");
+            s.setAttribute(
+                "src",
+                h +
+                    "/jread?page=" +
+                    encodeURIComponent(l).replace("+", "%2B") +
+                    "&mod=%241%24wq1rdBcg%24piEQg.u8ZJ10jZd4Ns2cl%2F" +
+                    "&opts=16798&num=10&ts=1744117748100"
+            );
+            if (typeof s != "undefined") document.getElementsByTagName("head")[0].appendChild(s);
+        })();
+        /*-->*/
+    </script>
+    <!-- end www.htmlcommentbox.com -->
 </body>
 </html>
