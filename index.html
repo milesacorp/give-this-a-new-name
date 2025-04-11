@@ -149,12 +149,12 @@
             // Make the title visible
             const title = document.querySelector('h1');
             if (title) {
-                title.style.opacity = '1';
+                title.style.opacity = '1'; // Ensure the title is fully visible
                 title.style.transform = 'none';
             }
 
             // Make all buttons visible
-            const buttons = document.querySelectorAll('.button, .calendar-button');
+            const buttons = document.querySelectorAll('.button, .calendar-button, .button-container');
             buttons.forEach(button => {
                 button.style.opacity = '1'; // Ensure the button is fully visible
                 button.style.transform = 'none'; // Reset any transform styles

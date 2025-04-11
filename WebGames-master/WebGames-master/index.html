@@ -871,44 +871,39 @@
             });
         }
 
-        // Check if animation is enabled
-        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
-        if (gameAnimationEnabled) {
-            // Function to animate a single game element
-            function animateGame(game) {
-                anime({
-                    targets: game,
-                    translateY: [-50, 0], // Fly in from above
-                    opacity: [0, 1], // Fade in
-                    duration: 800,
-                    easing: 'easeOutExpo',
-                });
-            }
-
-            // Create an Intersection Observer to detect when games come into view
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Animate the game when it comes into view
-                        animateGame(entry.target);
-
-                        // Stop observing the element after animating it
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-
-            // Select all game elements and hide them initially
-            const games = document.querySelectorAll('.game');
-            games.forEach(game => {
-                game.style.opacity = '0'; // Hide games
-                game.style.transform = 'translateY(-50px)'; // Move them above
-                observer.observe(game); // Start observing the game
+        // Function to animate a single game element
+        function animateGame(game) {
+            anime({
+                targets: game,
+                translateY: [-50, 0], // Fly in from above
+                rotate: [-10, 0], // Rotate back to normal
+                opacity: [0, 1], // Fade in
+                duration: 1000, // Animation duration
+                easing: 'easeOutElastic(1, 0.5)', // Elastic easing for a bouncy effect
             });
         }
-    </script>
-    <script>
+
+        // Create an Intersection Observer to detect when games come into view
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate the game when it comes into view
+                    animateGame(entry.target);
+
+                    // Stop observing the element after animating it
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Select all game elements and hide them initially
+        const games = document.querySelectorAll('.game');
+        games.forEach(game => {
+            game.style.opacity = '0'; // Hide games initially
+            game.style.transform = 'translateY(-50px) rotate(-10deg)'; // Move them above and rotate slightly
+            observer.observe(game); // Start observing the game
+        });
+
         // Utility function to get a cookie
         function getCookie(name) {
             const cookies = document.cookie.split(';');
@@ -926,17 +921,18 @@
             const games = document.querySelectorAll('.game');
             games.forEach(game => {
                 game.style.opacity = '0'; // Hide games initially
-                game.style.transform = 'translateY(-50px)'; // Move them above
+                game.style.transform = 'translateY(-50px) rotate(-10deg)'; // Move them above and rotate slightly
             });
 
             // Use Anime.js to animate the games
             anime({
                 targets: '.game',
                 translateY: [-50, 0], // Fly in from above
+                rotate: [-10, 0], // Rotate back to normal
                 opacity: [0, 1], // Fade in
-                delay: anime.stagger(100), // Stagger animation for each card
-                duration: 800, // Animation duration
-                easing: 'easeOutExpo',
+                delay: anime.stagger(150), // Stagger animation for each card
+                duration: 1000, // Animation duration
+                easing: 'easeOutElastic(1, 0.5)', // Elastic easing for a bouncy effect
             });
         }
 

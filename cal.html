@@ -172,6 +172,7 @@
         <h2>Event Details</h2>
         <p id="event-date">Date: Not selected</p>
         <p id="event-description">No event selected.</p>
+        <p id="event-extra-description" style="display: none;">This is star word day</p>
         <button id="close-details">Close</button>
     </div>
 
@@ -259,11 +260,15 @@
             const eventText = events[dateKey] || 'No event selected.';
             eventDate.textContent = `Date: ${dateKey}`;
             eventDescription.textContent = eventText;
-            eventDescription.className = ''; // Clear previous class
-            if (eventText !== 'No event selected.') {
-                const sanitizedClassName = eventText.replace(/[^a-zA-Z0-9-]/g, '').replace(/\s+/g, '-').toLowerCase();
-                eventDescription.classList.add(sanitizedClassName); // Set sanitized class name based on event name
+
+            // Show extra description for "Gay Day"
+            const extraDescription = document.getElementById('event-extra-description');
+            if (dateKey === '2025-05-04') {
+                extraDescription.style.display = 'block';
+            } else {
+                extraDescription.style.display = 'none';
             }
+
             eventDetails.classList.add('active'); // Show sidebar
         }
 
@@ -296,5 +301,3 @@
     </script>
 </body>
 </html>
-<div class="Gay Day">hi mom</div>
-<p class="Gay Day">hi mom</p>
