@@ -107,19 +107,17 @@
     </style>
 </head>
 <body>
-    <h1>Moon Gaming</h1>
-    <div class="button-container">
+    <h1 style="opacity: 0;">Moon Gaming</h1>
+    <div class="button-container" style="opacity: 0;">
         <button class="button" onclick="location.href='chatroom.html'">Chatroom</button>
         <button class="button" onclick="location.href='setting.html'">Settings</button>
         <button class="button" onclick="location.href='./WebGames-master/WebGames-master/index.html'">Games</button>
         <button class="button" id="gamesComingSoonButton" onclick="location.href='./gametoadd.html'">Coming Soon</button>
     </div>
+    <button class="calendar-button" style="opacity: 0;" onclick="location.href='cal.html'">Calendar</button>
 
     <!-- Add a clock element to display date and time -->
-    <div id="clock" style="display: none; font-size: 1.5rem; margin-top: 20px;"></div>
-
-    <!-- Calendar Button -->
-    <button class="calendar-button" onclick="location.href='cal.html'">Calendar</button>
+    <div id="clock" style="opacity: 0; font-size: 1.5rem; margin-top: 20px;"></div>
 
     <script>
         // Utility function to set a cookie
@@ -141,29 +139,111 @@
             return null;
         }
 
-        // Apply dark or light mode based on cookie
-        function applyDarkMode(enabled) {
-            if (enabled) {
-                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
-                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
-                document.body.style.setProperty('--button-bg', 'var(--button-bg-dark)');
-                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-dark)');
-                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-dark)');
-            } else {
-                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
-                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
-                document.body.style.setProperty('--button-bg', 'var(--button-bg-light)');
-                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-light)');
-                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-light)');
+        // Function to make everything visible if animations are turned off
+        function makeEverythingVisible() {
+            // Make the title visible
+            const title = document.querySelector('h1');
+            if (title) {
+                title.style.opacity = '1';
+                title.style.transform = 'none';
+            }
+
+            // Make all buttons visible
+            const buttons = document.querySelectorAll('.button, .calendar-button');
+            buttons.forEach(button => {
+                button.style.opacity = '1'; // Ensure the button is fully visible
+                button.style.transform = 'none'; // Reset any transform styles
+                button.style.display = 'inline-block'; // Ensure the button is displayed
+            });
+
+            // Make the clock visible
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.style.opacity = '1'; // Ensure the clock is fully visible
+                clockElement.style.transform = 'none'; // Reset any transform styles
+                clockElement.style.display = 'block'; // Ensure the clock is displayed
             }
         }
 
-        // Toggle dark mode
-        function toggleDarkMode() {
-            const darkModeEnabled = getCookie('darkMode') === 'true';
-            setCookie('darkMode', !darkModeEnabled, 30);
-            applyDarkMode(!darkModeEnabled);
+        // Function to update the clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            const dateString = now.toDateString();
+            document.getElementById('clock').innerHTML = `${dateString} <br> ${timeString}`;
         }
+
+        // Function to animate the clock
+        function animateClock() {
+            anime({
+                targets: '#clock',
+                opacity: [0, 1], // Fade in
+                translateY: [-20, 0], // Slide down slightly
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Function to animate the title and buttons
+        function animatePage() {
+            // Animate the title
+            anime({
+                targets: 'h1',
+                opacity: [0, 1], // Fade in
+                translateY: [-50, 0], // Slide down
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+
+            // Animate the buttons
+            anime({
+                targets: '.button-container, .calendar-button',
+                opacity: [0, 1], // Fade in
+                translateY: [50, 0], // Slide up
+                delay: anime.stagger(200), // Stagger animation for each button
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+                complete: () => {
+                    // Animate the clock after the buttons finish animating
+                    if (dateTimeEnabled) {
+                        const clockElement = document.getElementById('clock');
+                        clockElement.style.display = 'block'; // Ensure the clock is visible
+                        animateClock(); // Trigger the clock animation
+                        setInterval(updateClock, 1000); // Start updating the clock every second
+                        updateClock(); // Initialize the clock immediately
+                    }
+                },
+            });
+        }
+
+        // Wait for the page to fully load
+        window.onload = () => {
+            // Check if Game Animation is enabled
+            const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+            if (gameAnimationEnabled) {
+                animatePage();
+            } else {
+                // If animations are disabled, make everything visible
+                makeEverythingVisible();
+            }
+
+            // Check if Less Buttons is enabled
+            const lessButtonsEnabled = getCookie('lessButtons') === 'true';
+
+            if (lessButtonsEnabled) {
+                // Hide the specified buttons
+                document.querySelector("button[onclick*='chatroom.html']").style.display = 'none'; // Chatroom button
+                document.querySelector("button[onclick*='cal.html']").style.display = 'none'; // Calendar button
+                document.querySelector("button[onclick*='gametoadd.html']").style.display = 'none'; // Coming Soon button
+            }
+        };
+
+        // Check if Date and Time is enabled
+        const dateTimeEnabled = getCookie('dateTime') === 'true';
 
         // Ensure dark mode is the default
         if (getCookie('darkMode') === null) {
@@ -173,27 +253,6 @@
         // Apply saved mode on load
         const darkModeEnabled = getCookie('darkMode') === 'true';
         applyDarkMode(darkModeEnabled);
-
-        // Clock Functionality
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}:${seconds}`;
-            const dateString = now.toDateString(); // Get the current date as a string
-            document.getElementById('clock').innerHTML = `${dateString} <br> ${timeString}`;
-        }
-
-        // Check if Date and Time is enabled
-        const dateTimeEnabled = getCookie('dateTime') === 'true';
-
-        if (dateTimeEnabled) {
-            const clockElement = document.getElementById('clock');
-            clockElement.style.display = 'block'; // Show the clock
-            setInterval(updateClock, 1000); // Update the clock every second
-            updateClock(); // Initialize the clock immediately
-        }
 
         // Ensure FPS Counter is enabled by default
         if (getCookie('fpsCounter') === null) {
@@ -232,48 +291,29 @@
             document.getElementById('gamesComingSoonButton').style.display = 'inline-block'; // Show the button
         }
 
-        // Check if Less Buttons is enabled
-        const lessButtonsEnabled = getCookie('lessButtons') === 'true';
-
-        if (lessButtonsEnabled) {
-            // Hide the specified buttons
-            document.querySelector("button[onclick*='chatroom.html']").style.display = 'none'; // Chatroom button
-            document.querySelector("button[onclick*='cal.html']").style.display = 'none'; // Calendar button
-            document.querySelector("button[onclick*='gametoadd.html']").style.display = 'none'; // Coming Soon button
-        }
-
-        // Function to animate the title and buttons
-        function animatePage() {
-            // Animate the title
-            anime({
-                targets: 'h1',
-                opacity: [0, 1], // Fade in
-                translateY: [-50, 0], // Slide down
-                duration: 1000, // Animation duration
-                easing: 'easeOutExpo', // Smooth easing
-            });
-
-            // Animate the buttons
-            anime({
-                targets: '.button, .calendar-button',
-                opacity: [0, 1], // Fade in
-                translateY: [50, 0], // Slide up
-                delay: anime.stagger(200), // Stagger animation for each button
-                duration: 800, // Animation duration
-                easing: 'easeOutExpo', // Smooth easing
-            });
-        }
-
-        // Wait for the page to fully load
-        window.onload = () => {
-            // Check if Game Animation is enabled
-            const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
-            // Trigger the animation if enabled
-            if (gameAnimationEnabled) {
-                animatePage();
+        // Apply dark or light mode based on cookie
+        function applyDarkMode(enabled) {
+            if (enabled) {
+                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
+                document.body.style.setProperty('--button-bg', 'var(--button-bg-dark)');
+                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-dark)');
+                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-dark)');
+            } else {
+                document.body.style.setProperty('--background-color', 'var(--background-color-light)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-light)');
+                document.body.style.setProperty('--button-bg', 'var(--button-bg-light)');
+                document.body.style.setProperty('--button-hover-bg', 'var(--button-hover-bg-light)');
+                document.body.style.setProperty('--button-hover-text', 'var(--button-hover-text-light)');
             }
-        };
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            const darkModeEnabled = getCookie('darkMode') === 'true';
+            setCookie('darkMode', !darkModeEnabled, 30);
+            applyDarkMode(!darkModeEnabled);
+        }
     </script>
 </body>
 </html>

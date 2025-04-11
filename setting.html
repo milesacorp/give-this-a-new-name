@@ -11,12 +11,24 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="settings.css">
     <style>
+        :root {
+            /* Light mode variables */
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --card-background-color: #f9f9f9;
+
+            /* Dark mode variables */
+            --background-color-dark: #121212;
+            --text-color-dark: #ffffff;
+            --card-background-color-dark: #1e1e1e;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--background-color, #ffffff);
-            color: var(--text-color, #000000);
+            background-color: var(--background-color);
+            color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -26,7 +38,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            background-color: var(--card-background-color, #f9f9f9);
+            background-color: var(--card-background-color);
         }
 
         h1 {
@@ -77,7 +89,7 @@
             <button id="toggleDarkMode">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Enable CloakJS (comming soon)</span>
+            <span>Enable CloakJS (coming soon)</span>
             <button id="toggleCloakJS">Enable</button>
         </div>
         <div class="setting-item">
@@ -85,7 +97,7 @@
             <button id="toggleFPSCounter">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Enable Maturity Filter(comming-soon)</span>
+            <span>Enable Maturity Filter (coming soon)</span>
             <button id="toggleMaturityFilter">Enable</button>
         </div>
         <div class="setting-item">
@@ -101,7 +113,7 @@
             <button id="toggleSaveSearch">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Enable more Animation</span>
+            <span>Enable More Animation</span>
             <button id="toggleGameAnimation">Enable</button>
         </div>
         <div class="setting-item">
@@ -145,6 +157,19 @@
             return null;
         }
 
+        // Function to apply dark mode
+        function applyDarkMode(enabled) {
+            if (enabled) {
+                document.body.style.setProperty('--background-color', 'var(--background-color-dark)');
+                document.body.style.setProperty('--text-color', 'var(--text-color-dark)');
+                document.body.style.setProperty('--card-background-color', 'var(--card-background-color-dark)');
+            } else {
+                document.body.style.setProperty('--background-color', 'var(--background-color)');
+                document.body.style.setProperty('--text-color', 'var(--text-color)');
+                document.body.style.setProperty('--card-background-color', 'var(--card-background-color)');
+            }
+        }
+
         // Function to toggle a setting
         function toggleSetting(buttonId, cookieName) {
             const button = document.getElementById(buttonId);
@@ -153,11 +178,21 @@
             // Set initial button text
             button.textContent = isEnabled ? 'Disable' : 'Enable';
 
+            // Apply dark mode if enabled
+            if (cookieName === 'darkMode') {
+                applyDarkMode(isEnabled);
+            }
+
             // Add event listener to toggle the setting
             button.addEventListener('click', () => {
                 const currentState = getCookie(cookieName) === 'true';
                 setCookie(cookieName, !currentState, 30); // Save preference for 30 days
                 button.textContent = currentState ? 'Enable' : 'Disable';
+
+                // Apply dark mode dynamically
+                if (cookieName === 'darkMode') {
+                    applyDarkMode(!currentState);
+                }
             });
         }
 
@@ -171,265 +206,6 @@
         toggleSetting('toggleSaveSearch', 'saveSearch');
         toggleSetting('toggleGameAnimation', 'gameAnimation');
         toggleSetting('toggleLessButtons', 'lessButtons');
-
-        // Remove the toggle button from other pages
-        const toggleDarkModeButton = document.getElementById('toggleDarkMode');
-
-        // Ensure this button is the only one controlling dark mode
-        function applyDarkMode(enabled) {
-            if (enabled) {
-                document.body.style.setProperty('--background-color', '#121212');
-                document.body.style.setProperty('--text-color', '#ffffff');
-                document.body.style.setProperty('--card-background-color', '#1e1e1e');
-                toggleDarkModeButton.textContent = 'Disable';
-            } else {
-                document.body.style.setProperty('--background-color', '#ffffff');
-                document.body.style.setProperty('--text-color', '#000000');
-                document.body.style.setProperty('--card-background-color', '#f9f9f9');
-                toggleDarkModeButton.textContent = 'Enable';
-            }
-        }
-
-        toggleDarkModeButton.addEventListener('click', () => {
-            const isDarkMode = getCookie('darkMode') === 'true';
-            setCookie('darkMode', !isDarkMode, 30); // Save preference for 30 days
-            applyDarkMode(!isDarkMode);
-        });
-
-        // Apply saved dark mode preference on load
-        const darkModeEnabled = getCookie('darkMode') === 'true';
-        applyDarkMode(darkModeEnabled);
-
-        // Clear Cookies Button
-        const clearCookiesButton = document.getElementById('clearCookies');
-        const confirmationModal = document.getElementById('confirmationModal');
-        const cancelClearButton = document.getElementById('cancelClear');
-        const confirmClearButton = document.getElementById('confirmClear');
-
-        // Show confirmation modal when Clear Cookies is clicked
-        clearCookiesButton.addEventListener('click', () => {
-            confirmationModal.style.display = 'flex';
-        });
-
-        // Cancel clearing cookies
-        cancelClearButton.addEventListener('click', () => {
-            confirmationModal.style.display = 'none';
-        });
-
-        // Confirm clearing cookies
-        confirmClearButton.addEventListener('click', () => {
-            // Clear all cookies
-            document.cookie.split(";").forEach(cookie => {
-                document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
-            });
-
-            // Hide the modal
-            confirmationModal.style.display = 'none';
-
-            // Notify the user
-            alert('Cookies have been cleared!');
-        });
-
-        // CloakJS Toggle
-        const toggleCloakJSButton = document.getElementById('toggleCloakJS');
-        const cloakJSEnabled = getCookie('cloakJS') === 'true';
-
-        function applyCloakJSSetting(enabled) {
-            if (enabled) {
-                toggleCloakJSButton.textContent = 'Disable';
-            } else {
-                toggleCloakJSButton.textContent = 'Enable';
-            }
-        }
-
-        toggleCloakJSButton.addEventListener('click', () => {
-            const isCloakJSEnabled = getCookie('cloakJS') === 'true';
-            setCookie('cloakJS', !isCloakJSEnabled, 30); // Save preference for 30 days
-            applyCloakJSSetting(!isCloakJSEnabled);
-        });
-
-        // Apply saved CloakJS preference on load
-        applyCloakJSSetting(cloakJSEnabled);
-
-        // FPS Counter Toggle
-        const toggleFPSCounterButton = document.getElementById('toggleFPSCounter');
-        const fpsCounterEnabled = getCookie('fpsCounter') === 'true';
-
-        function applyFPSCounterSetting(enabled) {
-            if (enabled) {
-                toggleFPSCounterButton.textContent = 'Disable';
-            } else {
-                toggleFPSCounterButton.textContent = 'Enable';
-            }
-        }
-
-        toggleFPSCounterButton.addEventListener('click', () => {
-            const isFPSCounterEnabled = getCookie('fpsCounter') === 'true';
-            setCookie('fpsCounter', !isFPSCounterEnabled, 30); // Save preference for 30 days
-            applyFPSCounterSetting(!isFPSCounterEnabled);
-        });
-
-        // Apply saved FPS Counter preference on load
-        applyFPSCounterSetting(fpsCounterEnabled);
-
-        // Maturity Filter Toggle
-        const toggleMaturityFilterButton = document.getElementById('toggleMaturityFilter');
-        const maturityFilterEnabled = getCookie('maturityFilter') === 'true';
-
-        function applyMaturityFilterSetting(enabled) {
-            if (enabled) {
-                toggleMaturityFilterButton.textContent = 'Disable';
-            } else {
-                toggleMaturityFilterButton.textContent = 'Enable';
-            }
-        }
-
-        toggleMaturityFilterButton.addEventListener('click', () => {
-            const isMaturityFilterEnabled = getCookie('maturityFilter') === 'true';
-            setCookie('maturityFilter', !isMaturityFilterEnabled, 30); // Save preference for 30 days
-            applyMaturityFilterSetting(!isMaturityFilterEnabled);
-        });
-
-        // Apply saved Maturity Filter preference on load
-        applyMaturityFilterSetting(maturityFilterEnabled);
-
-        // Text-to-Speech Toggle
-        const toggleTextToSpeechButton = document.getElementById('toggleTextToSpeech');
-        const textToSpeechEnabled = getCookie('textToSpeech') === 'true';
-
-        function applyTextToSpeechSetting(enabled) {
-            if (enabled) {
-                toggleTextToSpeechButton.textContent = 'Disable';
-            } else {
-                toggleTextToSpeechButton.textContent = 'Enable';
-            }
-        }
-
-        toggleTextToSpeechButton.addEventListener('click', () => {
-            const isTextToSpeechEnabled = getCookie('textToSpeech') === 'true';
-            setCookie('textToSpeech', !isTextToSpeechEnabled, 30); // Save preference for 30 days
-            applyTextToSpeechSetting(!isTextToSpeechEnabled);
-        });
-
-        // Apply saved Text-to-Speech preference on load
-        applyTextToSpeechSetting(textToSpeechEnabled);
-
-        // Date and Time Toggle
-        const toggleDateTimeButton = document.getElementById('toggleDateTime');
-        const dateTimeEnabled = getCookie('dateTime') === 'true';
-
-        function applyDateTimeSetting(enabled) {
-            if (enabled) {
-                toggleDateTimeButton.textContent = 'Disable';
-            } else {
-                toggleDateTimeButton.textContent = 'Enable';
-            }
-        }
-
-        toggleDateTimeButton.addEventListener('click', () => {
-            const isDateTimeEnabled = getCookie('dateTime') === 'true';
-            setCookie('dateTime', !isDateTimeEnabled, 30); // Save preference for 30 days
-            applyDateTimeSetting(!isDateTimeEnabled);
-        });
-
-        // Apply saved Date and Time preference on load
-        applyDateTimeSetting(dateTimeEnabled);
-
-        // Games Coming Soon Toggle
-        const toggleGamesComingSoonButton = document.getElementById('toggleGamesComingSoon');
-        const gamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
-
-        function applyGamesComingSoonSetting(enabled) {
-            if (enabled) {
-                toggleGamesComingSoonButton.textContent = 'Disable';
-            } else {
-                toggleGamesComingSoonButton.textContent = 'Enable';
-            }
-        }
-
-        toggleGamesComingSoonButton.addEventListener('click', () => {
-            const isGamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
-            setCookie('gamesComingSoon', !isGamesComingSoonEnabled, 30); // Save preference for 30 days
-            applyGamesComingSoonSetting(!isGamesComingSoonEnabled);
-        });
-
-        // Apply saved Games Coming Soon preference on load
-        applyGamesComingSoonSetting(gamesComingSoonEnabled);
-
-
-        // Regional Settings
-        const regionSelect = document.getElementById('regionSelect');
-        const savedRegion = getCookie('region') || 'us'; // Default to 'us'
-
-        // Set the dropdown to the saved region
-        regionSelect.value = savedRegion;
-
-        // Save the selected region when changed
-        regionSelect.addEventListener('change', () => {
-            const selectedRegion = regionSelect.value;
-            setCookie('region', selectedRegion, 30); // Save preference for 30 days
-            alert(`Region set to: ${selectedRegion.toUpperCase()}`);
-        });
-
-        const region = getCookie('region') || 'us'; // Default to 'us'
-
-        // Example: Load regional content
-        if (region === 'fr') {
-            document.body.innerHTML += '<p>Bienvenue! (Welcome in French)</p>';
-        } else if (region === 'de') {
-            document.body.innerHTML += '<p>Willkommen! (Welcome in German)</p>';
-        } else if (region === 'jp') {
-            document.body.innerHTML += '<p>ようこそ! (Welcome in Japanese)</p>';
-        } else {
-            document.body.innerHTML += '<p>Welcome!</p>';
-        }
-
-        // Reset to Default Settings
-        const resetSettingsButton = document.getElementById('resetSettings');
-
-        resetSettingsButton.addEventListener('click', () => {
-            // Clear all cookies
-            document.cookie.split(";").forEach(cookie => {
-                document.cookie = cookie.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
-            });
-
-            // Reset UI elements to default states
-            applyDarkMode(false); // Default: Light mode
-            applyCloakJSSetting(false); // Default: CloakJS disabled
-            applyFPSCounterSetting(false); // Default: FPS Counter disabled
-            applyMaturityFilterSetting(false); // Default: Maturity Filter disabled
-            applyTextToSpeechSetting(false); // Default: Text-to-Speech disabled
-          applyDateTimeSetting(false); // Default: Date and Time disabled
-            applyGamesComingSoonSetting(false); // Default: Games Coming Soon disabled
-
-            alert('Settings have been reset to default!');
-        });
-
-        // Handle Game Animation Toggle
-        const toggleGameAnimationButton = document.getElementById('toggleGameAnimation');
-        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
-        // Set initial button state
-        toggleGameAnimationButton.textContent = gameAnimationEnabled ? 'Disable' : 'Enable';
-
-        toggleGameAnimationButton.addEventListener('click', () => {
-            const isEnabled = getCookie('gameAnimation') === 'true';
-            setCookie('gameAnimation', !isEnabled, 30); // Save preference for 30 days
-            toggleGameAnimationButton.textContent = isEnabled ? 'Enable' : 'Disable';
-        });
-
-        // Handle Less Buttons Toggle
-        const toggleLessButtonsButton = document.getElementById('toggleLessButtons');
-        const lessButtonsEnabled = getCookie('lessButtons') === 'true';
-
-        // Set initial button state
-        toggleLessButtonsButton.textContent = lessButtonsEnabled ? 'Disable' : 'Enable';
-
-        toggleLessButtonsButton.addEventListener('click', () => {
-            const isEnabled = getCookie('lessButtons') === 'true';
-            setCookie('lessButtons', !isEnabled, 30); // Save preference for 30 days
-            toggleLessButtonsButton.textContent = isEnabled ? 'Enable' : 'Disable';
-        });
     </script>
 </body>
 
