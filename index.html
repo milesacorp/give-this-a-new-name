@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/index.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
         :root {
             /* Light mode variables */
@@ -114,6 +115,8 @@
         <button class="button" id="gamesComingSoonButton" onclick="location.href='./gametoadd.html'">Coming Soon</button>
     </div>
 
+    <!-- Add a clock element to display date and time -->
+    <div id="clock" style="display: none; font-size: 1.5rem; margin-top: 20px;"></div>
 
     <!-- Calendar Button -->
     <button class="calendar-button" onclick="location.href='cal.html'">Calendar</button>
@@ -137,7 +140,6 @@
             }
             return null;
         }
-
 
         // Apply dark or light mode based on cookie
         function applyDarkMode(enabled) {
@@ -183,9 +185,15 @@
             document.getElementById('clock').innerHTML = `${dateString} <br> ${timeString}`;
         }
 
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-        updateClock(); // Initialize clock immediately
+        // Check if Date and Time is enabled
+        const dateTimeEnabled = getCookie('dateTime') === 'true';
+
+        if (dateTimeEnabled) {
+            const clockElement = document.getElementById('clock');
+            clockElement.style.display = 'block'; // Show the clock
+            setInterval(updateClock, 1000); // Update the clock every second
+            updateClock(); // Initialize the clock immediately
+        }
 
         // Ensure FPS Counter is enabled by default
         if (getCookie('fpsCounter') === null) {
@@ -217,13 +225,6 @@
             calculateFPS(); // Start FPS calculation
         }
 
-        // Check if Date and Time is enabled
-        const dateTimeEnabled = getCookie('dateTime') === 'true';
-
-        if (dateTimeEnabled) {
-            document.getElementById('clock').style.display = 'block'; // Show the clock
-        }
-
         // Check if "Games Coming Soon" is enabled
         const gamesComingSoonEnabled = getCookie('gamesComingSoon') === 'true';
 
@@ -231,6 +232,48 @@
             document.getElementById('gamesComingSoonButton').style.display = 'inline-block'; // Show the button
         }
 
+        // Check if Less Buttons is enabled
+        const lessButtonsEnabled = getCookie('lessButtons') === 'true';
+
+        if (lessButtonsEnabled) {
+            // Hide the specified buttons
+            document.querySelector("button[onclick*='chatroom.html']").style.display = 'none'; // Chatroom button
+            document.querySelector("button[onclick*='cal.html']").style.display = 'none'; // Calendar button
+            document.querySelector("button[onclick*='gametoadd.html']").style.display = 'none'; // Coming Soon button
+        }
+
+        // Function to animate the title and buttons
+        function animatePage() {
+            // Animate the title
+            anime({
+                targets: 'h1',
+                opacity: [0, 1], // Fade in
+                translateY: [-50, 0], // Slide down
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+
+            // Animate the buttons
+            anime({
+                targets: '.button, .calendar-button',
+                opacity: [0, 1], // Fade in
+                translateY: [50, 0], // Slide up
+                delay: anime.stagger(200), // Stagger animation for each button
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
+
+        // Wait for the page to fully load
+        window.onload = () => {
+            // Check if Game Animation is enabled
+            const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+            // Trigger the animation if enabled
+            if (gameAnimationEnabled) {
+                animatePage();
+            }
+        };
     </script>
 </body>
 </html>

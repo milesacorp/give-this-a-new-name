@@ -777,7 +777,7 @@
         // Utility function to get a cookie
         function getCookie(name) {
             const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
+            for (let i = 0; cookies.length; i++) {
                 const cookie = cookies[i].trim();
                 if (cookie.startsWith(name + '=')) {
                     return cookie.substring(name.length + 1);
@@ -912,7 +912,7 @@
         // Utility function to get a cookie
         function getCookie(name) {
             const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
+            for (let i = 0; cookies.length; i++) {
                 const cookie = cookies[i].trim();
                 if (cookie.startsWith(name + '=')) {
                     return cookie.substring(name.length + 1);
@@ -921,127 +921,85 @@
             return null;
         }
 
-        // Check if animation is enabled
-        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
         // Wait for the page to fully load
         window.onload = () => {
-            if (gameAnimationEnabled) {
-                // Hide all game elements initially
-                const games = document.querySelectorAll('.game');
-                games.forEach(game => {
-                    game.style.opacity = '0'; // Hide games
-                    game.style.transform = 'translateY(-50px)'; // Move them above
-                });
+            // Select all game elements
+            const games = document.querySelectorAll('.game');
 
-                // Add a 3-second delay before starting the animation
-                setTimeout(() => {
-                    anime({
-                        targets: '.game',
-                        translateY: [-50, 0], // Fly in from above
-                        opacity: [0, 1], // Fade in
-                        delay: anime.stagger(100), // Stagger animation for each card
-                        duration: 800,
-                        easing: 'easeOutExpo',
-                    });
-                }, 3000); // 3000 milliseconds = 3 seconds
-            }
+            // Hide all game elements initially
+            games.forEach(game => {
+                game.style.opacity = '0'; // Hide games
+                game.style.transform = 'scale(0.5) rotate(45deg)'; // Shrink and rotate
+            });
+
+            // Add a delay before starting the animation
+            setTimeout(() => {
+                anime({
+                    targets: '.game',
+                    opacity: [0, 1], // Fade in
+                    scale: [0.5, 1], // Scale up
+                    rotate: ['45deg', '0deg'], // Rotate back to normal
+                    delay: anime.stagger(150), // Stagger animation for each card
+                    duration: 1000, // Animation duration
+                    easing: 'easeOutElastic(1, .8)', // Elastic easing for a bouncy effect
+                });
+            }, 100); // 2-second delay before animation starts
         };
     </script>
     <script>
-    // Wait for the page to fully load
-    window.onload = () => {
-        // Select all game elements
-        const games = document.querySelectorAll('.game');
+        // Utility function to get a cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
 
-        // Hide all game elements initially
-        games.forEach(game => {
-            game.style.opacity = '0'; // Hide games
-            game.style.transform = 'scale(0.5) rotate(45deg)'; // Shrink and rotate
-        });
+        // Function to animate the "WEB GAMES" title
+        function animateTitle() {
+            anime({
+                targets: '#pageTitle',
+                opacity: [0, 1], // Fade in
+                scale: [0.8, 1], // Scale up
+                delay: 500, // Start after 500ms
+                duration: 1000, // Animation duration
+                easing: 'easeOutExpo', // Smooth easing
+            });
+        }
 
-        // Add a delay before starting the animation
-        setTimeout(() => {
+        // Function to animate game elements
+        function animateGames() {
+            const games = document.querySelectorAll('.game');
+            games.forEach(game => {
+                game.style.opacity = '0'; // Hide games initially
+                game.style.transform = 'translateY(-50px)'; // Move them above
+            });
+
+            // Use Anime.js to animate the games
             anime({
                 targets: '.game',
+                translateY: [-50, 0], // Fly in from above
                 opacity: [0, 1], // Fade in
-                scale: [0.5, 1], // Scale up
-                rotate: ['45deg', '0deg'], // Rotate back to normal
-                delay: anime.stagger(150), // Stagger animation for each card
-                duration: 1000, // Animation duration
-                easing: 'easeOutElastic(1, .8)', // Elastic easing for a bouncy effect
+                delay: anime.stagger(100), // Stagger animation for each card
+                duration: 800, // Animation duration
+                easing: 'easeOutExpo',
             });
-        }, 2000); // 2-second delay before animation starts
-    };
-</script>
-    <script>
-    // Utility function to get a cookie
-    function getCookie(name) {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.startsWith(name + '=')) {
-                return cookie.substring(name.length + 1);
+        }
+
+        // Check if animation is enabled
+        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
+        // Trigger animations on page load if enabled
+        window.onload = () => {
+            if (gameAnimationEnabled) {
+                animateTitle();
+                animateGames();
             }
-        }
-        return null;
-    }
+        };
 
-    // Function to animate the "WEB GAMES" title
-    function animateTitle() {
-        anime({
-            targets: '#pageTitle',
-            opacity: [0, 1], // Fade in
-            scale: [0.8, 1], // Scale up
-            delay: 500, // Start after 500ms
-            duration: 1000, // Animation duration
-            easing: 'easeOutExpo', // Smooth easing
-        });
-    }
-
-    // Function to animate game elements
-    function animateGames() {
-        const games = document.querySelectorAll('.game');
-        games.forEach(game => {
-            game.style.opacity = '0'; // Hide games initially
-            game.style.transform = 'translateY(-50px)'; // Move them above
-        });
-
-        // Use Anime.js to animate the games
-        anime({
-            targets: '.game',
-            translateY: [-50, 0], // Fly in from above
-            opacity: [0, 1], // Fade in
-            delay: anime.stagger(100), // Stagger animation for each card
-            duration: 800, // Animation duration
-            easing: 'easeOutExpo',
-        });
-    }
-
-    // Check if animation is enabled
-    const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
-    // Trigger animations on page load if enabled
-    window.onload = () => {
-        if (gameAnimationEnabled) {
-            animateTitle();
-            animateGames();
-        }
-    };
-
-    // Toggle Game Animation Button Logic
-    const toggleGameAnimationButton = document.getElementById('toggleGameAnimation');
-    toggleGameAnimationButton.addEventListener('click', () => {
-        const isEnabled = getCookie('gameAnimation') === 'true';
-        setCookie('gameAnimation', !isEnabled, 30); // Save preference for 30 days
-        toggleGameAnimationButton.textContent = isEnabled ? 'Enable' : 'Disable';
-
-        if (!isEnabled) {
-            // Trigger animations when enabled
-            animateTitle();
-            animateGames();
-        }
-    });
-</script>
-</body>
-</html>
+        // Toggle Game Animation Button Logic
+        const toggleGameAnimationButton = document.getElementById('toggleGame

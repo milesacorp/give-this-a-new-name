@@ -101,8 +101,12 @@
             <button id="toggleSaveSearch">Enable</button>
         </div>
         <div class="setting-item">
-            <span>Enable Game Animation</span>
+            <span>Enable more Animation</span>
             <button id="toggleGameAnimation">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Less Buttons</span>
+            <button id="toggleLessButtons">Enable</button>
         </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
@@ -166,6 +170,7 @@
         toggleSetting('toggleDateTime', 'dateTime');
         toggleSetting('toggleSaveSearch', 'saveSearch');
         toggleSetting('toggleGameAnimation', 'gameAnimation');
+        toggleSetting('toggleLessButtons', 'lessButtons');
 
         // Remove the toggle button from other pages
         const toggleDarkModeButton = document.getElementById('toggleDarkMode');
@@ -411,6 +416,19 @@
             const isEnabled = getCookie('gameAnimation') === 'true';
             setCookie('gameAnimation', !isEnabled, 30); // Save preference for 30 days
             toggleGameAnimationButton.textContent = isEnabled ? 'Enable' : 'Disable';
+        });
+
+        // Handle Less Buttons Toggle
+        const toggleLessButtonsButton = document.getElementById('toggleLessButtons');
+        const lessButtonsEnabled = getCookie('lessButtons') === 'true';
+
+        // Set initial button state
+        toggleLessButtonsButton.textContent = lessButtonsEnabled ? 'Disable' : 'Enable';
+
+        toggleLessButtonsButton.addEventListener('click', () => {
+            const isEnabled = getCookie('lessButtons') === 'true';
+            setCookie('lessButtons', !isEnabled, 30); // Save preference for 30 days
+            toggleLessButtonsButton.textContent = isEnabled ? 'Enable' : 'Disable';
         });
     </script>
 </body>
