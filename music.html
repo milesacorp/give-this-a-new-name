@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Background Music</title>
+</head>
+<body>
+    <audio id="backgroundMusic" src="./videoplayback.mp3" loop autoplay></audio>
+    <script>
+        const musicEnabled = localStorage.getItem('backgroundMusicEnabled') === 'true';
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        if (musicEnabled) {
+            const savedTime = parseFloat(localStorage.getItem('backgroundMusicTime')) || 0;
+            backgroundMusic.currentTime = savedTime; // Resume from the saved time
+            backgroundMusic.volume = 0.5; // Set volume to 50%
+            backgroundMusic.play(); // Play the music
+        } else {
+            backgroundMusic.pause(); // Pause the music
+        }
+
+        // Save the current time periodically
+        setInterval(() => {
+            if (!backgroundMusic.paused) {
+                localStorage.setItem('backgroundMusicTime', backgroundMusic.currentTime);
+            }
+        }, 1000); // Save every second
+    </script>
+</body>
+</html>

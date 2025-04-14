@@ -190,6 +190,7 @@
     </style>
 </head>
 <body>
+    <iframe src="music.html" style="display: none;" id="musicIframe"></iframe>
     <h1 id="pageTitle">Web Games</h1>
     <button class="toggle-mode" id="toggleMode">Switch to Light Mode</button>
     <div class="button-container">
@@ -871,15 +872,15 @@
             });
         }
 
-        // Function to animate a single game element
-        function animateGame(game) {
+        // Function to animate all game elements with a staggered delay
+        function animateGames(games) {
             anime({
-                targets: game,
+                targets: games,
                 opacity: [0, 1], // Fade in
-                translateY: [-50, 0], // Slide down
-                rotate: [-45, 0], // Small spin counterclockwise (start at -45 degrees and rotate to 0)
-                duration: 3000, // Animation duration (3 seconds)
+                translateY: [50, 0], // Slide up from below
+                duration: 1000, // Animation duration (1 second)
                 easing: 'easeOutExpo', // Smooth easing
+                delay: anime.stagger(50), // 50ms delay between each game
             });
         }
 
@@ -887,11 +888,9 @@
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Animate the game when it comes into view
-                    animateGame(entry.target);
-
-                    // Stop observing the element after animating it
-                    observer.unobserve(entry.target);
+                    // Animate the game with a staggered delay
+                    animateGames(entry.target);
+                    observer.unobserve(entry.target); // Stop observing after animation
                 }
             });
         });
@@ -900,17 +899,15 @@
         const games = document.querySelectorAll('.game');
         games.forEach(game => {
             game.style.opacity = '0'; // Hide games initially
-            game.style.transform = 'translateY(-50px) rotate(-45deg)'; // Move them above and rotate counterclockwise
-            observer.observe(game); // Start observing the game
+            game.style.transform = 'translateY(50px)'; // Move them below their final position
         });
 
-        // Check if animation is enabled
-        const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
-
-        // Trigger animations on page load if enabled
+        // Wait for the page to fully load before starting animations
         window.onload = () => {
+            const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+
             if (gameAnimationEnabled) {
-                games.forEach(game => observer.observe(game));
+                games.forEach(game => observer.observe(game)); // Start observing games
             } else {
                 // Make all games visible without animation
                 games.forEach(game => {
@@ -919,6 +916,28 @@
                 });
             }
         };
+
+        // Function to toggle game animations
+        function toggleGameAnimations() {
+            const gameAnimationEnabled = getCookie('gameAnimation') === 'true';
+            setCookie('gameAnimation', !gameAnimationEnabled, 30); // Toggle animation state
+
+            if (!gameAnimationEnabled) {
+                // Enable animations
+                games.forEach(game => {
+                    game.style.opacity = '0'; // Reset opacity
+                    game.style.transform = 'translateY(50px)'; // Reset position
+                    observer.observe(game); // Start observing the game
+                });
+            } else {
+                // Disable animations
+                games.forEach(game => {
+                    game.style.opacity = '1'; // Make visible
+                    game.style.transform = 'none'; // Reset transform
+                    observer.unobserve(game); // Stop observing the game
+                });
+            }
+        }
 
         // Check if music is enabled
         const musicEnabled = getCookie('backgroundMusic') === 'true';

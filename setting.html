@@ -126,7 +126,7 @@
         </div>
         <div class="setting-item">
             <span>Background Music</span>
-            <button id="toggleMusicButton">Toggle Background Music</button>
+            <button id="toggleMusicButton">Enable Background Music</button>
         </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
@@ -144,6 +144,8 @@
             </div>
         </div>
     </div>
+
+    <iframe src="music.html" style="display: none;" id="musicIframe"></iframe>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
@@ -253,25 +255,32 @@
         }
 
         // Function to toggle background music
-        function toggleBackgroundMusic() {
-            const musicEnabled = getCookie('backgroundMusic') === 'true';
-            setCookie('backgroundMusic', !musicEnabled, 30); // Toggle the cookie value
+        function toggleMusic() {
+            const musicEnabled = localStorage.getItem('backgroundMusicEnabled') === 'true';
+            localStorage.setItem('backgroundMusicEnabled', !musicEnabled); // Toggle music state
 
+            // Update the button text
             const toggleMusicButton = document.getElementById('toggleMusicButton');
+            toggleMusicButton.textContent = !musicEnabled ? 'Disable Background Music' : 'Enable Background Music';
+
+            // Access the iframe's audio element
+            const musicIframe = document.getElementById('musicIframe');
+            const iframeWindow = musicIframe.contentWindow;
+            const backgroundMusic = iframeWindow.document.getElementById('backgroundMusic');
+
             if (!musicEnabled) {
-                toggleMusicButton.textContent = 'Disable Background Music';
+                backgroundMusic.play();
             } else {
-                toggleMusicButton.textContent = 'Enable Background Music';
+                backgroundMusic.pause();
             }
         }
 
         // Set the initial state of the button
-        const musicEnabled = getCookie('backgroundMusic') === 'true';
-        const toggleMusicButton = document.getElementById('toggleMusicButton');
-        toggleMusicButton.textContent = musicEnabled ? 'Disable Background Music' : 'Enable Background Music';
-
-        // Add event listener
-        toggleMusicButton.addEventListener('click', toggleBackgroundMusic);
+        window.onload = () => {
+            const musicEnabled = localStorage.getItem('backgroundMusicEnabled') === 'true';
+            const toggleMusicButton = document.getElementById('toggleMusicButton');
+            toggleMusicButton.textContent = musicEnabled ? 'Disable Background Music' : 'Enable Background Music';
+        };
 
         // Ensure animations are enabled by default
         if (getCookie('gameAnimation') === null) {
@@ -293,6 +302,10 @@
         toggleSetting('toggleSaveSearch', 'saveSearch');
         toggleSetting('toggleGameAnimation', 'gameAnimation');
         toggleSetting('toggleLessButtons', 'lessButtons');
+
+        // Add event listener for background music toggle
+        const toggleMusicButton = document.getElementById('toggleMusicButton');
+        toggleMusicButton.addEventListener('click', toggleMusic);
     </script>
 </body>
 
