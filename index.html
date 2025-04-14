@@ -119,6 +119,9 @@
     <!-- Add a clock element to display date and time -->
     <div id="clock" style="opacity: 0; font-size: 1.5rem; margin-top: 20px;"></div>
 
+    <!-- Add background music -->
+    <audio id="backgroundMusic" src="./videoplayback.mp3" loop></audio>
+
     <script>
         // Utility function to set a cookie
         function setCookie(name, value, days) {
@@ -245,7 +248,29 @@
                 document.querySelector("button[onclick*='cal.html']").style.display = 'none'; // Calendar button
                 document.querySelector("button[onclick*='gametoadd.html']").style.display = 'none'; // Coming Soon button
             }
+
+            // Check if music is enabled
+            const musicEnabled = getCookie('backgroundMusic') === 'true';
+            const backgroundMusic = document.getElementById('backgroundMusic');
+
+            if (musicEnabled) {
+                backgroundMusic.volume = 0.5; // Set volume to 50%
+                backgroundMusic.play(); // Play the music
+            } else {
+                backgroundMusic.pause(); // Pause the music
+            }
         };
+
+        // Function to toggle music
+        function toggleMusic() {
+            const musicEnabled = getCookie('backgroundMusic') === 'true';
+            setCookie('backgroundMusic', !musicEnabled, 30); // Toggle music state
+            if (!musicEnabled) {
+                backgroundMusic.play();
+            } else {
+                backgroundMusic.pause();
+            }
+        }
 
         // Check if Date and Time is enabled
         const dateTimeEnabled = getCookie('dateTime') === 'true';

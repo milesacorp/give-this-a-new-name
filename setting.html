@@ -124,6 +124,10 @@
             <span>Less Buttons</span>
             <button id="toggleLessButtons">Enable</button>
         </div>
+        <div class="setting-item">
+            <span>Background Music</span>
+            <button id="toggleMusicButton">Toggle Background Music</button>
+        </div>
         <div class="setting-item clear-cookies">
             <span>Clear Cookies</span>
             <button id="clearCookies">Clear</button>
@@ -247,6 +251,27 @@
                 }
             });
         }
+
+        // Function to toggle background music
+        function toggleBackgroundMusic() {
+            const musicEnabled = getCookie('backgroundMusic') === 'true';
+            setCookie('backgroundMusic', !musicEnabled, 30); // Toggle the cookie value
+
+            const toggleMusicButton = document.getElementById('toggleMusicButton');
+            if (!musicEnabled) {
+                toggleMusicButton.textContent = 'Disable Background Music';
+            } else {
+                toggleMusicButton.textContent = 'Enable Background Music';
+            }
+        }
+
+        // Set the initial state of the button
+        const musicEnabled = getCookie('backgroundMusic') === 'true';
+        const toggleMusicButton = document.getElementById('toggleMusicButton');
+        toggleMusicButton.textContent = musicEnabled ? 'Disable Background Music' : 'Enable Background Music';
+
+        // Add event listener
+        toggleMusicButton.addEventListener('click', toggleBackgroundMusic);
 
         // Ensure animations are enabled by default
         if (getCookie('gameAnimation') === null) {

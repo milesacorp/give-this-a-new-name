@@ -919,6 +919,28 @@
                 });
             }
         };
+
+        // Check if music is enabled
+        const musicEnabled = getCookie('backgroundMusic') === 'true';
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        if (musicEnabled) {
+            backgroundMusic.volume = 0.5; // Set volume to 50%
+            backgroundMusic.play(); // Play the music
+        } else {
+            backgroundMusic.pause(); // Pause the music
+        }
+
+        // Function to toggle music
+        function toggleMusic() {
+            const musicEnabled = getCookie('backgroundMusic') === 'true';
+            setCookie('backgroundMusic', !musicEnabled, 30); // Toggle music state
+            if (!musicEnabled) {
+                backgroundMusic.play();
+            } else {
+                backgroundMusic.pause();
+            }
+        }
     </script>
 </body>
 </html>
