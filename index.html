@@ -144,6 +144,15 @@
             return null;
         }
 
+        // Add the iframe dynamically if it doesn't already exist
+        if (!document.getElementById('musicIframe')) {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'music.html';
+            iframe.id = 'musicIframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+
         // Ensure animations are enabled by default
         if (getCookie('gameAnimation') === null) {
             setCookie('gameAnimation', 'true', 30); // Default to animations enabled

@@ -166,6 +166,15 @@
         const darkModeEnabled = getCookie('darkMode') === 'true';
         applyMode(darkModeEnabled);
 
+        // Add the iframe dynamically if it doesn't already exist
+        if (!document.getElementById('musicIframe')) {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'music.html';
+            iframe.id = 'musicIframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+
         // Function to animate the title
         function animateTitle() {
             anime({

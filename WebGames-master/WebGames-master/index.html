@@ -190,7 +190,7 @@
     </style>
 </head>
 <body>
-    <iframe src="music.html" style="display: none;" id="musicIframe"></iframe>
+    <iframe src="/music.html" style="display: none;" id="musicIframe"></iframe>
     <h1 id="pageTitle">Web Games</h1>
     <button class="toggle-mode" id="toggleMode">Switch to Light Mode</button>
     <div class="button-container">
@@ -774,6 +774,15 @@
             noResultsElement.style.display = hasResults ? 'none' : 'flex';
         }
 
+        // Add the iframe dynamically if it doesn't already exist
+        if (!document.getElementById('musicIframe')) {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'music.html';
+            iframe.id = 'musicIframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+
         // Utility function to set a cookie
         function setCookie(name, value, days) {
             const date = new Date();
@@ -878,13 +887,17 @@
             });
         }
 
-        // Function to animate all game elements with a staggered delay
+        // Function to animate all game elements with a staggered delay and multi-step rotation
         function animateGames(games) {
             anime({
                 targets: games,
                 opacity: [0, 1], // Fade in
-                translateY: [50, 0], // Slide up from below
-                duration: 1000, // Animation duration (1 second)
+                translateY: [70, 0], // Slide up from below
+                rotate: [
+                    { value: -45, duration: 500 }, // Start at -45 degrees
+                    { value: 35, duration: 500 }, // Rotate to 35 degrees
+                    { value: 0, duration: 1000 }, // Rotate to 0 degrees
+                ],
                 easing: 'easeOutExpo', // Smooth easing
                 delay: anime.stagger(50), // 50ms delay between each game
             });
@@ -894,7 +907,7 @@
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Animate the game with a staggered delay
+                    // Animate the game with a staggered delay and multi-step rotation
                     animateGames(entry.target);
                     observer.unobserve(entry.target); // Stop observing after animation
                 }
@@ -905,7 +918,7 @@
         const games = document.querySelectorAll('.game');
         games.forEach(game => {
             game.style.opacity = '0'; // Hide games initially
-            game.style.transform = 'translateY(50px)'; // Move them below their final position
+            game.style.transform = 'translateY(70px) rotate(-45deg)'; // Move them below and rotate to -45 degrees
         });
 
         // Wait for the page to fully load before starting animations
@@ -932,7 +945,7 @@
                 // Enable animations
                 games.forEach(game => {
                     game.style.opacity = '0'; // Reset opacity
-                    game.style.transform = 'translateY(50px)'; // Reset position
+                    game.style.transform = 'translateY(70px) rotate(-45deg)'; // Reset position and rotation
                     observer.observe(game); // Start observing the game
                 });
             } else {

@@ -275,6 +275,15 @@
             }
         }
 
+        // Add the iframe dynamically if it doesn't already exist
+        if (!document.getElementById('musicIframe')) {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'music.html';
+            iframe.id = 'musicIframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+
         // Set the initial state of the button
         window.onload = () => {
             const musicEnabled = localStorage.getItem('backgroundMusicEnabled') === 'true';
