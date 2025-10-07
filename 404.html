@@ -115,15 +115,14 @@
         }
     </style>
 </head>
-<body>
-    <script src="https://js.puter.com/v2/"></script>
+<body><script src="https://js.puter.com/v2/"></script>
 <script>
 let aiChatWindow = null;
 let chatVisible = false;
 
-// Detect Ctrl+T
+// Detect Shift+T
 document.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && e.key.toLowerCase() === "t") {
+  if (e.shiftKey && e.key.toLowerCase() === "t") {
     e.preventDefault();
     toggleAIChat();
   }
@@ -166,7 +165,7 @@ async function toggleAIChat() {
     const chatInput = aiChatWindow.querySelector("#chatInput");
     const chatSend = aiChatWindow.querySelector("#chatSend");
 
-    // Custom intro message
+    // Intro message
     chatLog.innerHTML = `
       <div style="margin-bottom:10px;">
         <b>AI:</b> 👋 Hi! I'm the <b>Fun Miles AI</b> — here to answer your <b>gaming questions</b>, chat about mods, or just have fun.  
@@ -174,7 +173,7 @@ async function toggleAIChat() {
       </div>
     `;
 
-    // Send message
+    // Send message handler
     chatSend.onclick = async () => {
       const msg = chatInput.value.trim();
       if (!msg) return;
@@ -190,7 +189,7 @@ async function toggleAIChat() {
       }
     };
 
-    // Send on Enter
+    // Enter key sends message
     chatInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") chatSend.click();
     });
@@ -202,6 +201,7 @@ async function toggleAIChat() {
   }
 }
 </script>
+
 
     <h1>404 Not Found</h1>
     <p>Oops! The page you are looking for does not exist.</p>
