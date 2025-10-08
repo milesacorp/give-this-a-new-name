@@ -32,7 +32,7 @@ async function toggleAIChat() {
     `;
     aiChatWindow.innerHTML = `
       <div style="background:#222;padding:10px;text-align:center;font-weight:bold;">
-        🎮 Fun Miles AI Chat
+        🎮  AI Chat to help with games 
       </div>
       <div id="chatLog" style="flex:1;overflow-y:auto;padding:10px;"></div>
       <div style="display:flex;border-top:1px solid #333;">
@@ -50,7 +50,7 @@ async function toggleAIChat() {
     // Intro message
     chatLog.innerHTML = `
       <div style="margin-bottom:10px;">
-        <b>AI:</b> 👋 Hi! I'm the <b>Fun Miles AI</b> — here to answer your <b>gaming questions</b>, chat about mods, or just have fun.  
+        <b>AI:</b> 👋 Hi! I'm the <b>Moon Gaming AI</b> — here to answer your <b>gaming questions</b>, chat about mods, or just have fun.  
         Ask me anything!
       </div>
     `;
