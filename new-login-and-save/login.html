@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign Up / Login</title>
+	<script src="https://js.puter.com/v2/"></script>
+	<style>
+		body { background: #181818; color: #eee; font-family: system-ui, sans-serif; }
+		.container { max-width: 400px; margin: 60px auto; background: #222; padding: 30px; border-radius: 12px; box-shadow: 0 0 20px #0006; }
+		input, button { width: 100%; margin: 10px 0; padding: 10px; border-radius: 6px; border: none; }
+		button { background: #444; color: #fff; font-weight: bold; cursor: pointer; }
+		.msg { margin: 10px 0; color: #ffb; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Sign Up / Login</h2>
+	<button id="signup">Sign In & Save Cookies</button>
+	<button id="login">Sign In & Restore Cookies</button>
+	<button id="reset">Cloud Reset (Clear Cookies)</button>
+		<div class="msg" id="msg"></div>
+	</div>
+	<script>
+		// Helper to get all cookies as an object
+		function getCookies() {
+			return Object.fromEntries(document.cookie.split('; ').filter(Boolean).map(c => {
+				const [k, ...v] = c.split('=');
+				return [k, v.join('=')];
+			}));
+		}
+
+		// Helper to set cookies from object
+		function setCookies(cookies) {
+			Object.entries(cookies).forEach(([k, v]) => {
+				document.cookie = `${k}=${v}; path=/;`;
+			});
+		}
+
+		const msg = document.getElementById('msg');
+			document.getElementById('signup').onclick = async () => {
+				msg.textContent = 'Signing in and saving cookies...';
+				try {
+					// Sign in with Puter JS
+					const user = await puter.auth.signIn();
+					if (!user) throw new Error('Sign in failed.');
+					// Save cookies to Puter KV (Cloud Storage)
+					await puter.kv.set('cookies', JSON.stringify(getCookies()));
+					msg.textContent = 'Cookies saved to your Puter Cloud!';
+				} catch (e) {
+					msg.textContent = 'Error saving: ' + e.message;
+				}
+			};
+
+			document.getElementById('login').onclick = async () => {
+				msg.textContent = 'Signing in and restoring cookies...';
+				try {
+					// Sign in with Puter JS
+					const user = await puter.auth.signIn();
+					if (!user) throw new Error('Sign in failed.');
+					// Restore cookies from Puter KV (Cloud Storage)
+					const data = await puter.kv.get('cookies');
+					if (!data) throw new Error('No cookies found in your Puter Cloud.');
+					setCookies(JSON.parse(data));
+					msg.textContent = 'Cookies restored! Reloading...';
+					setTimeout(() => location.reload(), 1200);
+				} catch (e) {
+					msg.textContent = 'Error restoring: ' + e.message;
+				}
+			};
+
+			document.getElementById('reset').onclick = async () => {
+				msg.textContent = 'Signing in and clearing cloud cookies...';
+				try {
+					// Sign in with Puter JS
+					const user = await puter.auth.signIn();
+					if (!user) throw new Error('Sign in failed.');
+					// Overwrite cookies in Puter KV (Cloud Storage) with empty object
+					await puter.kv.set('cookies', '{}');
+					msg.textContent = 'Cloud cookies cleared!';
+				} catch (e) {
+					msg.textContent = 'Error clearing: ' + e.message;
+				}
+			};
+	</script>
+</body>
+</html>
