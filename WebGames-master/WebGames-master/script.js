@@ -564,6 +564,11 @@ const mainContentData = [
     image: "assets/Super-Scratch-Bros-Beta.jpeg",
     link: "/WebGames-master/WebGames-master/games2/game/rooftop-snipers/index.html",
   },
+  {
+    name: "sans hard fight",
+    image: "assets/Super-Scratch-Bros-Beta.jpeg",
+    link: "/games/idk-yet-but-it-works-this-time-main/index.html",
+  },
 ];
 
 mainContentData.forEach(item => {

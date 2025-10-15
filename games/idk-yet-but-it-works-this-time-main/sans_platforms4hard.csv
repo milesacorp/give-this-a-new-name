@@ -1,0 +1,16 @@
+0,CombatZoneResize,113,231,548,391,TLResume,,
+0,HeartTeleport,320,376,,,,,
+0,HeartMode,1,,,,,,
+0,TLPause,,,,,,,
+0,HeartTeleport,175,327,,,,,
+0,HeartMaxFallSpeed,100,
+0,SansSlam,0,
+0,BoneVRepeat,528,366,40,0,60,60,15
+0,BoneVRepeat,283,268,40,3,90,12,65
+0,BoneVRepeat,363,325,40,1,120,11,90
+0,BoneVRepeat,443,268,40,3,90,12,65
+2.6,SansSlam,2,
+0,HeartMaxFallSpeed,200,
+1.6,SansSlam,0,
+0,HeartMaxFallSpeed,300
+2.9,EndAttack,,,,,,,
