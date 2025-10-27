@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign Up / Login (FS)</title>
+	<script src="https://js.puter.com/v2/"></script>
+	<style>
+		body { background: #181818; color: #eee; font-family: system-ui, sans-serif; }
+		.container { max-width: 700px; margin: 40px auto; background: #222; padding: 24px; border-radius: 12px; box-shadow: 0 0 20px #0006; }
+		input, button, select { width: 100%; margin: 8px 0; padding: 10px; border-radius: 6px; border: none; box-sizing: border-box; }
+		button { background: #444; color: #fff; font-weight: bold; cursor: pointer; }
+		.msg { margin: 8px 0; color: #ffb; min-height: 1.2em; }
+		.row { display: flex; gap: 8px; }
+		.row > * { flex: 1; }
+		.file-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+		.file-item { background:#2b2b2b; padding:8px; border-radius:6px; display:flex; gap:8px; align-items:center; }
+		.small-btn { padding:6px 8px; font-size:0.9em; width:auto; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Sign Up / Login (Filesystem)</h2>
+		<div class="row">
+			<button id="home" onclick="location.href='/index.html'">Home</button>
+			<button id="ensure">Ensure Cookies Dir</button>
+		</div>
+
+		<button id="signup">Sign In & Save Cookies (to file)</button>
+		<button id="refresh">Refresh File List</button>
+
+		<div style="margin-top:8px;">
+			<h4>Saved cookie files</h4>
+			<div id="filesList">Loading...</div>
+		</div>
+
+		<div class="file-actions" id="fileActions" style="margin-top:12px;"></div>
+
+		<div style="margin-top:12px;">
+			<button id="clearAll">Cloud Reset (Delete All Cookie Files)</button>
+		</div>
+
+		<div class="msg" id="msg"></div>
+	</div>
+
+	<script>
+		// Helper to get all cookies as an object
+		function getCookies() {
+			if (!document.cookie) return {};
+			return Object.fromEntries(document.cookie.split('; ').filter(Boolean).map(c => {
+				const [k, ...v] = c.split('=');
+				return [k, v.join('=')];
+			}));
+		}
+
+		// Helper to set cookies from object
+		function setCookies(cookies) {
+			Object.entries(cookies).forEach(([k, v]) => {
+				// Set cookie with path=/ so it applies site-wide; optionally add expiry if needed
+				document.cookie = `${k}=${v}; path=/;`;
+			});
+		}
+
+		const msg = document.getElementById('msg');
+		const filesListEl = document.getElementById('filesList');
+		const fileActionsEl = document.getElementById('fileActions');
+
+		const DIR = 'cookies';
+
+		async function ensureDir() {
+			try {
+				// Try creating the directory; if it exists, some implementations may throw - handle gracefully
+				await puter.fs.mkdir(DIR);
+				msg.textContent = `Ensured directory: ${DIR}`;
+			} catch (e) {
+				// If the error indicates directory exists, ignore
+				// Otherwise, show message
+				// Many runtime implementations return an error - just attempt readdir to confirm existence
+				try {
+					await puter.fs.readdir(DIR);
+					msg.textContent = `Directory already exists: ${DIR}`;
+				} catch (err) {
+					msg.textContent = 'Error ensuring directory: ' + (err.message || err);
+					throw err;
+				}
+			}
+		}
+
+		async function listFiles() {
+			filesListEl.textContent = 'Loading...';
+			fileActionsEl.innerHTML = '';
+			try {
+				const entries = await puter.fs.readdir(DIR).catch(err => {
+					// If directory doesn't exist, show empty list
+					return null;
+				});
+				if (!entries || entries.length === 0) {
+					filesListEl.textContent = 'No saved cookie files.';
+					return [];
+				}
+				// entries expected to be an array of filenames
+				filesListEl.innerHTML = '';
+				entries.forEach(name => {
+					const wrap = document.createElement('div');
+					wrap.className = 'file-item';
+					const label = document.createElement('div');
+					label.textContent = name;
+					label.style.flex = '1';
+					wrap.appendChild(label);
+
+					const loadBtn = document.createElement('button');
+					loadBtn.textContent = 'Load';
+					loadBtn.className = 'small-btn';
+					loadBtn.onclick = () => loadFile(name);
+
+					const delBtn = document.createElement('button');
+					delBtn.textContent = 'Delete';
+					delBtn.className = 'small-btn';
+					delBtn.onclick = () => deleteFile(name);
+
+					wrap.appendChild(loadBtn);
+					wrap.appendChild(delBtn);
+
+					filesListEl.appendChild(wrap);
+				});
+				return entries;
+			} catch (e) {
+				filesListEl.textContent = 'Error listing files: ' + (e.message || e);
+				return [];
+			}
+		}
+
+		async function saveCookiesToFile() {
+			msg.textContent = 'Signing in and saving cookies to file...';
+			try {
+				const user = await puter.auth.signIn();
+				if (!user) throw new Error('Sign in failed.');
+				// ensure dir exists
+				await ensureDir();
+				const cookies = getCookies();
+				const filename = `${DIR}/cookies-${Date.now()}.txt`;
+				await puter.fs.write(filename, JSON.stringify(cookies));
+				msg.textContent = `Saved cookies to ${filename}`;
+				await listFiles();
+			} catch (e) {
+				msg.textContent = 'Error saving file: ' + (e.message || e);
+			}
+		}
+
+		async function loadFile(filename) {
+			msg.textContent = `Signing in and loading ${filename}...`;
+			try {
+				const user = await puter.auth.signIn();
+				if (!user) throw new Error('Sign in failed.');
+				const path = `${DIR}/${filename}`;
+				const data = await puter.fs.read(path);
+				if (!data) throw new Error('File empty or unreadable.');
+				let cookies;
+				try {
+					cookies = JSON.parse(data);
+				} catch (parseErr) {
+					throw new Error('Saved data is not valid JSON.');
+				}
+				setCookies(cookies);
+				msg.textContent = `Cookies restored from ${filename}. Reloading...`;
+				setTimeout(() => location.reload(), 1200);
+			} catch (e) {
+				msg.textContent = 'Error loading file: ' + (e.message || e);
+			}
+		}
+
+		async function deleteFile(filename) {
+			if (!confirm(`Delete ${filename}? This cannot be undone.`)) return;
+			msg.textContent = `Deleting ${filename}...`;
+			try {
+				const user = await puter.auth.signIn();
+				if (!user) throw new Error('Sign in failed.');
+				const path = `${DIR}/${filename}`;
+				await puter.fs.delete(path);
+				msg.textContent = `Deleted ${filename}.`;
+				await listFiles();
+			} catch (e) {
+				msg.textContent = 'Error deleting file: ' + (e.message || e);
+			}
+		}
+
+		async function clearAllFiles() {
+			if (!confirm('Delete ALL cookie files in cloud?')) return;
+			msg.textContent = 'Signing in and deleting all cookie files...';
+			try {
+				const user = await puter.auth.signIn();
+				if (!user) throw new Error('Sign in failed.');
+				const entries = await puter.fs.readdir(DIR).catch(() => null);
+				if (!entries || entries.length === 0) {
+					msg.textContent = 'No files to delete.';
+					return;
+				}
+				for (const name of entries) {
+					await puter.fs.delete(`${DIR}/${name}`).catch(err => {
+						// continue deleting others even if one fails
+						console.warn('Failed deleting', name, err);
+					});
+				}
+				msg.textContent = 'All cookie files deleted.';
+				await listFiles();
+			} catch (e) {
+				msg.textContent = 'Error clearing files: ' + (e.message || e);
+			}
+		}
+
+		// Wire up UI
+		document.getElementById('ensure').onclick = async () => { await ensureDir(); await listFiles(); };
+		document.getElementById('signup').onclick = saveCookiesToFile;
+		document.getElementById('refresh').onclick = listFiles;
+		document.getElementById('clearAll').onclick = clearAllFiles;
+
+		// Initial load: ensure directory exists and list files (but don't require sign-in for listing)
+		(async () => {
+			try {
+				// Try to list files; if dir missing, show no files
+				await listFiles();
+			} catch (e) {
+				console.warn('Initial listing failed', e);
+			}
+		})();
+	</script>
+</body>
+</html>
