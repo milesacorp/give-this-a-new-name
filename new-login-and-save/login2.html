@@ -23,7 +23,7 @@
 		<h2>Sign Up / Login (Filesystem)</h2>
 		<div class="row">
 			<button id="home" onclick="location.href='/index.html'">Home</button>
-			<button id="ensure">Ensure Cookies Dir</button>
+			<button id="ensure">Ensure Public Cookies Dir</button>
 		</div>
 
 		<button id="signup">Sign In & Save Cookies (to file)</button>
@@ -65,24 +65,46 @@
 		const filesListEl = document.getElementById('filesList');
 		const fileActionsEl = document.getElementById('fileActions');
 
-		const DIR = 'cookies';
+		// Helper: sign in and return the user's Public cookies directory path
+		async function getUserPublicDir() {
+			// This will prompt sign-in if the user isn't authenticated yet.
+			const user = await puter.auth.signIn();
+			if (!user) throw new Error('Sign in required.');
+
+			// Derive a username from common fields returned by auth
+			const username = user.username || user.handle || user.name || user.id;
+			if (!username) throw new Error('Could not determine username from signed-in user.');
+
+			// Build the user's Public/cookies directory
+			return `${username}/Public/cookies`;
+		}
 
 		async function ensureDir() {
+			msg.textContent = 'Ensuring your Public/cookies directory...';
 			try {
-				// Try creating the directory; if it exists, some implementations may throw - handle gracefully
-				await puter.fs.mkdir(DIR);
-				msg.textContent = `Ensured directory: ${DIR}`;
-			} catch (e) {
-				// If the error indicates directory exists, ignore
-				// Otherwise, show message
-				// Many runtime implementations return an error - just attempt readdir to confirm existence
-				try {
-					await puter.fs.readdir(DIR);
-					msg.textContent = `Directory already exists: ${DIR}`;
-				} catch (err) {
-					msg.textContent = 'Error ensuring directory: ' + (err.message || err);
-					throw err;
+				const dir = await getUserPublicDir();
+				// Ensure parent Public exists and cookies subdir exists.
+				// Some implementations will create nested dirs, but create both to be safe.
+				const parts = dir.split('/');
+				if (parts.length >= 2) {
+					const parent = parts.slice(0, parts.length - 1).join('/');
+					try { await puter.fs.mkdir(parent); } catch (e) { /* ignore if exists */ }
 				}
+				try {
+					await puter.fs.mkdir(dir);
+					msg.textContent = `Ensured directory: /${dir}`;
+				} catch (e) {
+					// If mkdir fails because it exists, readdir to confirm
+					try {
+						await puter.fs.readdir(dir);
+						msg.textContent = `Directory already exists: /${dir}`;
+					} catch (err) {
+						msg.textContent = 'Error ensuring directory: ' + (err.message || err);
+						throw err;
+					}
+				}
+			} catch (e) {
+				msg.textContent = 'Error ensuring directory: ' + (e.message || e);
 			}
 		}
 
@@ -90,7 +112,18 @@
 			filesListEl.textContent = 'Loading...';
 			fileActionsEl.innerHTML = '';
 			try {
-				const entries = await puter.fs.readdir(DIR).catch(err => {
+				const dir = await (async () => {
+					try { return await getUserPublicDir(); }
+					catch (e) { 
+						// If user cancels sign-in or we can't sign in, show helpful message
+						msg.textContent = 'Sign in to view your saved cookie files.';
+						filesListEl.textContent = 'Sign in to view files.';
+						return null;
+					}
+				})();
+				if (!dir) return [];
+
+				const entries = await puter.fs.readdir(dir).catch(err => {
 					// If directory doesn't exist, show empty list
 					return null;
 				});
@@ -135,12 +168,18 @@
 			try {
 				const user = await puter.auth.signIn();
 				if (!user) throw new Error('Sign in failed.');
+				const username = user.username || user.handle || user.name || user.id;
+				if (!username) throw new Error('Could not determine username.');
+
+				const dir = `${username}/Public/cookies`;
 				// ensure dir exists
-				await ensureDir();
+				try { await puter.fs.mkdir(`${username}/Public`); } catch (e) {}
+				try { await puter.fs.mkdir(dir); } catch (e) {}
+
 				const cookies = getCookies();
-				const filename = `${DIR}/cookies-${Date.now()}.txt`;
+				const filename = `${dir}/cookies-${Date.now()}.txt`;
 				await puter.fs.write(filename, JSON.stringify(cookies));
-				msg.textContent = `Saved cookies to ${filename}`;
+				msg.textContent = `Saved cookies to /${filename}`;
 				await listFiles();
 			} catch (e) {
 				msg.textContent = 'Error saving file: ' + (e.message || e);
@@ -152,7 +191,9 @@
 			try {
 				const user = await puter.auth.signIn();
 				if (!user) throw new Error('Sign in failed.');
-				const path = `${DIR}/${filename}`;
+				const username = user.username || user.handle || user.name || user.id;
+				if (!username) throw new Error('Could not determine username.');
+				const path = `${username}/Public/cookies/${filename}`;
 				const data = await puter.fs.read(path);
 				if (!data) throw new Error('File empty or unreadable.');
 				let cookies;
@@ -175,7 +216,9 @@
 			try {
 				const user = await puter.auth.signIn();
 				if (!user) throw new Error('Sign in failed.');
-				const path = `${DIR}/${filename}`;
+				const username = user.username || user.handle || user.name || user.id;
+				if (!username) throw new Error('Could not determine username.');
+				const path = `${username}/Public/cookies/${filename}`;
 				await puter.fs.delete(path);
 				msg.textContent = `Deleted ${filename}.`;
 				await listFiles();
@@ -185,18 +228,21 @@
 		}
 
 		async function clearAllFiles() {
-			if (!confirm('Delete ALL cookie files in cloud?')) return;
+			if (!confirm('Delete ALL cookie files in your Public/cookies?')) return;
 			msg.textContent = 'Signing in and deleting all cookie files...';
 			try {
 				const user = await puter.auth.signIn();
 				if (!user) throw new Error('Sign in failed.');
-				const entries = await puter.fs.readdir(DIR).catch(() => null);
+				const username = user.username || user.handle || user.name || user.id;
+				if (!username) throw new Error('Could not determine username.');
+				const dir = `${username}/Public/cookies`;
+				const entries = await puter.fs.readdir(dir).catch(() => null);
 				if (!entries || entries.length === 0) {
 					msg.textContent = 'No files to delete.';
 					return;
 				}
 				for (const name of entries) {
-					await puter.fs.delete(`${DIR}/${name}`).catch(err => {
+					await puter.fs.delete(`${dir}/${name}`).catch(err => {
 						// continue deleting others even if one fails
 						console.warn('Failed deleting', name, err);
 					});
@@ -214,10 +260,9 @@
 		document.getElementById('refresh').onclick = listFiles;
 		document.getElementById('clearAll').onclick = clearAllFiles;
 
-		// Initial load: ensure directory exists and list files (but don't require sign-in for listing)
+		// Initial load: try to list files (will prompt sign-in if necessary)
 		(async () => {
 			try {
-				// Try to list files; if dir missing, show no files
 				await listFiles();
 			} catch (e) {
 				console.warn('Initial listing failed', e);
