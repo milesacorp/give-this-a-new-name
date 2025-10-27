@@ -70,18 +70,38 @@
 
 		// Basic cookie helpers
 		function getCookies() {
+			// Return an object mapping cookie-name -> decoded cookie value (if possible)
 			if (!document.cookie) return {};
-			return Object.fromEntries(document.cookie.split('; ').filter(Boolean).map(c => {
-				const [k, ...v] = c.split('=');
-				return [k, v.join('=')];
-			}));
+			return Object.fromEntries(
+				document.cookie.split(';').map(c => {
+					// 'c' may contain leading/trailing spaces
+					const parts = c.split('=');
+					const rawKey = parts.shift() || '';
+					const key = rawKey.trim();
+					const rawVal = parts.join('=');
+					let val = rawVal;
+					try {
+						// decodeURIComponent may throw if value is not percent-encoded; guard it
+						val = rawVal ? decodeURIComponent(rawVal) : '';
+					} catch (e) {
+						// leave as-is if decode fails
+						val = rawVal;
+					}
+					return [key, val];
+				}).filter(([k]) => k)
+			);
 		}
 
 		function setCookies(cookies) {
+			// Accept an object of key -> (string or other). Ensure values are encoded once.
 			Object.entries(cookies).forEach(([k, v]) => {
 				const safeVal = typeof v === 'string' ? v : JSON.stringify(v);
-				// encode cookie value to be safe
-				document.cookie = `${k}=${encodeURIComponent(safeVal)}; path=/;`;
+				// Try to avoid double-encoding: decode if it's percent-encoded first, then encode
+				let decoded = safeVal;
+				try { decoded = decodeURIComponent(safeVal); } catch (e) { decoded = safeVal; }
+				const encoded = encodeURIComponent(decoded);
+				// You can add attributes here if needed (e.g., ; SameSite=None; Secure) for cross-site cookies
+				document.cookie = `${k}=${encoded}; path=/;`;
 			});
 		}
 
@@ -256,6 +276,7 @@
 				const user = await puter.auth.signIn();
 				if (!user) throw new Error('Sign in failed or cancelled.');
 				await ensureDir();
+				// getCookies now returns decoded cookie values (human readable)
 				const cookies = getCookies();
 				const filename = `cookies-${Date.now()}.txt`;
 				const path = `${DIR}/${filename}`;
@@ -283,6 +304,7 @@
 				// filename may sometimes already be a path
 				const path = filename.startsWith(DIR + '/') ? filename : `${DIR}/${filename}`;
 				const data = await fsRead(path);
+				console.debug('loadFile: raw file data ->', data);
 				if (!data) throw new Error('File empty or unreadable.');
 				let cookies;
 				if (typeof data === 'string') {
@@ -295,7 +317,11 @@
 							if (!line) return;
 							const [k, ...v] = line.split('=');
 							if (!k) return;
-							maybe[k.trim()] = decodeURIComponent((v || []).join('=').trim());
+							try {
+								maybe[k.trim()] = decodeURIComponent((v || []).join('=').trim());
+							} catch (e) {
+								maybe[k.trim()] = (v || []).join('=').trim();
+							}
 						});
 						if (Object.keys(maybe).length > 0) cookies = maybe;
 						else throw new Error('Saved data is not valid JSON.');
@@ -305,6 +331,7 @@
 				} else {
 					throw new Error('Unsupported file data type');
 				}
+				console.debug('loadFile: parsed cookies ->', cookies);
 				setCookies(cookies);
 				msg.textContent = `Cookies restored from ${filename}. Reloading...`;
 				setTimeout(() => location.reload(), 900);
