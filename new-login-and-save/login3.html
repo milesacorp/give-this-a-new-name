@@ -1,0 +1,429 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Sign Up / Login (FS)</title> <script src="https://js.puter.com/v2/"></script> <style> body { background: #181818; color: #eee; font-family: system-ui, sans-serif; } .container { max-width: 700px; margin: 40px auto; background: #222; padding: 24px; border-radius: 12px; box-shadow: 0 0 20px #0006; } input, button, select { width: 100%; margin: 8px 0; padding: 10px; border-radius: 6px; border: none; box-sizing: border-box; } button { background: #444; color: #fff; font-weight: bold; cursor: pointer; } .msg { margin: 8px 0; color: #ffb; min-height: 1.2em; } .row { display: flex; gap: 8px; } .row > * { flex: 1; } .file-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; } .file-item { background:#2b2b2b; padding:8px; border-radius:6px; display:flex; gap:8px; align-items:center; } .small-btn { padding:6px 8px; font-size:0.9em; width:auto; } .disabled { opacity: 0.5; pointer-events: none; } .inline-inputs { display:flex; gap:8px; align-items:center; } .inline-inputs input { flex: 1 1 auto; margin: 0; padding:8px; } .kv-label { font-size:0.9em; color:#ccc; margin-right:6px; } </style> </head> <body> <div class="container"> <h2>Sign Up / Login (Filesystem)</h2> <div class="row"> <button id="home" onclick="location.href='/index.html'">Home</button> <button id="ensure">Ensure Cookies Dir</button> </div>
+
+	<button id="signup">Sign In & Save Cookies (to file)</button>
+	<button id="refresh">Refresh File List</button>
+
+	<div style="margin-top:8px;">
+		<h4>Saved cookie files</h4>
+		<p style="margin:6px 0; color:#bbb;">
+			You can optionally add an extra cookie name/value below before loading a saved file — the file's cookies will be merged with existing cookies and the extra one will be added/overwritten.
+		</p>
+
+		<div class="inline-inputs" style="margin-bottom:8px;">
+			<span class="kv-label">Extra:</span>
+			<input id="extraName" placeholder="cookie name (optional)" />
+			<input id="extraValue" placeholder="cookie value (optional)" />
+			<label style="display:flex; align-items:center; gap:6px; margin-left:8px;">
+				<input type="checkbox" id="reloadAfter" checked /> <span style="font-size:0.9em; color:#ccc;">Reload after load</span>
+			</label>
+		</div>
+
+		<div id="filesList">Loading...</div>
+	</div>
+
+	<div class="file-actions" id="fileActions" style="margin-top:12px;"></div>
+
+	<div style="margin-top:12px;">
+		<button id="clearAll">Cloud Reset (Delete All Cookie Files)</button>
+	</div>
+
+	<div class="msg" id="msg"></div>
+</div>
+
+<script>
+	// Small, robust FS helpers that adapt to a few runtime variations of 'puter.fs' APIs.
+	const msg = document.getElementById('msg');
+	const filesListEl = document.getElementById('filesList');
+	const fileActionsEl = document.getElementById('fileActions');
+
+	const DIR = 'cookies';
+
+	function disableUI(reason) {
+		['ensure','signup','refresh','clearAll'].forEach(id => {
+			const el = document.getElementById(id);
+			if (el) {
+				el.classList.add('disabled');
+				el.title = reason || '';
+			}
+		});
+	}
+	function enableUI() {
+		['ensure','signup','refresh','clearAll'].forEach(id => {
+			const el = document.getElementById(id);
+			if (el) el.classList.remove('disabled');
+		});
+	}
+
+	// Basic cookie helpers
+	function getCookies() {
+		// Return an object mapping cookie-name -> decoded cookie value (if possible)
+		if (!document.cookie) return {};
+		return Object.fromEntries(
+			document.cookie.split(';').map(c => {
+				// 'c' may contain leading/trailing spaces
+				const parts = c.split('=');
+				const rawKey = parts.shift() || '';
+				const key = rawKey.trim();
+				const rawVal = parts.join('=');
+				let val = rawVal;
+				try {
+					// decodeURIComponent may throw if value is not percent-encoded; guard it
+					val = rawVal ? decodeURIComponent(rawVal) : '';
+				} catch (e) {
+					// leave as-is if decode fails
+					val = rawVal;
+				}
+				return [key, val];
+			}).filter(([k]) => k)
+		);
+	}
+
+	function setCookies(cookies) {
+		// Accept an object of key -> (string or other). Ensure values are encoded once.
+		Object.entries(cookies).forEach(([k, v]) => {
+			const safeVal = typeof v === 'string' ? v : JSON.stringify(v);
+			// Try to avoid double-encoding: decode if it's percent-encoded first, then encode
+			let decoded = safeVal;
+			try { decoded = decodeURIComponent(safeVal); } catch (e) { decoded = safeVal; }
+			const encoded = encodeURIComponent(decoded);
+			// You can add attributes here if needed (e.g., ; SameSite=None; Secure) for cross-site cookies
+			// Using a reasonably permissive attribute set; adjust to your needs/environments:
+			document.cookie = `${k}=${encoded}; path=/;`;
+		});
+	}
+
+	// Detect puter and wrap file ops so the rest of the code stays clean.
+	function hasPuter() {
+		return typeof window.puter !== 'undefined' && !!puter.fs;
+	}
+
+	async function fsMkdir(dir) {
+		if (!hasPuter()) throw new Error('puter not available');
+		// try several possible mkdir signatures
+		if (puter.fs.mkdir) {
+			try { return await puter.fs.mkdir(dir); } catch (e) {
+				// some implementations accept options or throw when exists - try readdir to confirm
+			}
+		}
+		// fallback: try readdir to "ensure" existence
+		try { await puter.fs.readdir(dir); return true; } catch (e) { throw e; }
+	}
+
+	async function fsReaddir(dir) {
+		if (!hasPuter()) throw new Error('puter not available');
+		if (!puter.fs.readdir) throw new Error('puter.fs.readdir not available');
+		const res = await puter.fs.readdir(dir);
+		// Normalize many possible shapes:
+		// - array of strings ['a','b']
+		// - array of objects [{name:'a'},{name:'b'}]
+		// - object with entries property { entries: [...] }
+		if (!res) return [];
+		if (Array.isArray(res)) {
+			if (res.length === 0) return [];
+			if (typeof res[0] === 'string') return res;
+			if (res[0] && typeof res[0] === 'object' && 'name' in res[0]) return res.map(r => r.name);
+			// else try to stringify/return something readable
+			return res.map(String);
+		}
+		if (res.entries && Array.isArray(res.entries)) {
+			return res.entries.map(e => (typeof e === 'string' ? e : (e.name || String(e))));
+		}
+		// unknown format, try to coerce
+		return [String(res)];
+	}
+
+	async function fsWrite(path, data) {
+		if (!hasPuter()) throw new Error('puter not available');
+		// try write(path, data)
+		if (puter.fs.write) return await puter.fs.write(path, data);
+		// try writeFile
+		if (puter.fs.writeFile) return await puter.fs.writeFile(path, data);
+		// try put
+		if (puter.fs.put) return await puter.fs.put(path, data);
+		throw new Error('No supported write method on puter.fs');
+	}
+
+	async function fsRead(path) {
+		if (!hasPuter()) throw new Error('puter not available');
+		if (puter.fs.read) {
+			const r = await puter.fs.read(path);
+			// many implementations return string, Buffer, or object { data: '...' }
+			if (typeof r === 'string') return r;
+			if (r == null) return r;
+			if (typeof r === 'object') {
+				if ('data' in r) return r.data;
+				if ('content' in r) return r.content;
+				// fallback to JSON string
+				try { return JSON.stringify(r); } catch (e) { return String(r); }
+			}
+			return String(r);
+		}
+		if (puter.fs.readFile) {
+			const r = await puter.fs.readFile(path);
+			if (typeof r === 'string') return r;
+			if (r && r.toString) return r.toString();
+			return r;
+		}
+		throw new Error('No supported read method on puter.fs');
+	}
+
+	async function fsDelete(path) {
+		if (!hasPuter()) throw new Error('puter not available');
+		// try multiple names
+		if (puter.fs.delete) return await puter.fs.delete(path);
+		if (puter.fs.unlink) return await puter.fs.unlink(path);
+		if (puter.fs.rm) return await puter.fs.rm(path);
+		throw new Error('No supported delete method on puter.fs');
+	}
+
+	// UI / Actions
+	async function ensureDir() {
+		msg.textContent = 'Ensuring cookies directory...';
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not available in this environment.';
+			disableUI('puter not available');
+			return;
+		}
+		try {
+			await fsMkdir(DIR);
+			msg.textContent = `Ensured directory: ${DIR}`;
+		} catch (e) {
+			// try readdir to check if exists
+			try {
+				await fsReaddir(DIR);
+				msg.textContent = `Directory already exists: ${DIR}`;
+			} catch (err) {
+				msg.textContent = 'Error ensuring directory: ' + (err.message || err);
+				console.error('ensureDir ->', e, err);
+			}
+		}
+	}
+
+	async function listFiles() {
+		filesListEl.textContent = 'Loading...';
+		fileActionsEl.innerHTML = '';
+		if (!hasPuter()) {
+			filesListEl.textContent = 'puter runtime not available. File listing is disabled.';
+			disableUI('puter not available');
+			return [];
+		}
+		try {
+			const entries = await fsReaddir(DIR).catch(err => {
+				// if directory doesn't exist, show empty list
+				return null;
+			});
+			if (!entries || entries.length === 0) {
+				filesListEl.textContent = 'No saved cookie files.';
+				return [];
+			}
+			filesListEl.innerHTML = '';
+			entries.forEach(name => {
+				const wrap = document.createElement('div');
+				wrap.className = 'file-item';
+				const label = document.createElement('div');
+				label.textContent = name;
+				label.style.flex = '1';
+				wrap.appendChild(label);
+
+				const loadBtn = document.createElement('button');
+				loadBtn.textContent = 'Load & Merge';
+				loadBtn.className = 'small-btn';
+				loadBtn.onclick = () => loadFile(name);
+
+				const delBtn = document.createElement('button');
+				delBtn.textContent = 'Delete';
+				delBtn.className = 'small-btn';
+				delBtn.onclick = () => deleteFile(name);
+
+				wrap.appendChild(loadBtn);
+				wrap.appendChild(delBtn);
+
+				filesListEl.appendChild(wrap);
+			});
+			return entries;
+		} catch (e) {
+			filesListEl.textContent = 'Error listing files: ' + (e.message || e);
+			console.error('listFiles error', e);
+			return [];
+		}
+	}
+
+	async function saveCookiesToFile() {
+		msg.textContent = 'Signing in and saving cookies to file...';
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not available.';
+			disableUI('puter not available');
+			return;
+		}
+		try {
+			// ensure sign-in works
+			if (!puter.auth || !puter.auth.signIn) {
+				throw new Error('puter.auth.signIn not available');
+			}
+			const user = await puter.auth.signIn();
+			if (!user) throw new Error('Sign in failed or cancelled.');
+			await ensureDir();
+			// getCookies now returns decoded cookie values (human readable)
+			const cookies = getCookies();
+			const filename = `cookies-${Date.now()}.txt`;
+			const path = `${DIR}/${filename}`;
+			await fsWrite(path, JSON.stringify(cookies, null, 2));
+			msg.textContent = `Saved cookies to ${path}`;
+			await listFiles();
+		} catch (e) {
+			msg.textContent = 'Error saving file: ' + (e.message || e);
+			console.error('saveCookiesToFile error', e);
+		}
+	}
+
+	// New behavior: merge loaded cookies with existing cookies and optionally add one extra KV pair.
+	async function loadFile(filename) {
+		msg.textContent = `Signing in and loading ${filename}...`;
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not available.';
+			return;
+		}
+		try {
+			if (!puter.auth || !puter.auth.signIn) {
+				throw new Error('puter.auth.signIn not available');
+			}
+			const user = await puter.auth.signIn();
+			if (!user) throw new Error('Sign in failed or cancelled.');
+
+			// filename may sometimes already be a path
+			const path = filename.startsWith(DIR + '/') ? filename : `${DIR}/${filename}`;
+			const data = await fsRead(path);
+			console.debug('loadFile: raw file data ->', data);
+			if (!data) throw new Error('File empty or unreadable.');
+			let fileCookies = {};
+			if (typeof data === 'string') {
+				try {
+					fileCookies = JSON.parse(data);
+				} catch (parseErr) {
+					// If content is not JSON but looks like key=value lines, attempt to parse
+					const maybe = {};
+					data.split(/\r?\n/).forEach(line => {
+						if (!line) return;
+						const [k, ...v] = line.split('=');
+						if (!k) return;
+						try {
+							maybe[k.trim()] = decodeURIComponent((v || []).join('=').trim());
+						} catch (e) {
+							maybe[k.trim()] = (v || []).join('=').trim();
+						}
+					});
+					if (Object.keys(maybe).length > 0) fileCookies = maybe;
+					else throw new Error('Saved data is not valid JSON.');
+				}
+			} else if (typeof data === 'object') {
+				fileCookies = data;
+			} else {
+				throw new Error('Unsupported file data type');
+			}
+
+			// Allow extra cookie to be added from the UI
+			const extraName = document.getElementById('extraName').value.trim();
+			const extraValue = document.getElementById('extraValue').value;
+			if (extraName) {
+				fileCookies[extraName] = extraValue;
+			}
+
+			console.debug('loadFile: parsed file cookies ->', fileCookies);
+
+			// Merge with current cookies: loaded values overwrite existing keys, and new ones are added.
+			const currentCookies = getCookies();
+			const merged = Object.assign({}, currentCookies, fileCookies);
+			console.debug('loadFile: current cookies ->', currentCookies, 'merged ->', merged);
+
+			// Set merged cookies
+			setCookies(merged);
+
+			const reload = document.getElementById('reloadAfter').checked;
+			msg.textContent = `Cookies merged from ${filename} and applied.${reload ? ' Reloading...' : ''}`;
+			if (reload) setTimeout(() => location.reload(), 900);
+		} catch (e) {
+			msg.textContent = 'Error loading file: ' + (e.message || e);
+			console.error('loadFile error', e);
+		}
+	}
+
+	async function deleteFile(filename) {
+		if (!confirm(`Delete ${filename}? This cannot be undone.`)) return;
+		msg.textContent = `Deleting ${filename}...`;
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not available.';
+			return;
+		}
+		try {
+			if (!puter.auth || !puter.auth.signIn) {
+				throw new Error('puter.auth.signIn not available');
+			}
+			const user = await puter.auth.signIn();
+			if (!user) throw new Error('Sign in failed or cancelled.');
+			const path = filename.startsWith(DIR + '/') ? filename : `${DIR}/${filename}`;
+			await fsDelete(path);
+			msg.textContent = `Deleted ${filename}.`;
+			await listFiles();
+		} catch (e) {
+			msg.textContent = 'Error deleting file: ' + (e.message || e);
+			console.error('deleteFile error', e);
+		}
+	}
+
+	async function clearAllFiles() {
+		if (!confirm('Delete ALL cookie files in cloud?')) return;
+		msg.textContent = 'Signing in and deleting all cookie files...';
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not available.';
+			return;
+		}
+		try {
+			if (!puter.auth || !puter.auth.signIn) {
+				throw new Error('puter.auth.signIn not available');
+			}
+			const user = await puter.auth.signIn();
+			if (!user) throw new Error('Sign in failed or cancelled.');
+			const entries = await fsReaddir(DIR).catch(() => null);
+			if (!entries || entries.length === 0) {
+				msg.textContent = 'No files to delete.';
+				return;
+			}
+			for (const name of entries) {
+				const path = name.startsWith(DIR + '/') ? name : `${DIR}/${name}`;
+				await fsDelete(path).catch(err => {
+					console.warn('Failed deleting', name, err);
+				});
+			}
+			msg.textContent = 'All cookie files deleted.';
+			await listFiles();
+		} catch (e) {
+			msg.textContent = 'Error clearing files: ' + (e.message || e);
+			console.error('clearAllFiles error', e);
+		}
+	}
+
+	// Wire up UI
+	document.getElementById('ensure').onclick = async () => { await ensureDir(); await listFiles(); };
+	document.getElementById('signup').onclick = saveCookiesToFile;
+	document.getElementById('refresh').onclick = listFiles;
+	document.getElementById('clearAll').onclick = clearAllFiles;
+
+	// Initial load
+	(async () => {
+		if (!hasPuter()) {
+			msg.textContent = 'puter runtime not detected. Buttons that require cloud FS will be disabled.';
+			disableUI('puter not available');
+			filesListEl.textContent = 'puter runtime not detected.';
+			return;
+		}
+		try {
+			// Attempt to list files; if dir missing, listFiles handles it
+			enableUI();
+			await listFiles();
+		} catch (e) {
+			console.warn('Initial listing failed', e);
+			msg.textContent = 'Initial listing failed: ' + (e.message || e);
+		}
+	})();
+</script>
+</body> </html>
