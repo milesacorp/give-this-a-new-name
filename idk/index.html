@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Userbase Authentication Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Userbase Authentication Demo</h1>
+
+        <div id="auth-section">
+            <h2>Signup</h2>
+            <form id="signup-form">
+                <input type="text" id="signup-username" placeholder="Username" required>
+                <input type="email" id="signup-email" placeholder="Email (optional)">
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+                <p id="signup-message" class="message"></p>
+            </form>
+
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Log In</button>
+                <p id="login-message" class="message"></p>
+                <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+            </form>
+        </div>
+
+        <div id="profile-section" style="display: none;">
+            <h2>Welcome, <span id="profile-username"></span>!</h2>
+            <h3>Your Profile</h3>
+            <p><strong>User ID:</strong> <span id="profile-userid"></span></p>
+            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+
+            <h3>Update Profile</h3>
+            <form id="update-profile-form">
+                <label for="new-email">New Email:</label>
+                <input type="email" id="new-email" placeholder="Enter new email">
+                <button type="submit">Update Email</button>
+                <p id="update-profile-message" class="message"></p>
+            </form>
+
+            <button id="logout-button">Log Out</button>
+        </div>
+
+        <div id="forgot-password-section" style="display: none;">
+            <h2>Forgot Password</h2>
+            <p>Enter your username to receive a temporary password.</p>
+            <form id="forgot-password-form">\
+                <input type="text" id="forgot-username" placeholder="Username" required>
+                <button type="submit">Send Temporary Password</button>
+                <p id="forgot-password-message" class="message"></p>
+            </form>
+            <p><a href="#" id="back-to-login-link">Back to Login</a></p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/userbase-js@latest/dist/userbase-sdk.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
