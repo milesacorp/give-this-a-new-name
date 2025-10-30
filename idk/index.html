@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+     <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+     <script src="https://unpkg.com/userbase-js@latest/dist/userbase-sdk.umd.js"></script>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">\
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Userbase Authentication Demo</title>
     <link rel="stylesheet" href="style.css">
@@ -29,29 +31,16 @@
                 <p id="login-message" class="message"></p>
                 <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
             </form>
-        </div>
-
-        <div id="profile-section" style="display: none;">
-            <h2>Welcome, <span id="profile-username"></span>!</h2>
-            <h3>Your Profile</h3>
-            <p><strong>User ID:</strong> <span id="profile-userid"></span></p>
-            <p><strong>Email:</strong> <span id="profile-email"></span></p>
-
-            <h3>Update Profile</h3>
-            <form id="update-profile-form">
-                <label for="new-email">New Email:</label>
-                <input type="email" id="new-email" placeholder="Enter new email">
-                <button type="submit">Update Email</button>
-                <p id="update-profile-message" class="message"></p>
-            </form>
-
-            <button id="logout-button">Log Out</button>
+            <div id="logged-in-actions" style="display: none;">
+                <button id="go-to-profile-button">Go to Profile</button>
+                <button id="logout-button-main-page">Log Out</button>
+            </div>
         </div>
 
         <div id="forgot-password-section" style="display: none;">
             <h2>Forgot Password</h2>
             <p>Enter your username to receive a temporary password.</p>
-            <form id="forgot-password-form">\
+            <form id="forgot-password-form">
                 <input type="text" id="forgot-username" placeholder="Username" required>
                 <button type="submit">Send Temporary Password</button>
                 <p id="forgot-password-message" class="message"></p>
@@ -60,7 +49,5 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/userbase-js@latest/dist/userbase-sdk.umd.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>

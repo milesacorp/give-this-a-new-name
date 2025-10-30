@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://sdk.userbase.com/2/userbase.js"></script>
+    <script src="https://unpkg.com/userbase-js@latest/dist/userbase-sdk.umd.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your existing style.css -->
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile</h1>
+
+        <div id="profile-info" class="profile-info">
+            <h2>Your Information</h2>
+            <p><strong>Username:</strong> <span id="display-username"></span></p>
+            <p><strong>User ID:</strong> <span id="display-userid"></span></p>
+            <p><strong>Email:</strong> <span id="display-email"></span></p>
+            <p><strong>First Name:</strong> <span id="display-first-name"></span></p>
+            <p><strong>Last Name:</strong> <span id="display-last-name"></span></p>
+        </div>
+
+        <form id="update-profile-form">
+            <h2>Update Profile</h2>
+            <label for="update-email">Email:</label>
+            <input type="email" id="update-email" name="email" placeholder="Enter new email" required>
+
+            <label for="update-first-name">First Name:</label>
+            <input type="text" id="update-first-name" name="first-name" placeholder="Enter first name">
+
+            <label for="update-last-name">Last Name:</label>
+            <input type="text" id="update-last-name" name="last-name" placeholder="Enter last name">
+
+            <button type="submit">Update Profile</button>
+            <p id="update-profile-message" class="message"></p>
+        </form>
+
+        <button id="logout-button" class="logout-button">Log Out</button>
+
+        <p class="back-link"><a href="index.html">Back to Login/Signup</a></p>
+    </div>
+
+    
+    <script>
+        // IMPORTANT: Replace 'YOUR_APP_ID' with your actual Userbase App ID.
+        // You can find this in your Userbase dashboard.
+        const APP_ID = '7cd8e25b-723d-4af7-8bdf-ef558bd0dfcc'; 
+
+        // Initialize Userbase SDK
+        try {
+            userbase.init({ appId: APP_ID });
+            console.log('Userbase SDK initialized successfully on profile page.');
+        } catch (e) {
+            console.error('Failed to initialize Userbase SDK on profile page:', e);
+            alert('Failed to initialize Userbase SDK. Check your App ID and console for errors.');
+        }
+
+        // --- DOM Elements ---
+        const displayUsername = document.getElementById('display-username');
+        const displayUserId = document.getElementById('display-userid');
+        const displayEmail = document.getElementById('display-email');
+        const displayFirstName = document.getElementById('display-first-name');
+        const displayLastName = document.getElementById('display-last-name');
+
+        const updateProfileForm = document.getElementById('update-profile-form');
+        const updateEmailInput = document.getElementById('update-email');
+        const updateFirstNameInput = document.getElementById('update-first-name');
+        const updateLastNameInput = document.getElementById('update-last-name');
+        const updateProfileMessage = document.getElementById('update-profile-message');
+
+        const logoutButton = document.getElementById('logout-button');
+
+        // --- Helper Functions ---
+        function displayMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+        }
+
+        function clearMessages() {
+            updateProfileMessage.textContent = '';
+            updateProfileMessage.className = 'message';
+        }
+
+        async function fetchAndDisplayUserProfile() {
+            clearMessages();
+            try {
+                const session = await userbase.getSession();
+                if (session.user) {
+                    const user = session.user;
+                    console.log('User data on profile page:', user);
+                    displayUsername.textContent = user.username;
+                    displayUserId.textContent = user.userId;
+                    displayEmail.textContent = user.email || 'N/A';
+                    displayFirstName.textContent = user.profile?.firstName || 'N/A';
+                    displayLastName.textContent = user.profile?.lastName || 'N/A';
+
+                    // Pre-fill update form
+                    updateEmailInput.value = user.email || '';
+                    updateFirstNameInput.value = user.profile?.firstName || '';
+                    updateLastNameInput.value = user.profile?.lastName || '';
+
+                } else {
+                    console.log('No active session on profile page, redirecting to login.');
+                    window.location.href = 'index.html'; // Redirect if not logged in
+                }
+            } catch (e) {
+                console.error('Error fetching user session on profile page:', e);
+                displayMessage(updateProfileMessage, `Error loading profile: ${e.message}`, 'error');
+                window.location.href = 'index.html'; // Redirect on error
+            }
+        }
+
+        // --- Event Handlers ---
+
+        // Load profile data on page load
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayUserProfile);
+
+        // Update Profile
+        updateProfileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            const newEmail = updateEmailInput.value || null; // Userbase expects null to remove email
+            const newFirstName = updateFirstNameInput.value || null;
+            const newLastName = updateLastNameInput.value || null;
+
+            try {
+                const updatedUser = await userbase.updateUser({ 
+                    email: newEmail,
+                    profile: {
+                        firstName: newFirstName,
+                        lastName: newLastName
+                    }
+                });
+                displayMessage(updateProfileMessage, 'Profile updated successfully!', 'success');
+                // Re-display updated profile info
+                displayEmail.textContent = updatedUser.email || 'N/A';
+                displayFirstName.textContent = updatedUser.profile?.firstName || 'N/A';
+                displayLastName.textContent = updatedUser.profile?.lastName || 'N/A';
+
+            } catch (e) {
+                console.error('Update profile failed:', e);
+                displayMessage(updateProfileMessage, `Update failed: ${e.message}`, 'error');
+            }
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', async () => {
+            clearMessages();
+            try {
+                await userbase.signOut();
+                console.log('Logged out successfully from profile page.');
+                window.location.href = 'index.html'; // Redirect to login page after logout
+            } catch (e) {
+                console.error('Logout failed:', e);
+                displayMessage(updateProfileMessage, `Logout failed: ${e.message}`, 'error');
+            }
+        });
+
+        // Listener for session changes (e.g., if a session expires or user logs in/out in another tab)
+        userbase.onUpdate((session) => {
+            if (session.user) {
+                console.log('User session updated on profile page:', session.user);
+                fetchAndDisplayUserProfile(); // Refresh profile data
+            } else {
+                console.log('User session ended on profile page.');
+                window.location.href = 'index.html'; // Redirect if session ends
+            }
+        });
+    </script>
+</body>
+</html>

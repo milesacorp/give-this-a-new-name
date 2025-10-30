@@ -1,5 +1,4 @@
 
-style.css
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -62,12 +61,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-#logout-button {
+/* Specific styling for profile and main page logout buttons */
+.logout-button, #logout-button-main-page {
     background-color: #dc3545;
     margin-top: 20px;
 }
 
-#logout-button:hover {
+.logout-button:hover, #logout-button-main-page:hover {
     background-color: #c82333;
 }
 
@@ -99,7 +99,11 @@ a:hover {
     text-decoration: underline;
 }
 
-#profile-section p {
+.profile-info p { /* Added styling for profile.html info display */
     margin-bottom: 10px;
     padding: 5px 0;
+}
+
+#logged-in-actions button { /* Style for buttons appearing after login on main page */
+    margin-top: 10px;
 }
