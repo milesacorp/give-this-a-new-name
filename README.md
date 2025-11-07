@@ -1,41 +1,64 @@
-GO TO THE NEW VR AT https://github.com/milesacorp/give-this-a-new-name
+# Moon Gaming
 
+fun game from stuf  
+Go to: [fun-miles.free.nf](http://fun-miles.free.nf)
 
+---
 
+## Overview
 
+Moon Gaming is a fun, web-based game project featuring interactive gameplay and engaging content. The project is primarily written in **HTML** and **JavaScript**, with some additional code in Java and C. You can play it online or view/contribute to the open-source code here.
 
-https://forms.fillout.com/t/aWUkWGKkMNus
-The Best Online Gaming Site  You Can Make One Of Your by Hosting
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/mileswolfallen2/fun-miles">fun-miles</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/mileswolfallen2">miles Allen and Robert Winberg</a> The Licensed Is Under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+---
 
-<h1>How To Make Your Own Verson To Host</h1>
-To host the “fun-miles” GitHub repository using Render static sites, follow these steps outlined in the flowchart:
+## Features
 
-Fork the repository using github
-Create a Render account and create a new static site, connecting it to your GitHub and then
-<img src="https://render.com/docs/static/9705deafa360259a1e4342980e6efff5/7a72b/new-static-site.png" alt="Selecting Static Site from the New menu" 
-  height="300" width="auto" align=”left”>
-<img src="https://render.com/docs/static/2c8e1ccdd8cd76c9409ea39a966c501e/2b72d/git-connect.png" alt="Git Connect" height="200" width="auto"/>
-<img src="https://render.com/docs/static/2b69098df84b4909b0a2336f43542dab/dcb99/github-connect-repo.png" alt="List of GitHub repos in the Render Dashboard"
-  height="200" width="auto"/>
+- Interactive web game, easy to play in your browser.
+- Clean and simple HTML/JavaScript codebase.
+- Lightweight and fast-loading.
+- Open source for learning and contributions.
 
-Configure the build settings, deploy the site, and then view your live site via the provided URL.
+---
 
+## Getting Started
 
+### Play Online
 
+Play instantly [here](http://fun-miles.free.nf).
 
+### Run Locally
 
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/mileswolfallen2/moon-gaming.git
+   ```
+2. **Navigate to the project folder:**
+   ```bash
+   cd moon-gaming
+   ```
+3. **Open `index.html` in your web browser.**
 
-<h1>To Contribute To The Repository, Please Follow These Steps:</h1>
+---
 
-Fork The Repository To Your Own GitHub Account.
-Create A New Branch For Your Project Or Idea.
-Develop Your Project Or Idea, Ensuring It Aligns With The Repository's Purpose.
-Commit Your Changes And Push Them To Your Forked Repository.
-Submit A Pull Request To The Original "Fun-Miles" Repository,
-By Contributing To The "Fun-Miles" Git Repository, You Can Help Make It A More Diverse And Engaging Collection Of Projects And Ideas, While Also Showcasing Your Own Idea.
+## Languages Used
 
+- **HTML:** 95.6%
+- **JavaScript:** 4%
+- **Java:** 0.3%
+- **C:** 0.1%
+- **CSS, GLSL:** <0.1%
 
+---
+
+## Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change or add.
+
+---
+
+## License
+
+This project is open-source. See the [LICENSE](LICENSE) file for details.
 <h1>Notes</h1>
 
   [render preview]
