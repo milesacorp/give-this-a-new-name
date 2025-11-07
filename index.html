@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+(function() {
+  const allowedDomains = [
+    "give-this-a-new-name.onrender.com/",
+    "give-this-a-new-name.onrender.com/index.html"
+  ];
+  const loc = window.location.hostname + window.location.pathname;
+  const isAllowed = allowedDomains.some(urlPart => loc.endsWith(urlPart));
+  if (!isAllowed) {
+    window.location.href = "https://give-this-a-new-name.onrender.com/index.html";
+  }
+})();
+</script>
     <script defer src="https://chirpy.dev/bootstrapper.js" data-chirpy-domain="fun-miles-4jub.onrender.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
