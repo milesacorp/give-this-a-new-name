@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puter.js Sora2 Video Generator</title>
+    <!-- Load Puter.js SDK - REQUIRED for puter.ai.txt2vid() -->
+    <script src="https://js.puter.com/v2/"></script>
+    
+    <style>
+        /* Base Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background */
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .card {
+            background-color: #161b22;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 48rem; /* Equivalent to max-w-2xl */
+            padding: 2rem;
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        
+        /* Input & Textarea */
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #30363d;
+            border: 1px solid #484f58;
+            border-radius: 0.5rem;
+            color: white;
+            resize: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.5);
+        }
+
+        /* Button */
+        .generate-btn {
+            background: linear-gradient(90deg, #58a6ff, #2f81f7);
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: none;
+        }
+        .generate-btn:hover:not(:disabled) {
+            background: linear-gradient(90deg, #2f81f7, #58a6ff);
+            box-shadow: 0 0 15px #2f81f7;
+        }
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Video Output Area */
+        .video-container {
+            border: 2px solid #30363d;
+            background-color: #0d1117;
+            padding: 1rem;
+            border-radius: 0.75rem;
+        }
+        /* Style for the video element returned by Puter.js */
+        .generated-video {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+        .video-caption {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #8b949e;
+            word-break: break-all;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="card">
+        <h1 class="text-3xl font-extrabold mb-2 text-center text-white" style="font-size: 1.875rem; font-weight: 800; color: white; text-align: center; margin-bottom: 0.5rem;">Puter.js Video Generator</h1>
+  
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="prompt-input" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #a9a9b2;">Video Prompt</label>
+            <textarea id="prompt-input" rows="3" placeholder="A futuristic car racing through a neon city at night..."></textarea>
+        </div>
+
+        <button id="generate-btn" class="generate-btn">
+            <span id="button-text">Generate Video</span>
+            <!-- Spinner Icon (Inline SVG) -->
+            <svg id="spinner" class="hidden" style="animation: spin 1s linear infinite; margin-left: -0.25rem; margin-right: 0.75rem; height: 1.25rem; width: 1.25rem; color: white;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </button>
+        <!-- CSS Animation for Spinner -->
+        <style>
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        </style>
+
+        <div id="result-area" class="hidden" style="margin-top: 2rem;">
+            <h2 id="result-title" class="hidden" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Generated Video</h2>
+            <div id="video-display" class="video-container hidden">
+                <!-- Video player will be inserted here by Puter.js -->
+            </div>
+            <p id="error-message" class="hidden" style="color: #f87171; text-align: center; margin-top: 1rem;"></p>
+        </div>
+    </div>
+
+    <script>
+        const promptInput = document.getElementById('prompt-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const buttonText = document.getElementById('button-text');
+        const spinner = document.getElementById('spinner');
+        const resultArea = document.getElementById('result-area');
+        const resultTitle = document.getElementById('result-title');
+        const videoDisplay = document.getElementById('video-display');
+        const errorMessage = document.getElementById('error-message');
+
+        /**
+         * Sets the loading state for the UI elements.
+         * @param {boolean} isLoading - True to show loading spinner, false otherwise.
+         */
+        function setLoadingState(isLoading) {
+            generateBtn.disabled = isLoading;
+            spinner.classList.toggle('hidden', !isLoading);
+            buttonText.textContent = isLoading ? 'Generating...' : 'Generate Video';
+            
+            // Clear previous results on new generation
+            if (isLoading) {
+                errorMessage.classList.add('hidden');
+                videoDisplay.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Renders the video result to the DOM.
+         * @param {HTMLVideoElement} videoElement - The video element returned by puter.ai.txt2vid.
+         * @param {string} prompt - The original prompt.
+         */
+        function renderVideo(videoElement, prompt) {
+            // Puter.js returns a pre-configured HTMLVideoElement.
+            videoDisplay.innerHTML = '';
+            
+            // Add custom class for styling
+            videoElement.classList.add('generated-video'); 
+            
+            // Append the video element
+            videoDisplay.appendChild(videoElement);
+
+            // Add caption/source info
+            const caption = document.createElement('p');
+            caption.classList.add('video-caption');
+            caption.textContent = `Prompt: "${prompt}" (Source: Puter.js Test Clip)`;
+            videoDisplay.appendChild(caption);
+
+            resultArea.classList.remove('hidden');
+            resultTitle.classList.remove('hidden');
+            videoDisplay.classList.remove('hidden');
+        }
+
+        /**
+         * Main event handler for the Generate button.
+         */
+        generateBtn.addEventListener('click', async () => {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                errorMessage.textContent = "Please enter a creative prompt to generate your video.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Ensure puter object is ready, though typically it is immediately available
+            if (typeof puter === 'undefined' || !puter.ai || !puter.ai.txt2vid) {
+                errorMessage.textContent = "Puter.js is not loaded correctly. Please check the script tag.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                setLoadingState(true);
+                // The second argument 'true' enables Test Mode, returning a sample video
+                const videoElement = await puter.ai.txt2vid(prompt, true);
+                renderVideo(videoElement, prompt);
+            } catch (error) {
+                console.error("Video Generation Process Failed:", error);
+                errorMessage.textContent = `Error: Could not complete generation. ${error.message}`;
+                errorMessage.classList.remove('hidden');
+                resultTitle.classList.add('hidden');
+                videoDisplay.classList.add('hidden');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+    </script>
+</body>
+</html>
