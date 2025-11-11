@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Puter.js Sora2 Video Generator</title>
-    <!-- Load Puter.js SDK - REQUIRED for puter.ai.txt2vid() -->
+    <!-- Load Puter.js SDK - REQUIRED -->
     <script src="https://js.puter.com/v2/"></script>
     
     <style>
-        /* Base Styling */
+        /* Base Styling & Responsiveness */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background */
+            background-color: #0d1117; 
             color: #c9d1d9;
             min-height: 100vh;
             display: flex;
@@ -24,9 +24,9 @@
             background-color: #161b22;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 48rem; /* Equivalent to max-w-2xl */
+            max-width: 56rem; /* Slightly wider layout for video */
             padding: 2rem;
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0.75rem; 
         }
         
         /* Input & Textarea */
@@ -60,6 +60,7 @@
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             border: none;
+            margin-top: 1rem; /* Added spacing */
         }
         .generate-btn:hover:not(:disabled) {
             background: linear-gradient(90deg, #2f81f7, #58a6ff);
@@ -76,33 +77,64 @@
             background-color: #0d1117;
             padding: 1rem;
             border-radius: 0.75rem;
+            margin-top: 2rem;
         }
         /* Style for the video element returned by Puter.js */
         .generated-video {
             width: 100%;
             height: auto;
             border-radius: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         .video-caption {
             margin-top: 0.5rem;
             font-size: 0.875rem;
             color: #8b949e;
             word-break: break-all;
+            text-align: center;
         }
         .hidden {
             display: none;
+        }
+        
+        /* Spinner CSS */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
     <div id="app" class="card">
-        <h1 class="text-3xl font-extrabold mb-2 text-center text-white" style="font-size: 1.875rem; font-weight: 800; color: white; text-align: center; margin-bottom: 0.5rem;">Puter.js Video Generator</h1>
-  
+        <h1 style="font-size: 1.875rem; font-weight: 800; color: white; text-align: center; margin-bottom: 0.5rem;">Puter.js Sora2 Video Generator</h1>
+        
+        <p style="text-align: center; font-size: 0.875rem; margin-bottom: 1.5rem; border: 1px solid #10b981; color: #10b981; background-color: rgba(16, 185, 129, 0.1); padding: 0.5rem; border-radius: 0.5rem;">
+            🟢 **LIVE MODE:** This will attempt to generate a video using the `'sora-2'` model and may consume user credits. Generation can take a few minutes.
+        </p>
 
-        <div style="margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 1rem;">
             <label for="prompt-input" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #a9a9b2;">Video Prompt</label>
-            <textarea id="prompt-input" rows="3" placeholder="A futuristic car racing through a neon city at night..."></textarea>
+            <textarea id="prompt-input" rows="3" placeholder="A majestic lion wearing sunglasses driving a vintage convertible through the desert."></textarea>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="flex-grow: 1;">
+                <label for="duration-select" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #a9a9b2;">Duration (seconds)</label>
+                <select id="duration-select" style="width: 100%; padding: 0.75rem; background-color: #30363d; border: 1px solid #484f58; border-radius: 0.5rem; color: white;">
+                    <option value="4">4 Seconds</option>
+                    <option value="8">8 Seconds</option>
+                    <option value="12">12 Seconds</option>
+                </select>
+            </div>
+             <div style="flex-grow: 1;">
+                <label for="resolution-select" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #a9a9b2;">Resolution</label>
+                <select id="resolution-select" style="width: 100%; padding: 0.75rem; background-color: #30363d; border: 1px solid #484f58; border-radius: 0.5rem; color: white;">
+                    <option value="1280x720">HD (1280x720)</option>
+                    <option value="720x1280">Vertical (720x1280)</option>
+                    <option value="1792x1024">Desktop (1792x1024)</option>
+                </select>
+            </div>
         </div>
 
         <button id="generate-btn" class="generate-btn">
@@ -113,16 +145,9 @@
                 <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
         </button>
-        <!-- CSS Animation for Spinner -->
-        <style>
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        </style>
 
-        <div id="result-area" class="hidden" style="margin-top: 2rem;">
-            <h2 id="result-title" class="hidden" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Generated Video</h2>
+        <div id="result-area" class="hidden">
+            <h2 id="result-title" class="hidden" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; text-align: center; margin-top: 2rem;">Generated Video</h2>
             <div id="video-display" class="video-container hidden">
                 <!-- Video player will be inserted here by Puter.js -->
             </div>
@@ -132,6 +157,8 @@
 
     <script>
         const promptInput = document.getElementById('prompt-input');
+        const durationSelect = document.getElementById('duration-select');
+        const resolutionSelect = document.getElementById('resolution-select');
         const generateBtn = document.getElementById('generate-btn');
         const buttonText = document.getElementById('button-text');
         const spinner = document.getElementById('spinner');
@@ -147,7 +174,7 @@
         function setLoadingState(isLoading) {
             generateBtn.disabled = isLoading;
             spinner.classList.toggle('hidden', !isLoading);
-            buttonText.textContent = isLoading ? 'Generating...' : 'Generate Video';
+            buttonText.textContent = isLoading ? 'Generating (This can take minutes)...' : 'Generate Video';
             
             // Clear previous results on new generation
             if (isLoading) {
@@ -162,7 +189,6 @@
          * @param {string} prompt - The original prompt.
          */
         function renderVideo(videoElement, prompt) {
-            // Puter.js returns a pre-configured HTMLVideoElement.
             videoDisplay.innerHTML = '';
             
             // Add custom class for styling
@@ -174,7 +200,7 @@
             // Add caption/source info
             const caption = document.createElement('p');
             caption.classList.add('video-caption');
-            caption.textContent = `Prompt: "${prompt}" (Source: Puter.js Test Clip)`;
+            caption.textContent = `Prompt: "${prompt}"`;
             videoDisplay.appendChild(caption);
 
             resultArea.classList.remove('hidden');
@@ -193,21 +219,42 @@
                 return;
             }
 
-            // Ensure puter object is ready, though typically it is immediately available
             if (typeof puter === 'undefined' || !puter.ai || !puter.ai.txt2vid) {
-                errorMessage.textContent = "Puter.js is not loaded correctly. Please check the script tag.";
+                errorMessage.textContent = "Puter.js is not loaded correctly. Video generation is unavailable.";
                 errorMessage.classList.remove('hidden');
                 return;
             }
 
+            // Configuration for the live API call
+            const options = {
+                model: 'sora-2', // Target the sora-2 model
+                seconds: parseInt(durationSelect.value, 10), // User selected duration (4, 8, or 12)
+                size: resolutionSelect.value // User selected resolution
+            };
+            
+            console.log("Starting video generation with options:", options);
+
             try {
                 setLoadingState(true);
-                // The second argument 'true' enables Test Mode, returning a sample video
-                const videoElement = await puter.ai.txt2vid(prompt, true);
+                
+                // Call the function without the 'true' flag for live generation
+                const videoElement = await puter.ai.txt2vid(prompt, options);
+                
                 renderVideo(videoElement, prompt);
             } catch (error) {
                 console.error("Video Generation Process Failed:", error);
-                errorMessage.textContent = `Error: Could not complete generation. ${error.message}`;
+                
+                // Customize error message for better user guidance
+                let userError = `Generation failed.`;
+                if (error.message.includes('credits')) {
+                    userError = "Generation failed: Insufficient user credits. Please check your Puter account.";
+                } else if (error.message.includes('rate limit')) {
+                    userError = "Generation failed: Rate limit exceeded. Please try again later.";
+                } else {
+                    userError = `Error: ${error.message}`;
+                }
+
+                errorMessage.textContent = userError;
                 errorMessage.classList.remove('hidden');
                 resultTitle.classList.add('hidden');
                 videoDisplay.classList.add('hidden');
