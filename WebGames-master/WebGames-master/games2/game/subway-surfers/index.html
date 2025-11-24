@@ -95,46 +95,4 @@
     } else {
         fpsCounter.style.display = 'none'; // Hide FPS counter
     }
-</script>   let frames = 0;
-
-            function frameLoop() {
-                const now = performance.now();
-                frames++;
-
-                if (now - lastFrameTime >= 1000) {
-                    const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
-                    fpsCounter.textContent = `FPS: ${fps}`;
-                    frames = 0;
-                    lastFrameTime = now;
-                }
-                requestAnimationFrame(frameLoop);
-            }
-            frameLoop();
-        }
-
-        calculateFPS(); // Start FPS calculation
-    } else {
-        fpsCounter.style.display = 'none'; // Hide FPS counter
-    }
-</script>   let frames = 0;
-
-            function frameLoop() {
-                const now = performance.now();
-                frames++;
-
-                if (now - lastFrameTime >= 1000) {
-                    const fps = Math.round(frames / ((now - lastFrameTime) / 1000));
-                    fpsCounter.textContent = `FPS: ${fps}`;
-                    frames = 0;
-                    lastFrameTime = now;
-                }
-                requestAnimationFrame(frameLoop);
-            }
-            frameLoop();
-        }
-
-        calculateFPS(); // Start FPS calculation
-    } else {
-        fpsCounter.style.display = 'none'; // Hide FPS counter
-    }
-</script>
+</script> 
